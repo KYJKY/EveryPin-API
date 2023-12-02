@@ -15,6 +15,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 // Azure Logging
+builder.Services.ConfigureLoggerFile();
 builder.Services.ConfigureLoggerBlob();
 builder.Logging.AddAzureWebAppDiagnostics();
 

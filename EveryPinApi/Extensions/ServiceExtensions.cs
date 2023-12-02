@@ -23,14 +23,14 @@ namespace EveryPinApi.Extensions
 
         });
 
-        //public static void ConfigureLoggerFileSystem(this IServiceCollection services) =>
-        //services.Configure<AzureFileLoggerOptions>(options =>
-        //{
-        //    // Azure Logging 파일시스템 관련 설정
-        //    options.FileName = "logs-";
-        //    options.FileSizeLimit = 50 * 1024;      // 파일 크기 제한
-        //    options.RetainedFileCountLimit = 5;     // 최대 보존 파일 수
-        //});
+        public static void ConfigureLoggerFile(this IServiceCollection services) =>
+        services.Configure<AzureFileLoggerOptions>(options =>
+        {
+            // Azure Logging 파일시스템 관련 설정
+            options.FileName = "logs-";
+            options.FileSizeLimit = 50 * 1024;      // 파일 크기 제한
+            options.RetainedFileCountLimit = 5;     // 최대 보존 파일 수
+        });
 
         public static void ConfigureLoggerBlob(this IServiceCollection services) =>
         services.Configure<AzureBlobLoggerOptions>(options =>

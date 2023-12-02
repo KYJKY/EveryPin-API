@@ -15,7 +15,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 // Azure Logging
-builder.Services.ConfigureLogger();
+builder.Services.ConfigureLoggerBlob();
 builder.Logging.AddAzureWebAppDiagnostics();
 
 
@@ -27,9 +27,12 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
-    app.UseSwagger();
-    app.UseSwaggerUI();
 }
+
+// Swagger
+app.UseSwagger();
+app.UseSwaggerUI();
+
 
 app.UseStaticFiles();
 app.UseForwardedHeaders(new ForwardedHeadersOptions

@@ -11,8 +11,8 @@ namespace Entites.Models
     {
         [Column("CommentId")]
         public Guid Id { get; set; }
+        [ForeignKey(nameof(User))]
         public Guid UserId { get; set; }
-        public Guid PostId { get; set; }
         public string? CommentMessage { get; set; }
         public DateTime? CreatedDate { get; set; } = DateTime.Now;
     }

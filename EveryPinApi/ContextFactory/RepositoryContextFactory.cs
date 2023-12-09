@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 using Repository;
 
 namespace EveryPinApi.ContextFactory
@@ -14,8 +14,8 @@ namespace EveryPinApi.ContextFactory
             .Build();
 
             var builder = new DbContextOptionsBuilder<RepositoryContext>()
-            .UseSqlServer(configuration.GetConnectionString("everypindb"),
-            b => b.MigrationsAssembly("EveryPinDatabase"));
+            .UseSqlServer(configuration.GetConnectionString("sqlConnection"),
+            b => b.MigrationsAssembly("EveryPinApi"));
 
             return new RepositoryContext(builder.Options);
         }

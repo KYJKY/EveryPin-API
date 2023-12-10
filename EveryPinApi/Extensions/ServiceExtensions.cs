@@ -44,5 +44,10 @@ namespace EveryPinApi.Extensions
         public static void ConfigureRepositoryManager(this IServiceCollection services) =>
         services.AddScoped<IRepositoryManager, RepositoryManager>();
 
+        //public static void AddLoggingDi(this IServiceCollection services) =>
+        //services.AddLogging(builder =>
+        //{
+        //    builder.AddAzureWebAppDiagnostics();
+        //});
     }
 }

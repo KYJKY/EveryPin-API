@@ -9,7 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.ConfigureCors();       // CORS
 
-
+// RepositoryManager Ãß°¡
+builder.Services.ConfigureRepositoryManager();
 builder.Services.AddControllers();
 // Swagger/OpenAPI 
 builder.Services.AddEndpointsApiExplorer();

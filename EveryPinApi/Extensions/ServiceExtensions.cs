@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging.AzureAppServices;
+﻿using Contracts.Repository;
+using Microsoft.Extensions.Logging.AzureAppServices;
+using Repository;
 
 namespace EveryPinApi.Extensions
 {
@@ -39,6 +41,8 @@ namespace EveryPinApi.Extensions
             options.BlobName = "log.txt";
         });
 
+        public static void ConfigureRepositoryManager(this IServiceCollection services) =>
+        services.AddScoped<IRepositoryManager, RepositoryManager>();
 
     }
 }

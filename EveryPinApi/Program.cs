@@ -18,8 +18,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.ConfigureLoggerFile();
 builder.Services.ConfigureLoggerBlob();
 builder.Logging.AddAzureWebAppDiagnostics();
-
-
+// Auth
+builder.Services.AddAuthentication();
+builder.Services.ConfigureIdentity();
 
 
 var app = builder.Build();
@@ -41,8 +42,12 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
     ForwardedHeaders = ForwardedHeaders.All
 });
 
+
+// auth
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.UseCors("CorsPolicy");
 
-app.UseAuthorization();
 app.MapControllers();
 app.Run();

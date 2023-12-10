@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.Logging.AzureAppServices;
+﻿using Entites.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging.AzureAppServices;
+using Repository;
 
 namespace EveryPinApi.Extensions
 {
@@ -38,6 +41,21 @@ namespace EveryPinApi.Extensions
             // Azure Logging 블롭 관련 설정
             options.BlobName = "log.txt";
         });
+
+        public static void ConfigureIdentity(this IServiceCollection services)
+        {
+            var builder = services.AddIdentity<User, IdentityRole>(o =>
+            {
+                o.Password.RequireDigit = true;
+                o.Password.RequireLowercase = false;
+                o.Password.RequireUppercase = false;
+                o.Password.RequireNonAlphanumeric = false;
+                o.Password.RequiredLength = 10;
+                o.User.RequireUniqueEmail = true;
+            })
+            .AddEntityFrameworkStores<RepositoryContext>()
+            .AddDefaultTokenProviders();
+        }
 
 
     }

@@ -8,6 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.ConfigureCors();       // CORS
 builder.Services.ConfigureRepositoryManager();      // RepositoryManager 추가
+builder.Services.ConfigureServiceManager();         // ServiceManager 추가
+builder.Services.ConfigureSqlContext(builder.Configuration);
 
 builder.Services.AddControllers();
 
@@ -18,7 +20,7 @@ builder.Services.AddSwaggerGen();
 // Azure Logging
 builder.Services.ConfigureLoggerFile();
 builder.Services.ConfigureLoggerBlob();
-//builder.Services.AddLoggingDi();
+builder.Logging.AddAzureWebAppDiagnostics();
 
 
 

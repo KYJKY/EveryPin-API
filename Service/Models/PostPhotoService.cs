@@ -1,18 +1,17 @@
 ﻿using Contracts.Repository;
-using Service.Contracts.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Service.Models
+namespace Service.Contracts.Models
 {
-    internal sealed class CommentService : ICommentService
+    internal sealed class PostPhotoService : IPostPhotoService
     {
         private readonly IRepositoryManager _repository;
 
-        public CommentService(IRepositoryManager repository)
+        public PostPhotoService(IRepositoryManager repository)
         {
             _repository = repository;
         }

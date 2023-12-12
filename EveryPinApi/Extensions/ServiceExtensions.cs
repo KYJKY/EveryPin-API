@@ -4,6 +4,8 @@ using Contracts.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging.AzureAppServices;
 using Repository;
+using Service.Contracts;
+using Service;
 
 namespace EveryPinApi.Extensions
 {

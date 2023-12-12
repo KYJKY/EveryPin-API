@@ -1,6 +1,7 @@
 ﻿using Entites.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+
 using Repository.Configuration;
 using System;
 using System.Collections.Generic;
@@ -20,11 +21,10 @@ namespace Repository
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            //modelBuilder.ApplyConfiguration(new CompanyConfiguration());
-            //modelBuilder.ApplyConfiguration(new EmployeeConfiguration());
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.ApplyConfiguration(new ProfileConfiguration());
         }
 
-        public DbSet<User>? Users { get; set; }
         public DbSet<Profile>? Profiles { get; set; }
         public DbSet<Post>? Posts { get; set; }
         public DbSet<PostPhoto>? PostPhotos { get; set; }

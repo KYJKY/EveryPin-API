@@ -10,8 +10,8 @@ namespace Entites.Models
 {
     public class PostPhoto
     {
-        [Key]
-        public Guid PostPhotoId { get; set; }
+        [Column("PostPhotoId")]
+        public Guid Id { get; set; }
         public string? photoUrl;
     }
 }

@@ -1,7 +1,9 @@
-﻿using Entites.Models;
-using Microsoft.AspNetCore.Identity;
+﻿using Contracts.Repository;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging.AzureAppServices;
 using Repository;
+using Service;
+using Service.Contracts;
 
 namespace EveryPinApi.Extensions
 {
@@ -42,6 +44,14 @@ namespace EveryPinApi.Extensions
             options.BlobName = "log.txt";
         });
 
+        public static void ConfigureRepositoryManager(this IServiceCollection services) =>
+        services.AddScoped<IRepositoryManager, RepositoryManager>();
+
+        public static void ConfigureServiceManager(this IServiceCollection services) =>
+        services.AddScoped<IServiceManager, ServiceManager>();
+
+        public static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration) =>
+        services.AddSqlServer<RepositoryContext>(configuration.GetConnectionString("everypindb"));
         public static void ConfigureIdentity(this IServiceCollection services)
         {
             var builder = services.AddIdentity<User, IdentityRole>(o =>

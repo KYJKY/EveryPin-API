@@ -14,7 +14,7 @@ namespace EveryPinApi.ContextFactory
             .Build();
 
             var builder = new DbContextOptionsBuilder<RepositoryContext>()
-            .UseSqlServer(configuration.GetConnectionString("sqlConnection"),
+            .UseSqlServer(configuration.GetConnectionString("everypindb"),
             b => b.MigrationsAssembly("EveryPinApi"));
 
             return new RepositoryContext(builder.Options);

@@ -11,7 +11,8 @@ builder.Services.ConfigureRepositoryManager();      // RepositoryManager 추가
 builder.Services.ConfigureServiceManager();         // ServiceManager 추가
 builder.Services.ConfigureSqlContext(builder.Configuration);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+                .AddApplicationPart(typeof(EveryPinApi.Presentation.AssemblyReference).Assembly);
 
 // Swagger/OpenAPI 
 builder.Services.AddEndpointsApiExplorer();

@@ -26,8 +26,6 @@ namespace Repository
             modelBuilder.ApplyConfiguration(new ProfileConfiguration());
         }
 
-
->>>>>>>>> Temporary merge branch 2
         public DbSet<User>? Users { get; set; }
         public DbSet<Profile>? Profiles { get; set; }
         public DbSet<Post>? Posts { get; set; }

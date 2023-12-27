@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Entites.Models
 {
-    public class User
+    public class User : IdentityUser
     {
         [Column("UserId")]
         public Guid Id { get; set; }
@@ -17,5 +18,7 @@ namespace Entites.Models
         public string? KakaoId { get; set; }
         public string? KakaoName { get; set; }
         public string? KakaoEmail { get; set; }
+        [ForeignKey(nameof(Profile))]
+        public Guid ProfileId { get; set; }
     }
 }

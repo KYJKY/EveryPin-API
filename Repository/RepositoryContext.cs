@@ -21,11 +21,13 @@ namespace Repository
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            // 더미 데이터 생성
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new ProfileConfiguration());
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
         }
 
+        public DbSet<User>? Users { get; set; }
         public DbSet<Profile>? Profiles { get; set; }
         public DbSet<Post>? Posts { get; set; }
         public DbSet<PostPhoto>? PostPhotos { get; set; }

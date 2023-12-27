@@ -13,5 +13,10 @@ namespace Repository.Models
         public PostRepository(RepositoryContext repositoryContext) : base(repositoryContext)
         {
         }
+
+        public IEnumerable<Post> GetAllPost(bool trackChanges) =>
+            FindAll(trackChanges)
+            .OrderBy(c => c.PostId)
+            .ToList();
     }
 }

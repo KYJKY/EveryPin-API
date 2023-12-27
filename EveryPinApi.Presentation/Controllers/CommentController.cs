@@ -18,7 +18,7 @@ namespace EveryPinApi.Presentation.Controllers
         public CommentController(IServiceManager service) => _service = service;
 
         [HttpGet]
-        public IActionResult GetCompanies()
+        public IActionResult GetAllComment()
         {
             try
             {

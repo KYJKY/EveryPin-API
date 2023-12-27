@@ -1,4 +1,5 @@
 ﻿using Contracts.Repository;
+using Entites.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,21 @@ namespace Service.Contracts.Models
         public ProfileService(IRepositoryManager repository)
         {
             _repository = repository;
+        }
+
+        public IEnumerable<Profile> GetAllProfile(bool trackChanges)
+        {
+            try
+            {
+                var profiles = _repository.Profile.GetAllProfile(trackChanges);
+                return profiles;
+            }
+            catch (Exception ex)
+            {
+                //_logger.LogError($"Something went wrong in the { nameof(GetAllCompanies) } service method { ex }");
+
+                throw;
+            }
         }
     }
 }

@@ -10,8 +10,6 @@ namespace Entites.Models
 {
     public class User : IdentityUser
     {
-        [Column("UserId")]
-        public Guid Id { get; set; }
         public string? GoogleId { get; set; }
         public string? GoogleName { get; set; }
         public string? GoogleEmail { get; set; }

@@ -16,7 +16,6 @@ namespace Repository.Configuration
             builder.HasData(
                 new User
                 {
-                    Id = new Guid("b85489c1-2b74-4db9-89f0-234f926f5ea0"),
                     GoogleId = "test01",
                     GoogleName = "홍길동",
                     GoogleEmail = "test01@gmail.com",
@@ -27,7 +26,6 @@ namespace Repository.Configuration
                 },
                 new User
                 {
-                    Id = new Guid("f3d72088-6d16-4b5b-9689-11d1f93bb212"),
                     GoogleId = null,
                     GoogleName = null,
                     GoogleEmail = null,

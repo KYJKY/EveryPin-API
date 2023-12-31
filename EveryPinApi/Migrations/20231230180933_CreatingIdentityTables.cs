@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace EveryPinApi.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class CreatingIdentityTables : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -257,8 +257,8 @@ namespace EveryPinApi.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "7d6ecc8f-648e-4cd1-809e-26048b9b4106", null, "Manager", "MANAGER" },
-                    { "8d32e547-254a-4c18-a466-20bb91c54fef", null, "Administrator", "ADMINISTRATOR" }
+                    { "55d45176-c0bc-4a53-beb1-bc386aff26a8", null, "Manager", "MANAGER" },
+                    { "8ce698c2-09f8-4f94-a04b-247c04582e04", null, "Administrator", "ADMINISTRATOR" }
                 });
 
             migrationBuilder.InsertData(
@@ -266,8 +266,8 @@ namespace EveryPinApi.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "GoogleEmail", "GoogleId", "GoogleName", "KakaoEmail", "KakaoId", "KakaoName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "ProfileId", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "b7c0b1ba-6010-4d1e-99ad-4a31fcbb7464", 0, "293c6be9-ccfe-4513-840c-412f87028b3b", null, false, "test01@gmail.com", "test01", "홍길동", null, null, null, false, null, null, null, null, null, false, new Guid("a13ffaa2-c689-4d24-8f65-12df4b9d724c"), "0e64e058-b989-4af3-bd4e-d245190154a6", false, null },
-                    { "f76de4d7-d101-438b-ac8a-e1fdec16dac6", 0, "241949cc-d28b-4dd0-b268-25c0d8b5be5f", null, false, null, null, null, "test02@naver.com", "test02", "이순신", false, null, null, null, null, null, false, new Guid("8b23a1d6-860a-4ff2-becd-d7c8a8c238a5"), "afbc37d2-c30c-4137-b70e-621f5be3696b", false, null }
+                    { "147f50b6-46bd-467e-811f-fa01ae984912", 0, "2aa333c4-54f1-4781-809f-d3d15e45e6b0", null, false, "test01@gmail.com", "test01", "홍길동", null, null, null, false, null, null, null, null, null, false, new Guid("a13ffaa2-c689-4d24-8f65-12df4b9d724c"), "bdb064ce-a3a8-48a3-a021-b54ede8ea958", false, null },
+                    { "539fb06a-f3fe-493c-98b6-4d64e6cd6d58", 0, "70b71192-b1ee-401f-b9a7-573342152bb5", null, false, null, null, null, "test02@naver.com", "test02", "이순신", false, null, null, null, null, null, false, new Guid("8b23a1d6-860a-4ff2-becd-d7c8a8c238a5"), "fb615259-86f6-4c74-9ea4-8ea7cdbf87b2", false, null }
                 });
 
             migrationBuilder.InsertData(
@@ -275,8 +275,8 @@ namespace EveryPinApi.Migrations
                 columns: new[] { "ProfileId", "CreatedDate", "Name", "PhotoUrl", "SelfIntroduction", "UpdatedDate", "UserId" },
                 values: new object[,]
                 {
-                    { new Guid("8b23a1d6-860a-4ff2-becd-d7c8a8c238a5"), new DateTime(2023, 12, 19, 23, 54, 4, 144, DateTimeKind.Local).AddTicks(4516), "Yi Sun-sin", null, "명량해전의 이순신 입니다.", null, new Guid("f3d72088-6d16-4b5b-9689-11d1f93bb212") },
-                    { new Guid("a13ffaa2-c689-4d24-8f65-12df4b9d724c"), new DateTime(2023, 12, 19, 23, 54, 4, 144, DateTimeKind.Local).AddTicks(4513), "홍홍홍", null, "안녕하세요, 홍길동입니다.", null, new Guid("b85489c1-2b74-4db9-89f0-234f926f5ea0") }
+                    { new Guid("8b23a1d6-860a-4ff2-becd-d7c8a8c238a5"), new DateTime(2023, 12, 31, 3, 9, 33, 266, DateTimeKind.Local).AddTicks(4224), "Yi Sun-sin", null, "명량해전의 이순신 입니다.", null, new Guid("f3d72088-6d16-4b5b-9689-11d1f93bb212") },
+                    { new Guid("a13ffaa2-c689-4d24-8f65-12df4b9d724c"), new DateTime(2023, 12, 31, 3, 9, 33, 266, DateTimeKind.Local).AddTicks(4220), "홍홍홍", null, "안녕하세요, 홍길동입니다.", null, new Guid("b85489c1-2b74-4db9-89f0-234f926f5ea0") }
                 });
 
             migrationBuilder.CreateIndex(

@@ -12,8 +12,8 @@ using Repository;
 namespace EveryPinApi.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20231219145404_Initial")]
-    partial class Initial
+    [Migration("20231230180933_CreatingIdentityTables")]
+    partial class CreatingIdentityTables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -145,7 +145,7 @@ namespace EveryPinApi.Migrations
                         new
                         {
                             Id = new Guid("a13ffaa2-c689-4d24-8f65-12df4b9d724c"),
-                            CreatedDate = new DateTime(2023, 12, 19, 23, 54, 4, 144, DateTimeKind.Local).AddTicks(4513),
+                            CreatedDate = new DateTime(2023, 12, 31, 3, 9, 33, 266, DateTimeKind.Local).AddTicks(4220),
                             Name = "홍홍홍",
                             SelfIntroduction = "안녕하세요, 홍길동입니다.",
                             UserId = new Guid("b85489c1-2b74-4db9-89f0-234f926f5ea0")
@@ -153,7 +153,7 @@ namespace EveryPinApi.Migrations
                         new
                         {
                             Id = new Guid("8b23a1d6-860a-4ff2-becd-d7c8a8c238a5"),
-                            CreatedDate = new DateTime(2023, 12, 19, 23, 54, 4, 144, DateTimeKind.Local).AddTicks(4516),
+                            CreatedDate = new DateTime(2023, 12, 31, 3, 9, 33, 266, DateTimeKind.Local).AddTicks(4224),
                             Name = "Yi Sun-sin",
                             SelfIntroduction = "명량해전의 이순신 입니다.",
                             UserId = new Guid("f3d72088-6d16-4b5b-9689-11d1f93bb212")
@@ -248,9 +248,9 @@ namespace EveryPinApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b7c0b1ba-6010-4d1e-99ad-4a31fcbb7464",
+                            Id = "147f50b6-46bd-467e-811f-fa01ae984912",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "293c6be9-ccfe-4513-840c-412f87028b3b",
+                            ConcurrencyStamp = "2aa333c4-54f1-4781-809f-d3d15e45e6b0",
                             EmailConfirmed = false,
                             GoogleEmail = "test01@gmail.com",
                             GoogleId = "test01",
@@ -258,14 +258,14 @@ namespace EveryPinApi.Migrations
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
                             ProfileId = new Guid("a13ffaa2-c689-4d24-8f65-12df4b9d724c"),
-                            SecurityStamp = "0e64e058-b989-4af3-bd4e-d245190154a6",
+                            SecurityStamp = "bdb064ce-a3a8-48a3-a021-b54ede8ea958",
                             TwoFactorEnabled = false
                         },
                         new
                         {
-                            Id = "f76de4d7-d101-438b-ac8a-e1fdec16dac6",
+                            Id = "539fb06a-f3fe-493c-98b6-4d64e6cd6d58",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "241949cc-d28b-4dd0-b268-25c0d8b5be5f",
+                            ConcurrencyStamp = "70b71192-b1ee-401f-b9a7-573342152bb5",
                             EmailConfirmed = false,
                             KakaoEmail = "test02@naver.com",
                             KakaoId = "test02",
@@ -273,7 +273,7 @@ namespace EveryPinApi.Migrations
                             LockoutEnabled = false,
                             PhoneNumberConfirmed = false,
                             ProfileId = new Guid("8b23a1d6-860a-4ff2-becd-d7c8a8c238a5"),
-                            SecurityStamp = "afbc37d2-c30c-4137-b70e-621f5be3696b",
+                            SecurityStamp = "fb615259-86f6-4c74-9ea4-8ea7cdbf87b2",
                             TwoFactorEnabled = false
                         });
                 });
@@ -307,13 +307,13 @@ namespace EveryPinApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "7d6ecc8f-648e-4cd1-809e-26048b9b4106",
+                            Id = "55d45176-c0bc-4a53-beb1-bc386aff26a8",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
-                            Id = "8d32e547-254a-4c18-a466-20bb91c54fef",
+                            Id = "8ce698c2-09f8-4f94-a04b-247c04582e04",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });

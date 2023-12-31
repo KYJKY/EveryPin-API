@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entites.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace Contracts.Repository.Models
 {
     public interface ICommentRepository
     {
-
+        IEnumerable<Comment> GetAllComment(bool trackChanges);
     }
 }

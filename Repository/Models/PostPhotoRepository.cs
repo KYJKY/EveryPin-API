@@ -13,5 +13,10 @@ namespace Repository.Models
         public PostPhotoRepository(RepositoryContext repositoryContext) : base(repositoryContext)
         {
         }
+
+        public IEnumerable<PostPhoto> GetAllPostPhoto(bool trackChanges) =>
+            FindAll(trackChanges)
+            .OrderBy(c => c.Id)
+            .ToList();
     }
 }

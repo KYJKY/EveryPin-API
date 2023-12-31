@@ -13,5 +13,10 @@ namespace Repository.Models
         public LikeRepository(RepositoryContext repositoryContext) : base(repositoryContext)
         {
         }
+
+        public IEnumerable<Like> GetAllLike(bool trackChanges) =>
+            FindAll(trackChanges)
+            .OrderBy(c => c.Id)
+            .ToList();
     }
 }

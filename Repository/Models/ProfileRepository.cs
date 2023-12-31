@@ -13,5 +13,10 @@ namespace Repository.Models
         public ProfileRepository(RepositoryContext repositoryContext) : base(repositoryContext)
         {
         }
+
+        public IEnumerable<Profile> GetAllProfile(bool trackChanges) =>
+            FindAll(trackChanges)
+            .OrderBy(c => c.Id)
+            .ToList();
     }
 }

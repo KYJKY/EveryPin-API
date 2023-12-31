@@ -13,5 +13,10 @@ namespace Repository.Models
         public UserRepository(RepositoryContext repositoryContext) : base(repositoryContext)
         {
         }
+
+        public IEnumerable<User> GetAllUser(bool trackChanges) =>
+            FindAll(trackChanges)
+            .OrderBy(c => c.Id)
+            .ToList();
     }
 }

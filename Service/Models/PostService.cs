@@ -1,5 +1,6 @@
 ﻿using Contracts.Repository;
 using Entites.Models;
+using Shared.DataTransferObject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,12 +18,14 @@ namespace Service.Contracts.Models
             _repository = repository;
         }
 
-        public IEnumerable<Post> GetAllPost(bool trackChanges)
+        public IEnumerable<PostDto> GetAllPost(bool trackChanges)
         {
             try
             {
                 var posts = _repository.Post.GetAllPost(trackChanges);
-                return posts;
+                var postsDto = posts.Select(p => new PostDto(p.PostId, p.PostContent, p.PostPhotos, p.Likes, p.Comments, p.UpdateDate, p.CreatedDate)).ToList();
+                
+                return postsDto;
             }
             catch (Exception ex)
             {

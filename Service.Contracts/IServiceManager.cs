@@ -14,7 +14,7 @@ namespace Service.Contracts
         IPostPhotoService PostPhotoService { get; }
         IPostService PostService { get; }
         IProfileService ProfileService { get; }
-        IUserService UserService { get; }
+        //IUserService UserService { get; }
     }
 
 }

@@ -17,7 +17,7 @@ namespace Service
         private readonly Lazy<IPostPhotoService> _postPhotoService;
         private readonly Lazy<IPostService> _postService;
         private readonly Lazy<IProfileService> _profileService;
-        private readonly Lazy<IUserService> _userService;
+        //private readonly Lazy<IUserService> _userService;
 
         public ServiceManager(IRepositoryManager repositoryManager)
         {
@@ -26,7 +26,7 @@ namespace Service
             _postPhotoService = new Lazy<IPostPhotoService>(() => new PostPhotoService(repositoryManager));
             _postService = new Lazy<IPostService>(() => new PostService(repositoryManager));
             _profileService = new Lazy<IProfileService>(() => new ProfileService(repositoryManager));
-            _userService = new Lazy<IUserService>(() => new UserService(repositoryManager));
+            //_userService = new Lazy<IUserService>(() => new UserService(repositoryManager));
         }
 
         public ICommentService CommentService => _commentService.Value;
@@ -34,6 +34,6 @@ namespace Service
         public IPostPhotoService PostPhotoService => _postPhotoService.Value;
         public IPostService PostService => _postService.Value;
         public IProfileService ProfileService => _profileService.Value;
-        public IUserService UserService => _userService.Value;
+        //public IUserService UserService => _userService.Value;
     }
 }

@@ -1,4 +1,4 @@
-﻿using Entites.Models;
+﻿using Shared.DataTransferObject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +9,6 @@ namespace Service.Contracts.Models
 {
     public interface ILikeService
     {
-        IEnumerable<Like> GetAllLike(bool trackChanges);
+        IEnumerable<LikeDto> GetAllLike(bool trackChanges);
     }
 }

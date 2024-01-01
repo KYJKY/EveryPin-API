@@ -1,5 +1,6 @@
 ﻿using Contracts.Repository;
 using Entites.Models;
+using Shared.DataTransferObject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,12 +18,14 @@ namespace Service.Contracts.Models
             _repository = repository;
         }
 
-        public IEnumerable<PostPhoto> GetAllPostPhoto(bool trackChanges)
+        public IEnumerable<PostPhotoDto> GetAllPostPhoto(bool trackChanges)
         {
             try
             {
                 var postPhotos = _repository.PostPhoto.GetAllPostPhoto(trackChanges);
-                return postPhotos;
+                var postPhotosDto = postPhotos.Select(p => new PostPhotoDto(p.Id, p.photoUrl)).ToList();
+                
+                return postPhotosDto;
             }
             catch (Exception ex)
             {

@@ -1,5 +1,5 @@
 ﻿using Contracts.Repository;
-using Entites.Models;
+using Shared.DataTransferObject;
 using Service.Contracts.Models;
 using System;
 using System.Collections.Generic;
@@ -21,12 +21,14 @@ namespace Service.Models
             //_logger = logger;
         }
 
-        public IEnumerable<Comment> GetAllComment(bool trackChanges)
+        public IEnumerable<CommentDto> GetAllComment(bool trackChanges)
         {
             try
             {
-                var companies = _repository.Comment.GetAllComment(trackChanges);
-                return companies;
+                var comments = _repository.Comment.GetAllComment(trackChanges);
+                var commentsDto = comments.Select(c => new CommentDto(c.Id, c.UserId, c.CommentMessage, c.CreatedDate)).ToList();
+
+                return commentsDto;
             }
             catch (Exception ex)
             {

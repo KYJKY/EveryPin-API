@@ -1,4 +1,5 @@
-﻿using Contracts.Repository;
+﻿using AutoMapper;
+using Contracts.Repository;
 using Service.Contracts;
 using Service.Contracts.Models;
 using Service.Models;
@@ -19,13 +20,13 @@ namespace Service
         private readonly Lazy<IProfileService> _profileService;
         //private readonly Lazy<IUserService> _userService;
 
-        public ServiceManager(IRepositoryManager repositoryManager)
+        public ServiceManager(IRepositoryManager repositoryManager, IMapper mapper)
         {
-            _commentService = new Lazy<ICommentService>(() => new CommentService(repositoryManager));
-            _likeService = new Lazy<ILikeService>(() => new LikeService(repositoryManager));
-            _postPhotoService = new Lazy<IPostPhotoService>(() => new PostPhotoService(repositoryManager));
-            _postService = new Lazy<IPostService>(() => new PostService(repositoryManager));
-            _profileService = new Lazy<IProfileService>(() => new ProfileService(repositoryManager));
+            _commentService = new Lazy<ICommentService>(() => new CommentService(repositoryManager, mapper));
+            _likeService = new Lazy<ILikeService>(() => new LikeService(repositoryManager, mapper));
+            _postPhotoService = new Lazy<IPostPhotoService>(() => new PostPhotoService(repositoryManager, mapper));
+            _postService = new Lazy<IPostService>(() => new PostService(repositoryManager, mapper));
+            _profileService = new Lazy<IProfileService>(() => new ProfileService(repositoryManager, mapper));
             //_userService = new Lazy<IUserService>(() => new UserService(repositoryManager));
         }
 

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using AutoMapper;
 
 namespace Service.Models
 {
@@ -14,11 +15,13 @@ namespace Service.Models
     {
         private readonly IRepositoryManager _repository;
         //private readonly ILoggerManager _logger;
+        private readonly IMapper _mapper;
 
-        public CommentService(IRepositoryManager repository)
+        public CommentService(IRepositoryManager repository, IMapper mapper)
         {
             _repository = repository;
             //_logger = logger;
+            _mapper = mapper;
         }
 
         public IEnumerable<CommentDto> GetAllComment(bool trackChanges)
@@ -26,7 +29,8 @@ namespace Service.Models
             try
             {
                 var comments = _repository.Comment.GetAllComment(trackChanges);
-                var commentsDto = comments.Select(c => new CommentDto(c.Id, c.UserId, c.CommentMessage, c.CreatedDate)).ToList();
+                //var commentsDto = comments.Select(c => new CommentDto(c.Id, c.UserId, c.CommentMessage, c.CreatedDate)).ToList();
+                var commentsDto = _mapper.Map<IEnumerable<CommentDto>>(comments);
 
                 return commentsDto;
             }

@@ -14,9 +14,10 @@ namespace Entites.Models
         public string? Name { get; set; }
         public string? SelfIntroduction { get; set; }
         public string? PhotoUrl { get; set; }
-        [ForeignKey(nameof(User))]
-        public Guid UserId { get; set; }
         public DateTime? UpdatedDate { get; set; } = null;
         public DateTime? CreatedDate { get; set; } = DateTime.Now;
+
+        public Guid UserId { get; set; }
+        public User User { get; set; } = null!;
     }
 }

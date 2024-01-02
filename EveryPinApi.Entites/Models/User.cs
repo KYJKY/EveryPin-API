@@ -16,7 +16,7 @@ namespace Entites.Models
         public string? KakaoId { get; set; }
         public string? KakaoName { get; set; }
         public string? KakaoEmail { get; set; }
-        [ForeignKey(nameof(Profile))]
-        public Guid ProfileId { get; set; }
+
+        public Profile? Profile { get; set; }
     }
 }

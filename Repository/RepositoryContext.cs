@@ -22,12 +22,16 @@ namespace Repository
         {
             base.OnModelCreating(modelBuilder);
             // 더미 데이터 생성
+            modelBuilder.ApplyConfiguration(new RoleConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new ProfileConfiguration());
-            modelBuilder.ApplyConfiguration(new RoleConfiguration());
+            modelBuilder.ApplyConfiguration(new PostConfiguration());
+            modelBuilder.ApplyConfiguration(new PostPhotoConfiguration());
+            modelBuilder.ApplyConfiguration(new LikeConfiguration());
+            modelBuilder.ApplyConfiguration(new CommentConfiguration());
         }
 
-        public DbSet<User>? Users { get; set; }
+        //public DbSet<User>? Users { get; set; }
         public DbSet<Profile>? Profiles { get; set; }
         public DbSet<Post>? Posts { get; set; }
         public DbSet<PostPhoto>? PostPhotos { get; set; }

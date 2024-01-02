@@ -12,6 +12,9 @@ namespace Entites.Models
     {
         [Column("PostPhotoId")]
         public Guid Id { get; set; }
-        public string? photoUrl;
+        public string? PhotoUrl;
+
+        public Guid PostId { get; set; }
+        public Post Post { get; set; } = null!;
     }
 }

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EveryPinApi.Presentation.Controllers
 {
@@ -18,6 +19,7 @@ namespace EveryPinApi.Presentation.Controllers
         public CommentController(IServiceManager service) => _service = service;
 
         [HttpGet]
+        [Authorize]
         public IActionResult GetAllComment()
         {
             try

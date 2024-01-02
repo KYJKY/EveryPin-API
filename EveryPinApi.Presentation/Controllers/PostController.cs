@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ namespace EveryPinApi.Presentation.Controllers
         public PostController(IServiceManager service) => _service = service;
 
         [HttpGet]
+        [Authorize]
         public IActionResult GetAllPost()
         {
             try

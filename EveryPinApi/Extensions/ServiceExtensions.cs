@@ -1,5 +1,7 @@
 ﻿using Entites.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 using Contracts.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging.AzureAppServices;
@@ -7,6 +9,7 @@ using Repository;
 using Service.Contracts;
 using Service;
 using Service.Contracts;
+using System.Text;
 
 namespace EveryPinApi.Extensions
 {
@@ -70,5 +73,31 @@ namespace EveryPinApi.Extensions
             .AddEntityFrameworkStores<RepositoryContext>()
             .AddDefaultTokenProviders();
         }
+
+        public static void ConfigureJWT(this IServiceCollection services, IConfiguration configuration)
+        {
+            var jwtSettingValidIssuer = configuration.GetConnectionString("JwtSetting-validIssuer");
+            var jwtSettingValidAudience = configuration.GetConnectionString("JwtSetting-validAudience");
+            var secretKey = configuration.GetConnectionString("JwtSetting-SECRET");
+            services.AddAuthentication(opt =>
+            {
+                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = jwtSettingValidIssuer,
+                    ValidAudience = jwtSettingValidAudience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
+                };
+            });
+        }
+
     }
 }

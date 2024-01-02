@@ -1,4 +1,7 @@
-﻿using Service.Contracts;
+﻿using Entites.Models;
+using Microsoft.AspNetCore.Mvc;
+using Service.Contracts;
+using Shared.DataTransferObject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,11 +11,27 @@ using System.Threading.Tasks;
 
 namespace EveryPinApi.Presentation.Controllers
 {
-    //[Route("api/authentication")]
-    //[ApiController]
-    //public class AuthenticationController : ControllerBase
-    //{
-    //    private readonly IServiceManager _service;
-    //    public AuthenticationController(IServiceManager service) => _service = service;
-    //}
+    [Route("api/authentication")]
+    [ApiController]
+    public class AuthenticationController : ControllerBase
+    {
+        private readonly IServiceManager _service;
+        public AuthenticationController(IServiceManager service) => _service = service;
+
+        [HttpPost]
+        public async Task<IActionResult> RegisterUser([FromBody] UserRegistDto userForRegistration)
+        {
+            var result = await
+            _service.AuthenticationService.RegisterUser(userForRegistration);
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.TryAddModelError(error.Code, error.Description);
+                }
+                return BadRequest(ModelState);
+            }
+            return StatusCode(201);
+        }
+    }
 }

@@ -1,5 +1,9 @@
 ﻿using AutoMapper;
 using Contracts.Repository;
+using Entites.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Service.Contracts;
 using Service.Contracts.Models;
 using Service.Models;
@@ -19,8 +23,9 @@ namespace Service
         private readonly Lazy<IPostService> _postService;
         private readonly Lazy<IProfileService> _profileService;
         //private readonly Lazy<IUserService> _userService;
+        private readonly Lazy<IAuthenticationService> _authenticationService;
 
-        public ServiceManager(IRepositoryManager repositoryManager, IMapper mapper)
+        public ServiceManager(IRepositoryManager repositoryManager, IMapper mapper, UserManager<User> userManager, IConfiguration configuration)
         {
             _commentService = new Lazy<ICommentService>(() => new CommentService(repositoryManager, mapper));
             _likeService = new Lazy<ILikeService>(() => new LikeService(repositoryManager, mapper));
@@ -28,6 +33,7 @@ namespace Service
             _postService = new Lazy<IPostService>(() => new PostService(repositoryManager, mapper));
             _profileService = new Lazy<IProfileService>(() => new ProfileService(repositoryManager, mapper));
             //_userService = new Lazy<IUserService>(() => new UserService(repositoryManager));
+            _authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationService(mapper, userManager, configuration));
         }
 
         public ICommentService CommentService => _commentService.Value;
@@ -36,5 +42,6 @@ namespace Service
         public IPostService PostService => _postService.Value;
         public IProfileService ProfileService => _profileService.Value;
         //public IUserService UserService => _userService.Value;
+        public IAuthenticationService AuthenticationService => _authenticationService.Value;
     }
 }

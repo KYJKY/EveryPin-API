@@ -15,6 +15,7 @@ namespace Service.Contracts
         IPostService PostService { get; }
         IProfileService ProfileService { get; }
         //IUserService UserService { get; }
+        IAuthenticationService AuthenticationService { get; }
     }
 
 }

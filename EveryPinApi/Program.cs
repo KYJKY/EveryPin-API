@@ -26,7 +26,7 @@ builder.Logging.AddAzureWebAppDiagnostics();
 
 // Auth
 builder.Services.AddAuthentication();
-builder.Services.ConfigureIdentity();
+//builder.Services.ConfigureIdentity();
 
 // AutoMapper
 builder.Services.AddAutoMapper(typeof(Program));

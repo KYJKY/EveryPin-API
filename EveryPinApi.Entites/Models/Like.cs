@@ -10,9 +10,15 @@ namespace Entites.Models
     public class Like
     {
         [Column("LikeId")]
-        public Guid Id { get; set; }
-        [ForeignKey(nameof(User))]
-        public Guid UserId { get; set; }
+        public int Id { get; set; }
         public DateTime? CreatedDate { get; set; } = DateTime.Now;
+
+        [ForeignKey(nameof(Post))]
+        public int PostId { get; set; }
+        public Post Post { get; set; } = null!;
+
+        [ForeignKey(nameof(User))]
+        public int UserId { get; set; }
+        public User User { get; set; } = null!;
     }
 }

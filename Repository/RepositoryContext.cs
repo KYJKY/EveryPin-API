@@ -1,5 +1,4 @@
 ﻿using Entites.Models;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 using Repository.Configuration;
@@ -11,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Repository
 {
-    public class RepositoryContext : IdentityDbContext<User>
+    public class RepositoryContext: DbContext
     {
         public RepositoryContext(DbContextOptions options): base(options)
         {
@@ -22,9 +21,9 @@ namespace Repository
         {
             base.OnModelCreating(modelBuilder);
             // 더미 데이터 생성
-            modelBuilder.ApplyConfiguration(new UserConfiguration());
-            modelBuilder.ApplyConfiguration(new ProfileConfiguration());
-            modelBuilder.ApplyConfiguration(new RoleConfiguration());
+            //modelBuilder.ApplyConfiguration(new UserConfiguration());
+            //modelBuilder.ApplyConfiguration(new ProfileConfiguration());
+            //modelBuilder.ApplyConfiguration(new RoleConfiguration());
         }
 
         public DbSet<User>? Users { get; set; }

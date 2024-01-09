@@ -8,14 +8,11 @@ using System.Threading.Tasks;
 
 namespace Entites.Models
 {
-    public class PostPhoto
+    public class CodeOAuthPlatform
     {
-        [Column("PostPhotoId")]
+        [Column("CodeId")]
         public int Id { get; set; }
-        public string? photoUrl;
-
-        [ForeignKey(nameof(Post))]
-        public int PostId { get; set; }
-        public Post Post { get; set; } = null!;
+        [Required]
+        public string? PlatformName { get; set; }
     }
 }

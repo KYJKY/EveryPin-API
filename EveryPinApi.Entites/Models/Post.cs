@@ -9,19 +9,12 @@ namespace Entites.Models
 {
     public class Post
     {
-        public Post()
-        {
-            this.PostPhotos = new HashSet<PostPhoto>();
-            this.Likes = new HashSet<Like>();
-            this.Comments = new HashSet<Comment>();
-        }
-
         [Column("PostId")]
-        public Guid PostId { get; set; }
+        public int PostId { get; set; }
         public string? PostContent { get; set; }
-        public virtual ICollection<PostPhoto> PostPhotos { get; set; }
-        public virtual ICollection<Like> Likes { get; set; }
-        public virtual ICollection<Comment> Comments { get; set; }
+        public ICollection<PostPhoto> PostPhotos { get; } = new List<PostPhoto>();
+        public ICollection<Like> Likes { get; } = new List<Like>();    
+        public ICollection<Comment> Comments { get; } = new List<Comment>();
         public DateTime? UpdateDate { get; set; } = null;
         public DateTime? CreatedDate { get; set; } = DateTime.Now;
     }

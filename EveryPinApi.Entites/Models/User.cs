@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -8,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace Entites.Models
 {
-    public class User : IdentityUser
+    public class User
     {
-        public string? GoogleId { get; set; }
-        public string? GoogleName { get; set; }
-        public string? GoogleEmail { get; set; }
-        public string? KakaoId { get; set; }
-        public string? KakaoName { get; set; }
-        public string? KakaoEmail { get; set; }
+        [Column("UserId")]
+        public int Id { get; set; } 
+        public string? Name { get; set; }
+        public string? Email { get; set; }
+        
         [ForeignKey(nameof(Profile))]
-        public Guid ProfileId { get; set; }
+        public int ProfileId { get; set; }
+        public Profile Profile { get; set; } = null!;
     }
 }

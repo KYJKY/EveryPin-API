@@ -12,10 +12,10 @@ namespace Entites.Models
     {
         [Column("PostPhotoId")]
         public int Id { get; set; }
-        public string? photoUrl;
 
-        [ForeignKey(nameof(Post))]
-        public int PostId { get; set; }
-        public Post Post { get; set; } = null!;
+        public int? PostId { get; set; }
+        public Post? Post { get; set; }
+        
+        public string? photoUrl { get; set; }
     }
 }

@@ -11,11 +11,13 @@ namespace Entites.Models
     {
         [Column("UserId")]
         public int Id { get; set; } 
+        public int PlatformCodeId { get; set; }
+        public Profile? Profile { get; set; }
+        public ICollection<Like> Like { get; set; } = new List<Like>();
         public string? Name { get; set; }
         public string? Email { get; set; }
-        
-        [ForeignKey(nameof(Profile))]
-        public int ProfileId { get; set; }
-        public Profile Profile { get; set; } = null!;
+        public DateTime CreatedDate { get; set; }
+        public DateTime LastLoginDate { get; set; }
+        public bool DeleteCheck { get; set; }
     }
 }

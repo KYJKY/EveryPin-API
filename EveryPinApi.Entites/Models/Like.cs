@@ -11,14 +11,13 @@ namespace Entites.Models
     {
         [Column("LikeId")]
         public int Id { get; set; }
+
+        public int? PostId { get; set; }
+        public Post? Post { get; set; }
+
+        public int? UserId { get; set; }
+        public User? User { get; set; }
+        
         public DateTime? CreatedDate { get; set; } = DateTime.Now;
-
-        [ForeignKey(nameof(Post))]
-        public int PostId { get; set; }
-        public Post Post { get; set; } = null!;
-
-        [ForeignKey(nameof(User))]
-        public int UserId { get; set; }
-        public User User { get; set; } = null!;
     }
 }

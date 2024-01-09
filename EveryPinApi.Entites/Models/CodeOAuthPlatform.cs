@@ -10,7 +10,7 @@ namespace Entites.Models
 {
     public class CodeOAuthPlatform
     {
-        [Column("CodeId")]
+        [Column("PlatformCodeId")]
         public int Id { get; set; }
         [Required]
         public string? PlatformName { get; set; }

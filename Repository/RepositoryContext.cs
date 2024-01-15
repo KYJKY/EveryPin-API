@@ -27,6 +27,7 @@ namespace Repository
             //modelBuilder.ApplyConfiguration(new UserConfiguration());
             //modelBuilder.ApplyConfiguration(new ProfileConfiguration());
             //modelBuilder.ApplyConfiguration(new RoleConfiguration());
+            modelBuilder.ApplyConfiguration(new RoleConfiguration());
 
             //// 선택적 1:1
             //modelBuilder.Entity<User>()

@@ -17,6 +17,7 @@ namespace EveryPinApi
                 .ForMember(dest => dest.Comments, opt => opt.MapFrom(m => m.Comments));
             CreateMap<PostPhoto, PostPhotoDto>();
             CreateMap<Entites.Models.Profile, ProfileDto>();
+            CreateMap<RegistUserDto, User>();
         }
     }
 }

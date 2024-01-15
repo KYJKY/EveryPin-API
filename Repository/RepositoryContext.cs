@@ -1,4 +1,5 @@
 ﻿using Entites.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 using Repository.Configuration;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Repository
 {
-    public class RepositoryContext: DbContext
+    public class RepositoryContext : IdentityDbContext<User>
     {
         public RepositoryContext(DbContextOptions options): base(options)
         {
@@ -56,7 +57,6 @@ namespace Repository
             //
         }
 
-        public DbSet<User>? Users { get; set; }
         public DbSet<Profile>? Profiles { get; set; }
         public DbSet<Post>? Posts { get; set; }
         public DbSet<PostPhoto>? PostPhotos { get; set; }

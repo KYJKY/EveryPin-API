@@ -7,6 +7,7 @@ using Repository;
 using Service.Contracts;
 using Service;
 using Service.Contracts;
+using Microsoft.Extensions.Options;
 
 namespace EveryPinApi.Extensions
 {
@@ -56,19 +57,30 @@ namespace EveryPinApi.Extensions
         public static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration) =>
         services.AddSqlServer<RepositoryContext>(configuration.GetConnectionString("everypindb"));
 
-        //public static void ConfigureIdentity(this IServiceCollection services)
-        //{
-        //    var builder = services.AddIdentity<User, IdentityRole>(o =>
-        //    {
-        //        o.Password.RequireDigit = true;
-        //        o.Password.RequireLowercase = false;
-        //        o.Password.RequireUppercase = false;
-        //        o.Password.RequireNonAlphanumeric = false;
-        //        o.Password.RequiredLength = 10;
-        //        o.User.RequireUniqueEmail = true;
-        //    })
-        //    .AddEntityFrameworkStores<RepositoryContext>()
-        //    .AddDefaultTokenProviders();
-        //}
+        public static void ConfigureIdentity(this IServiceCollection services)
+        {
+            var builder = services.AddIdentity<User, IdentityRole>(option =>
+            {
+                // Password settings.
+                option.Password.RequireDigit = true;
+                option.Password.RequireLowercase = false;
+                option.Password.RequireUppercase = false;
+                option.Password.RequireNonAlphanumeric = false;
+                option.Password.RequiredLength = 10;
+                //option.Password.RequiredUniqueChars = 1;
+
+                // Lockout settings.
+                //options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                //options.Lockout.MaxFailedAccessAttempts = 5;
+                //options.Lockout.AllowedForNewUsers = true;
+
+                // User settings.
+                option.User.AllowedUserNameCharacters =
+                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                option.User.RequireUniqueEmail = true;
+            })
+            .AddEntityFrameworkStores<RepositoryContext>()
+            .AddDefaultTokenProviders();
+        }
     }
 }

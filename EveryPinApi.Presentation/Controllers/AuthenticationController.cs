@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc;
 using Service.Contracts;
+using Shared.DataTransferObject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,5 +16,25 @@ namespace EveryPinApi.Presentation.Controllers
     {
         private readonly IServiceManager _service;
         public AuthenticationController(IServiceManager service) => _service = service;
+
+        [HttpPost]
+        //[ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> RegisterUser([FromBody] RegistUserDto registUserDto)
+        {
+            var result = await
+            _service.AuthenticationService.RegisterUser(registUserDto);
+
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.TryAddModelError(error.Code, error.Description);
+                }
+                return BadRequest(ModelState);
+            }
+
+            return StatusCode(201);
+        }
     }
+
 }

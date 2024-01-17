@@ -88,8 +88,9 @@ namespace EveryPinApi.Extensions
 
         public static void ConfigureJWT(this IServiceCollection services, IConfiguration configuration)
         {
-            var jwtSettings = configuration.GetSection("JwtSettings");
-            var secretKey = jwtSettings["jwtSecret"];
+            var validIssuer = configuration.GetSection("JwtSettings-validIssuer");
+            var validAudience = configuration.GetSection("JwtSettings-validAudience");
+            var secretKey = configuration.GetSection("JwtSettings-SECRET");
             services.AddAuthentication(opt =>
             {
                 opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -103,9 +104,9 @@ namespace EveryPinApi.Extensions
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = jwtSettings["validIssuer"],
-                    ValidAudience = jwtSettings["validAudience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
+                    ValidIssuer = validIssuer.Value,
+                    ValidAudience = validAudience.Value,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey.Value))
                 };
             });
         }

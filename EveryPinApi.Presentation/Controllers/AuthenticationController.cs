@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Service.Contracts;
 using Shared.DataTransferObject;
 using System;
@@ -14,8 +15,14 @@ namespace EveryPinApi.Presentation.Controllers
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
+        private readonly ILogger _logger;
         private readonly IServiceManager _service;
-        public AuthenticationController(IServiceManager service) => _service = service;
+
+        public AuthenticationController(ILogger<AuthenticationController> logger, IServiceManager service)
+        {
+            _logger = logger;
+            _service = service;
+        }
 
         [HttpPost]
         //[ServiceFilter(typeof(ValidationFilterAttribute))]

@@ -3,12 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
-
 namespace EveryPinApi.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class jwttry3 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -32,13 +30,10 @@ namespace EveryPinApi.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    GoogleId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    GoogleName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    GoogleEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    KakaoId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    KakaoName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    KakaoEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ProfileId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PlatformCodeId = table.Column<int>(type: "int", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastLoginDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DeleteCheck = table.Column<bool>(type: "bit", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -60,10 +55,24 @@ namespace EveryPinApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CodeOAuthPlatforms",
+                columns: table => new
+                {
+                    PlatformCodeId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PlatformName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CodeOAuthPlatforms", x => x.PlatformCodeId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Posts",
                 columns: table => new
                 {
-                    PostId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PostId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     PostContent = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
@@ -71,23 +80,6 @@ namespace EveryPinApi.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Posts", x => x.PostId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Profiles",
-                columns: table => new
-                {
-                    ProfileId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SelfIntroduction = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhotoUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Profiles", x => x.ProfileId);
                 });
 
             migrationBuilder.CreateTable(
@@ -197,18 +189,49 @@ namespace EveryPinApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Profiles",
+                columns: table => new
+                {
+                    ProfileId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SelfIntroduction = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhotoUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Profiles", x => x.ProfileId);
+                    table.ForeignKey(
+                        name: "FK_Profiles_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Comments",
                 columns: table => new
                 {
-                    CommentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CommentId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PostId = table.Column<int>(type: "int", nullable: true),
+                    UserId = table.Column<int>(type: "int", nullable: true),
+                    UserId1 = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     CommentMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    PostId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Comments", x => x.CommentId);
+                    table.ForeignKey(
+                        name: "FK_Comments_AspNetUsers_UserId1",
+                        column: x => x.UserId1,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Comments_Posts_PostId",
                         column: x => x.PostId,
@@ -220,14 +243,21 @@ namespace EveryPinApi.Migrations
                 name: "Likes",
                 columns: table => new
                 {
-                    LikeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    PostId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    LikeId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PostId = table.Column<int>(type: "int", nullable: true),
+                    UserId = table.Column<int>(type: "int", nullable: true),
+                    UserId1 = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Likes", x => x.LikeId);
+                    table.ForeignKey(
+                        name: "FK_Likes_AspNetUsers_UserId1",
+                        column: x => x.UserId1,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Likes_Posts_PostId",
                         column: x => x.PostId,
@@ -239,8 +269,10 @@ namespace EveryPinApi.Migrations
                 name: "PostPhotos",
                 columns: table => new
                 {
-                    PostPhotoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PostId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    PostPhotoId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PostId = table.Column<int>(type: "int", nullable: true),
+                    photoUrl = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -250,33 +282,6 @@ namespace EveryPinApi.Migrations
                         column: x => x.PostId,
                         principalTable: "Posts",
                         principalColumn: "PostId");
-                });
-
-            migrationBuilder.InsertData(
-                table: "AspNetRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[,]
-                {
-                    { "7d6ecc8f-648e-4cd1-809e-26048b9b4106", null, "Manager", "MANAGER" },
-                    { "8d32e547-254a-4c18-a466-20bb91c54fef", null, "Administrator", "ADMINISTRATOR" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "GoogleEmail", "GoogleId", "GoogleName", "KakaoEmail", "KakaoId", "KakaoName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "ProfileId", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[,]
-                {
-                    { "b7c0b1ba-6010-4d1e-99ad-4a31fcbb7464", 0, "293c6be9-ccfe-4513-840c-412f87028b3b", null, false, "test01@gmail.com", "test01", "홍길동", null, null, null, false, null, null, null, null, null, false, new Guid("a13ffaa2-c689-4d24-8f65-12df4b9d724c"), "0e64e058-b989-4af3-bd4e-d245190154a6", false, null },
-                    { "f76de4d7-d101-438b-ac8a-e1fdec16dac6", 0, "241949cc-d28b-4dd0-b268-25c0d8b5be5f", null, false, null, null, null, "test02@naver.com", "test02", "이순신", false, null, null, null, null, null, false, new Guid("8b23a1d6-860a-4ff2-becd-d7c8a8c238a5"), "afbc37d2-c30c-4137-b70e-621f5be3696b", false, null }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Profiles",
-                columns: new[] { "ProfileId", "CreatedDate", "Name", "PhotoUrl", "SelfIntroduction", "UpdatedDate", "UserId" },
-                values: new object[,]
-                {
-                    { new Guid("8b23a1d6-860a-4ff2-becd-d7c8a8c238a5"), new DateTime(2023, 12, 19, 23, 54, 4, 144, DateTimeKind.Local).AddTicks(4516), "Yi Sun-sin", null, "명량해전의 이순신 입니다.", null, new Guid("f3d72088-6d16-4b5b-9689-11d1f93bb212") },
-                    { new Guid("a13ffaa2-c689-4d24-8f65-12df4b9d724c"), new DateTime(2023, 12, 19, 23, 54, 4, 144, DateTimeKind.Local).AddTicks(4513), "홍홍홍", null, "안녕하세요, 홍길동입니다.", null, new Guid("b85489c1-2b74-4db9-89f0-234f926f5ea0") }
                 });
 
             migrationBuilder.CreateIndex(
@@ -324,14 +329,30 @@ namespace EveryPinApi.Migrations
                 column: "PostId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Comments_UserId1",
+                table: "Comments",
+                column: "UserId1");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Likes_PostId",
                 table: "Likes",
                 column: "PostId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Likes_UserId1",
+                table: "Likes",
+                column: "UserId1");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PostPhotos_PostId",
                 table: "PostPhotos",
                 column: "PostId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Profiles_UserId",
+                table: "Profiles",
+                column: "UserId",
+                unique: true);
         }
 
         /// <inheritdoc />
@@ -353,6 +374,9 @@ namespace EveryPinApi.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "CodeOAuthPlatforms");
+
+            migrationBuilder.DropTable(
                 name: "Comments");
 
             migrationBuilder.DropTable(
@@ -368,10 +392,10 @@ namespace EveryPinApi.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Posts");
 
             migrationBuilder.DropTable(
-                name: "Posts");
+                name: "AspNetUsers");
         }
     }
 }

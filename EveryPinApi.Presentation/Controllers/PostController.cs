@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Service.Contracts;
 using System;
 using System.Collections.Generic;
@@ -12,8 +13,14 @@ namespace EveryPinApi.Presentation.Controllers
     [ApiController]
     public class PostController : ControllerBase
     {
+        private readonly ILogger _logger;
         private readonly IServiceManager _service;
-        public PostController(IServiceManager service) => _service = service;
+
+        public PostController(ILogger<PostController> logger, IServiceManager service)
+        {
+            _logger = logger;
+            _service = service;
+        }
 
         [HttpGet]
         public IActionResult GetAllPost()

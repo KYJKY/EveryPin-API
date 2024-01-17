@@ -7,6 +7,10 @@ using Repository;
 using Service.Contracts;
 using Service;
 using Service.Contracts;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace EveryPinApi.Extensions
 {
@@ -58,17 +62,54 @@ namespace EveryPinApi.Extensions
 
         public static void ConfigureIdentity(this IServiceCollection services)
         {
-            var builder = services.AddIdentity<User, IdentityRole>(o =>
+            var builder = services.AddIdentity<User, IdentityRole>(option =>
             {
-                o.Password.RequireDigit = true;
-                o.Password.RequireLowercase = false;
-                o.Password.RequireUppercase = false;
-                o.Password.RequireNonAlphanumeric = false;
-                o.Password.RequiredLength = 10;
-                o.User.RequireUniqueEmail = true;
+                // Password settings.
+                option.Password.RequireDigit = true;
+                option.Password.RequireLowercase = false;
+                option.Password.RequireUppercase = false;
+                option.Password.RequireNonAlphanumeric = false;
+                option.Password.RequiredLength = 10;
+                //option.Password.RequiredUniqueChars = 1;
+
+                // Lockout settings.
+                //options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                //options.Lockout.MaxFailedAccessAttempts = 5;
+                //options.Lockout.AllowedForNewUsers = true;
+
+                // User settings.
+                option.User.AllowedUserNameCharacters =
+                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                option.User.RequireUniqueEmail = true;
             })
             .AddEntityFrameworkStores<RepositoryContext>()
             .AddDefaultTokenProviders();
         }
+
+        public static void ConfigureJWT(this IServiceCollection services, IConfiguration configuration)
+        {
+            var validIssuer = configuration.GetConnectionString("JwtSettings-validIssuer");
+            var validAudience = configuration.GetConnectionString("JwtSettings-validAudience");
+            var secretKey = configuration.GetConnectionString("JwtSettings-SECRET");
+            services.AddAuthentication(opt =>
+            {
+                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = validIssuer.ToString(),
+                    ValidAudience = validAudience.ToString(),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey.ToString()))
+                };
+            });
+        }
+
     }
 }

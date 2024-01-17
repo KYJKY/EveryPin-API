@@ -12,25 +12,45 @@ using Repository;
 namespace EveryPinApi.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20231219145404_Initial")]
-    partial class Initial
+    [Migration("20240115132517_jwt-try-3")]
+    partial class jwttry3
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.14")
+                .HasAnnotation("ProductVersion", "7.0.15")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Entites.Models.CodeOAuthPlatform", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("PlatformCodeId");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("PlatformName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CodeOAuthPlatforms");
+                });
+
             modelBuilder.Entity("Entites.Models.Comment", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
+                        .HasColumnType("int")
                         .HasColumnName("CommentId");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CommentMessage")
                         .HasColumnType("nvarchar(max)");
@@ -38,48 +58,62 @@ namespace EveryPinApi.Migrations
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("PostId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int?>("PostId")
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId1")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("PostId");
+
+                    b.HasIndex("UserId1");
 
                     b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("Entites.Models.Like", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
+                        .HasColumnType("int")
                         .HasColumnName("LikeId");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("PostId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int?>("PostId")
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId1")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("PostId");
+
+                    b.HasIndex("UserId1");
 
                     b.ToTable("Likes");
                 });
 
             modelBuilder.Entity("Entites.Models.Post", b =>
                 {
-                    b.Property<Guid>("PostId")
+                    b.Property<int>("PostId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
+                        .HasColumnType("int")
                         .HasColumnName("PostId");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PostId"));
 
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -97,13 +131,18 @@ namespace EveryPinApi.Migrations
 
             modelBuilder.Entity("Entites.Models.PostPhoto", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
+                        .HasColumnType("int")
                         .HasColumnName("PostPhotoId");
 
-                    b.Property<Guid?>("PostId")
-                        .HasColumnType("uniqueidentifier");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("PostId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("photoUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -114,10 +153,12 @@ namespace EveryPinApi.Migrations
 
             modelBuilder.Entity("Entites.Models.Profile", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
+                        .HasColumnType("int")
                         .HasColumnName("ProfileId");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -134,30 +175,16 @@ namespace EveryPinApi.Migrations
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Profiles");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("a13ffaa2-c689-4d24-8f65-12df4b9d724c"),
-                            CreatedDate = new DateTime(2023, 12, 19, 23, 54, 4, 144, DateTimeKind.Local).AddTicks(4513),
-                            Name = "홍홍홍",
-                            SelfIntroduction = "안녕하세요, 홍길동입니다.",
-                            UserId = new Guid("b85489c1-2b74-4db9-89f0-234f926f5ea0")
-                        },
-                        new
-                        {
-                            Id = new Guid("8b23a1d6-860a-4ff2-becd-d7c8a8c238a5"),
-                            CreatedDate = new DateTime(2023, 12, 19, 23, 54, 4, 144, DateTimeKind.Local).AddTicks(4516),
-                            Name = "Yi Sun-sin",
-                            SelfIntroduction = "명량해전의 이순신 입니다.",
-                            UserId = new Guid("f3d72088-6d16-4b5b-9689-11d1f93bb212")
-                        });
+                    b.ToTable("Profiles");
                 });
 
             modelBuilder.Entity("Entites.Models.User", b =>
@@ -172,6 +199,12 @@ namespace EveryPinApi.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("DeleteCheck")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -179,23 +212,8 @@ namespace EveryPinApi.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("GoogleEmail")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("GoogleId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("GoogleName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("KakaoEmail")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("KakaoId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("KakaoName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("LastLoginDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -220,8 +238,8 @@ namespace EveryPinApi.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("ProfileId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("PlatformCodeId")
+                        .HasColumnType("int");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -244,38 +262,6 @@ namespace EveryPinApi.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "b7c0b1ba-6010-4d1e-99ad-4a31fcbb7464",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "293c6be9-ccfe-4513-840c-412f87028b3b",
-                            EmailConfirmed = false,
-                            GoogleEmail = "test01@gmail.com",
-                            GoogleId = "test01",
-                            GoogleName = "홍길동",
-                            LockoutEnabled = false,
-                            PhoneNumberConfirmed = false,
-                            ProfileId = new Guid("a13ffaa2-c689-4d24-8f65-12df4b9d724c"),
-                            SecurityStamp = "0e64e058-b989-4af3-bd4e-d245190154a6",
-                            TwoFactorEnabled = false
-                        },
-                        new
-                        {
-                            Id = "f76de4d7-d101-438b-ac8a-e1fdec16dac6",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "241949cc-d28b-4dd0-b268-25c0d8b5be5f",
-                            EmailConfirmed = false,
-                            KakaoEmail = "test02@naver.com",
-                            KakaoId = "test02",
-                            KakaoName = "이순신",
-                            LockoutEnabled = false,
-                            PhoneNumberConfirmed = false,
-                            ProfileId = new Guid("8b23a1d6-860a-4ff2-becd-d7c8a8c238a5"),
-                            SecurityStamp = "afbc37d2-c30c-4137-b70e-621f5be3696b",
-                            TwoFactorEnabled = false
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -303,20 +289,6 @@ namespace EveryPinApi.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "7d6ecc8f-648e-4cd1-809e-26048b9b4106",
-                            Name = "Manager",
-                            NormalizedName = "MANAGER"
-                        },
-                        new
-                        {
-                            Id = "8d32e547-254a-4c18-a466-20bb91c54fef",
-                            Name = "Administrator",
-                            NormalizedName = "ADMINISTRATOR"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -427,23 +399,52 @@ namespace EveryPinApi.Migrations
 
             modelBuilder.Entity("Entites.Models.Comment", b =>
                 {
-                    b.HasOne("Entites.Models.Post", null)
+                    b.HasOne("Entites.Models.Post", "Post")
                         .WithMany("Comments")
                         .HasForeignKey("PostId");
+
+                    b.HasOne("Entites.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId1");
+
+                    b.Navigation("Post");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Entites.Models.Like", b =>
                 {
-                    b.HasOne("Entites.Models.Post", null)
+                    b.HasOne("Entites.Models.Post", "Post")
                         .WithMany("Likes")
                         .HasForeignKey("PostId");
+
+                    b.HasOne("Entites.Models.User", "User")
+                        .WithMany("Like")
+                        .HasForeignKey("UserId1");
+
+                    b.Navigation("Post");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Entites.Models.PostPhoto", b =>
                 {
-                    b.HasOne("Entites.Models.Post", null)
+                    b.HasOne("Entites.Models.Post", "Post")
                         .WithMany("PostPhotos")
                         .HasForeignKey("PostId");
+
+                    b.Navigation("Post");
+                });
+
+            modelBuilder.Entity("Entites.Models.Profile", b =>
+                {
+                    b.HasOne("Entites.Models.User", "User")
+                        .WithOne("Profile")
+                        .HasForeignKey("Entites.Models.Profile", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -504,6 +505,13 @@ namespace EveryPinApi.Migrations
                     b.Navigation("Likes");
 
                     b.Navigation("PostPhotos");
+                });
+
+            modelBuilder.Entity("Entites.Models.User", b =>
+                {
+                    b.Navigation("Like");
+
+                    b.Navigation("Profile");
                 });
 #pragma warning restore 612, 618
         }

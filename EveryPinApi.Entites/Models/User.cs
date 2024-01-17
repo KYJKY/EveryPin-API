@@ -10,15 +10,15 @@ namespace Entites.Models
 {
     public class User : IdentityUser
     {
-        [Column("UserId")]
-        public Guid Id { get; set; }
-        public string? GoogleId { get; set; }
-        public string? GoogleName { get; set; }
-        public string? GoogleEmail { get; set; }
-        public string? KakaoId { get; set; }
-        public string? KakaoName { get; set; }
-        public string? KakaoEmail { get; set; }
-        [ForeignKey(nameof(Profile))]
-        public Guid ProfileId { get; set; }
+        //[Column("UserId")]
+        //public int Id { get; set; } 
+        public int PlatformCodeId { get; set; }
+        public Profile? Profile { get; set; }
+        public ICollection<Like> Like { get; set; } = new List<Like>();
+        public string? Name { get; set; }
+        //public string? Email { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime LastLoginDate { get; set; }
+        public bool DeleteCheck { get; set; }
     }
 }

@@ -10,9 +10,15 @@ namespace Entites.Models
     public class Comment
     {
         [Column("CommentId")]
-        public Guid Id { get; set; }
-        [ForeignKey(nameof(User))]
-        public Guid UserId { get; set; }
+        public int Id { get; set; }
+
+        public int? PostId { get; set; }
+        public Post? Post { get; set; }
+
+        [ForeignKey("User")]
+        public required string UserId { get; set; }
+        public User? User { get; set; }
+
         public string? CommentMessage { get; set; }
         public DateTime? CreatedDate { get; set; } = DateTime.Now;
     }

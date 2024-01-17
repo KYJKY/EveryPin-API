@@ -16,8 +16,8 @@ namespace Repository.Configuration
             builder.HasData(
                 new IdentityRole
                 {
-                    Name = "Manager",
-                    NormalizedName = "MANAGER"
+                    Name = "NormalUser",
+                    NormalizedName = "NORMALUSER"
                 },
                 new IdentityRole
                 {

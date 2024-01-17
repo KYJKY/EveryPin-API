@@ -1,4 +1,4 @@
-﻿using Entites.Models;
+﻿using Shared.DataTransferObject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +9,6 @@ namespace Service.Contracts.Models
 {
     public interface IPostService
     {
-        IEnumerable<Post> GetAllPost(bool trackChanges);
+        IEnumerable<PostDto> GetAllPost(bool trackChanges);
     }
 }

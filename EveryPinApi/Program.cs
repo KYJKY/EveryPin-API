@@ -1,16 +1,17 @@
 using EveryPinApi.Extensions;
+using Service;
 using Microsoft.AspNetCore.HttpOverrides;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.ConfigureCors();       // CORS
 builder.Services.ConfigureRepositoryManager();      // RepositoryManager 추가
 builder.Services.ConfigureServiceManager();         // ServiceManager 추가
 builder.Services.ConfigureSqlContext(builder.Configuration);
 
+// Presentation Layer에서 ControllerBase 상속 가능하도록
 builder.Services.AddControllers()
                 .AddApplicationPart(typeof(EveryPinApi.Presentation.AssemblyReference).Assembly);
 
@@ -22,9 +23,14 @@ builder.Services.AddSwaggerGen();
 builder.Services.ConfigureLoggerFile();
 builder.Services.ConfigureLoggerBlob();
 builder.Logging.AddAzureWebAppDiagnostics();
+
 // Auth
 builder.Services.AddAuthentication();
 builder.Services.ConfigureIdentity();
+builder.Services.ConfigureJWT(builder.Configuration);
+
+// AutoMapper
+builder.Services.AddAutoMapper(typeof(Program));
 
 
 var app = builder.Build();

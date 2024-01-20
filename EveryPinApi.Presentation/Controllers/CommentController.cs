@@ -27,15 +27,8 @@ namespace EveryPinApi.Presentation.Controllers
         [HttpGet]
         public IActionResult GetAllComment()
         {
-            try
-            {
-                var companies = _service.CommentService.GetAllComment(trackChanges: false);
-                return Ok(companies);
-            }
-            catch
-            {
-                return StatusCode(500, "Internal server error");
-            }
+            var companies = _service.CommentService.GetAllComment(trackChanges: false);
+            return Ok(companies);
         }
     }
 }

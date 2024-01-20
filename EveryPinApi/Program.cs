@@ -52,6 +52,7 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
     ForwardedHeaders = ForwardedHeaders.All
 });
 
+app.UseDeveloperExceptionPage(); // µð¹ö±ë¿ëµµ
 
 // auth
 app.UseAuthentication();

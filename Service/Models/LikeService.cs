@@ -15,7 +15,6 @@ namespace Service.Contracts.Models
     internal sealed class LikeService : ILikeService
     {
         private readonly IRepositoryManager _repository;
-        private readonly ILogger _logger;
         private readonly IMapper _mapper;
 
         public LikeService(IRepositoryManager repository, IMapper mapper)

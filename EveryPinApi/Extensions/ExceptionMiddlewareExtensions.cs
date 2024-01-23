@@ -12,6 +12,8 @@ namespace EveryPinApi.Extensions
             {
                 appError.Run(async context =>
                 {
+                    // 서버에서 에러 발생 시, 로깅이 되지 않는 경우
+                    // Program.cs에서 app.UseDeveloperExceptionPage() 활성화 여부 확인
                     context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                     context.Response.ContentType = "application/json";
                     var contextFeature = context.Features.Get<IExceptionHandlerFeature>();

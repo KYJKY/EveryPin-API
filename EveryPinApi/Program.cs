@@ -55,7 +55,7 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
     ForwardedHeaders = ForwardedHeaders.All
 });
 
-app.UseDeveloperExceptionPage(); // 디버깅용도
+//app.UseDeveloperExceptionPage(); // 디버깅용도. 활성화 시, 글로벌 로깅으로 진입 X
 
 // auth
 app.UseAuthentication();

@@ -25,7 +25,6 @@ namespace Service.Contracts.Models
 
         public IEnumerable<LikeDto> GetAllLike(bool trackChanges)
         {
-            throw new Exception("테스트 오류");
             var likes = _repository.Like.GetAllLike(trackChanges);
             var likesDto = _mapper.Map<IEnumerable<LikeDto>>(likes);
 

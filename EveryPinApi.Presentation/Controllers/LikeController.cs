@@ -25,15 +25,8 @@ namespace EveryPinApi.Presentation.Controllers
         [HttpGet]
         public IActionResult GetAllLike()
         {
-            try
-            {
                 var likes = _service.LikeService.GetAllLike(trackChanges: false);
                 return Ok(likes);
-            }
-            catch
-            {
-                return StatusCode(500, "Internal server error");
-            }
         }
     }
 }

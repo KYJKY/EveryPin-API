@@ -25,15 +25,8 @@ namespace EveryPinApi.Presentation.Controllers
         [HttpGet]
         public IActionResult GetAllProfile()
         {
-            try
-            {
-                var profiles = _service.ProfileService.GetAllProfile(trackChanges: false);
-                return Ok(profiles);
-            }
-            catch
-            {
-                return StatusCode(500, "Internal server error");
-            }
+            var profiles = _service.ProfileService.GetAllProfile(trackChanges: false);
+            return Ok(profiles);
         }
     }
 }

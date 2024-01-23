@@ -25,15 +25,8 @@ namespace EveryPinApi.Presentation.Controllers
         [HttpGet]
         public IActionResult GetAllPostPhoto()
         {
-            try
-            {
-                var postPhotos = _service.PostPhotoService.GetAllPostPhoto(trackChanges: false);
-                return Ok(postPhotos);
-            }
-            catch
-            {
-                return StatusCode(500, "Internal server error");
-            }
+            var postPhotos = _service.PostPhotoService.GetAllPostPhoto(trackChanges: false);
+            return Ok(postPhotos);
         }
     }
 }

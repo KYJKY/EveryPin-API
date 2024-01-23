@@ -1,9 +1,12 @@
 using EveryPinApi.Extensions;
 using Service;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.Extensions.Logging;
 
 
 var builder = WebApplication.CreateBuilder(args);
+
+
 
 // Add services to the container.
 builder.Services.ConfigureCors();       // CORS
@@ -20,9 +23,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Azure Logging
+builder.Logging.AddAzureWebAppDiagnostics();
 builder.Services.ConfigureLoggerFile();
 builder.Services.ConfigureLoggerBlob();
-builder.Logging.AddAzureWebAppDiagnostics();
 
 // Auth
 builder.Services.AddAuthentication();
@@ -31,15 +34,15 @@ builder.Services.ConfigureJWT(builder.Configuration);
 
 // AutoMapper
 builder.Services.AddAutoMapper(typeof(Program));
-
-
 var app = builder.Build();
 
+app.ConfigureExceptionHandler(app.Logger);
+
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseDeveloperExceptionPage();
-}
+//if (app.Environment.IsDevelopment())
+//{
+//    app.UseDeveloperExceptionPage();
+//}
 
 // Swagger
 app.UseSwagger();

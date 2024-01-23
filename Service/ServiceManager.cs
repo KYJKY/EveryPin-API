@@ -23,16 +23,17 @@ namespace Service
         private readonly Lazy<IPostService> _postService;
         private readonly Lazy<IProfileService> _profileService;
         private readonly Lazy<IAuthenticationService> _authenticationService;
+        
 
-        public ServiceManager(IRepositoryManager repositoryManager, IMapper mapper, UserManager<User> userManager, IConfiguration configuration)
+        public ServiceManager(IRepositoryManager repositoryManager, IMapper mapper, UserManager<User> userManager, IConfiguration configuration, ILoggerFactory loggerFactory)
         {
-            _commentService = new Lazy<ICommentService>(() => new CommentService(repositoryManager, mapper));
-            _likeService = new Lazy<ILikeService>(() => new LikeService(repositoryManager, mapper));
-            _postPhotoService = new Lazy<IPostPhotoService>(() => new PostPhotoService(repositoryManager, mapper));
-            _postService = new Lazy<IPostService>(() => new PostService(repositoryManager, mapper));
-            _profileService = new Lazy<IProfileService>(() => new ProfileService(repositoryManager, mapper));
+            _commentService = new Lazy<ICommentService>(() => new CommentService(loggerFactory.CreateLogger<CommentService>(), repositoryManager, mapper));
+            _likeService = new Lazy<ILikeService>(() => new LikeService(loggerFactory.CreateLogger<LikeService>(), repositoryManager, mapper));
+            _postPhotoService = new Lazy<IPostPhotoService>(() => new PostPhotoService(loggerFactory.CreateLogger<PostPhotoService>(), repositoryManager, mapper));
+            _postService = new Lazy<IPostService>(() => new PostService(loggerFactory.CreateLogger<PostService>(), repositoryManager, mapper));
+            _profileService = new Lazy<IProfileService>(() => new ProfileService(loggerFactory.CreateLogger<ProfileService>(), repositoryManager, mapper));
             //_authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationService(logger, mapper, userManager, configuration));
-            _authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationService(mapper, userManager, configuration));
+            _authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationService(loggerFactory.CreateLogger<AuthenticationService>(), mapper, userManager, configuration));
         }
 
         public ICommentService CommentService => _commentService.Value;

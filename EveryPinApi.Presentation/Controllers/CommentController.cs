@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EveryPinApi.Presentation.Controllers
 {
@@ -24,7 +25,7 @@ namespace EveryPinApi.Presentation.Controllers
             _service = service;
         }
 
-        [HttpGet]
+        [HttpGet(Name = "GetComment")]
         public IActionResult GetAllComment()
         {
             var companies = _service.CommentService.GetAllComment(trackChanges: false);

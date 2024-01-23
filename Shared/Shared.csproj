@@ -10,4 +10,8 @@
     <ProjectReference Include="..\EveryPinApi.Entites\Entites.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DataTransferObject\Auth\" />
+  </ItemGroup>
+
 </Project>

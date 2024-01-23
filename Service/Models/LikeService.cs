@@ -2,6 +2,7 @@
 using Contracts.Repository;
 using Entites.Models;
 using Microsoft.Extensions.Logging;
+using Service.Models;
 using Shared.DataTransferObject;
 using System;
 using System.Collections.Generic;
@@ -14,11 +15,13 @@ namespace Service.Contracts.Models
 {
     internal sealed class LikeService : ILikeService
     {
+        private readonly ILogger<LikeService> _logger;
         private readonly IRepositoryManager _repository;
         private readonly IMapper _mapper;
 
-        public LikeService(IRepositoryManager repository, IMapper mapper)
+        public LikeService(ILogger<LikeService> logger, IRepositoryManager repository, IMapper mapper)
         {
+            _logger = logger;
             _repository = repository;
             _mapper = mapper;
         }

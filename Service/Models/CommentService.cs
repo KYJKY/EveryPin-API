@@ -14,11 +14,13 @@ namespace Service.Models
 {
     internal sealed class CommentService : ICommentService
     {
+        private readonly ILogger _logger;
         private readonly IRepositoryManager _repository;
         private readonly IMapper _mapper;
 
-        public CommentService(IRepositoryManager repository, IMapper mapper)
+        public CommentService(ILogger<CommentService> logger, IRepositoryManager repository, IMapper mapper)
         {
+            _logger = logger;
             _repository = repository;
             _mapper = mapper;
         }

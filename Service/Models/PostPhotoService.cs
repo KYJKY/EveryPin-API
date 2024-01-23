@@ -25,6 +25,8 @@ namespace Service.Contracts.Models
 
         public IEnumerable<PostPhotoDto> GetAllPostPhoto(bool trackChanges)
         {
+
+            _logger.LogInformation("포스트포토 로그 인포 테스트(서비스)");
             var postPhotos = _repository.PostPhoto.GetAllPostPhoto(trackChanges);
             var postPhotosDto = _mapper.Map<IEnumerable<PostPhotoDto>>(postPhotos);
 

@@ -25,6 +25,7 @@ namespace EveryPinApi.Presentation.Controllers
         [HttpGet]
         public IActionResult GetAllPost()
         {
+            _logger.LogInformation("AllPost 로그 인포 테스트(컨트롤러)");
             var posts = _service.PostService.GetAllPost(trackChanges: false);
             return Ok(posts);
         }

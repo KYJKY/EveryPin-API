@@ -27,6 +27,7 @@ namespace EveryPinApi.Presentation.Controllers
         [HttpGet]
         public IActionResult GetAllComment()
         {
+            throw new Exception("테스트 오류");
             var companies = _service.CommentService.GetAllComment(trackChanges: false);
             return Ok(companies);
         }

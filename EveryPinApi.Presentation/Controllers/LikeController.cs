@@ -25,8 +25,8 @@ namespace EveryPinApi.Presentation.Controllers
         [HttpGet]
         public IActionResult GetAllLike()
         {
-                var likes = _service.LikeService.GetAllLike(trackChanges: false);
-                return Ok(likes);
+            var likes = _service.LikeService.GetAllLike(trackChanges: false);
+            return Ok(likes);
         }
     }
 }

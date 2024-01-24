@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Service.Contracts;
 using Shared.DataTransferObject;
+using Shared.DataTransferObject.Auth;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +25,7 @@ namespace EveryPinApi.Presentation.Controllers
             _service = service;
         }
 
-        [HttpPost]
+        [HttpPost("regist")]
         //[ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> RegisterUser([FromBody] RegistUserDto registUserDto)
         {
@@ -41,6 +42,15 @@ namespace EveryPinApi.Presentation.Controllers
             }
 
             return StatusCode(201);
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Authenticate([FromBody] UserAutenticationDto user)
+        {
+            if (!await _service.AuthenticationService.ValidateUser(user))
+                return Unauthorized();
+
+            return Ok(new { Token = await _service.AuthenticationService.CreateToken() });
         }
     }
 

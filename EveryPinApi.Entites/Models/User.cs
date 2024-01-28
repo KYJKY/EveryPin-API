@@ -17,6 +17,8 @@ namespace Entites.Models
         public ICollection<Like> Like { get; set; } = new List<Like>();
         public string? Name { get; set; }
         //public string? Email { get; set; }
+        public string? RefreshToken { get; set; }
+        public DateTime RefreshTokenExpiryTime { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime LastLoginDate { get; set; }
         public bool DeleteCheck { get; set; }

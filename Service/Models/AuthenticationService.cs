@@ -166,5 +166,18 @@ namespace Service.Models
             return principal;
         }
 
+        public async Task<TokenDto> RefreshToken(TokenDto tokenDto)
+        {
+            var principal = GetPrincipalFromExpiredToken(tokenDto.AccessToken);
+            var user = await _userManager.FindByNameAsync(principal.Identity.Name);
+
+            if (user == null || user.RefreshToken != tokenDto.RefreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
+                //throw new RefreshTokenBadRequest();
+                throw new Exception("리프레시 토큰 오류");
+
+            _user = user;
+            return await CreateToken(populateExp: false);
+        }
+
     }
 }

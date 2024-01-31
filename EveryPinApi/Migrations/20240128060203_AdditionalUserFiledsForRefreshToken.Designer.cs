@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repository;
 
@@ -11,9 +12,11 @@ using Repository;
 namespace EveryPinApi.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20240128060203_AdditionalUserFiledsForRefreshToken")]
+    partial class AdditionalUserFiledsForRefreshToken
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -108,9 +111,6 @@ namespace EveryPinApi.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PostId"));
 
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -123,12 +123,6 @@ namespace EveryPinApi.Migrations
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<double?>("latitude")
-                        .HasColumnType("float");
-
-                    b.Property<double?>("longitude")
-                        .HasColumnType("float");
 
                     b.HasKey("PostId");
 
@@ -308,13 +302,13 @@ namespace EveryPinApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "fafbb86f-5268-49e8-a8a0-c35be787f05a",
+                            Id = "2179ba12-d152-45d3-9d76-d2f5eaca01cf",
                             Name = "NormalUser",
                             NormalizedName = "NORMALUSER"
                         },
                         new
                         {
-                            Id = "923a3112-78df-4baf-8127-5aa87babcea7",
+                            Id = "8160263c-668a-4495-89dc-35b9296d3a0f",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });

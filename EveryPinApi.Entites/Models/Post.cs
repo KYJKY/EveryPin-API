@@ -14,6 +14,9 @@ namespace Entites.Models
         public string? PostContent { get; set; }
         [ForeignKey("User")]
         public required string UserId { get; set; }
+        public string? Address { get; set; }
+        public double? latitude { get; set; }
+        public double? longitude { get; set; }
         public ICollection<PostPhoto> PostPhotos { get; } = new List<PostPhoto>();
         public ICollection<Like> Likes { get; } = new List<Like>();    
         public ICollection<Comment> Comments { get; } = new List<Comment>();

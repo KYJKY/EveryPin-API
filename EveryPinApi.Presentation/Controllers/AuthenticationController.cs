@@ -29,8 +29,7 @@ namespace EveryPinApi.Presentation.Controllers
         //[ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> RegisterUser([FromBody] RegistUserDto registUserDto)
         {
-            var result = await
-            _service.AuthenticationService.RegisterUser(registUserDto);
+            var result = await _service.AuthenticationService.RegisterUser(registUserDto);
 
             if (!result.Succeeded)
             {

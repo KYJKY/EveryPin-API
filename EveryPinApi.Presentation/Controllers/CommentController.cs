@@ -26,6 +26,7 @@ namespace EveryPinApi.Presentation.Controllers
         }
 
         [HttpGet(Name = "GetComment")]
+        [Authorize(Roles ="NormalUser")]
         public IActionResult GetAllComment()
         {
             var companies = _service.CommentService.GetAllComment(trackChanges: false);

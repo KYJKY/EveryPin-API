@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Service.Contracts;
 using System;
@@ -23,6 +24,7 @@ namespace EveryPinApi.Presentation.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "NormalUser")]
         public IActionResult GetAllPostPhoto()
         {
             var postPhotos = _service.PostPhotoService.GetAllPostPhoto(trackChanges: false);

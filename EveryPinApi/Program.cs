@@ -14,9 +14,11 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.ConfigureServiceManager();         // ServiceManager 추가
     builder.Services.ConfigureSqlContext(builder.Configuration);
 
-    // Presentation Layer에서 ControllerBase 상속 가능하도록
-    builder.Services.AddControllers()
-                    .AddApplicationPart(typeof(EveryPinApi.Presentation.AssemblyReference).Assembly);
+    
+    builder.Services.AddControllers(config => {
+        config.RespectBrowserAcceptHeader = true;   // AcceptHeader를 읽도록 허용
+    }).AddXmlDataContractSerializerFormatters()     // XML형식을 지원하도록 허용
+        .AddApplicationPart(typeof(EveryPinApi.Presentation.AssemblyReference).Assembly);   // Presentation Layer에서 ControllerBase 상속 가능하도록
 
     // Swagger/OpenAPI 
     builder.Services.AddEndpointsApiExplorer();
@@ -30,7 +32,7 @@ var builder = WebApplication.CreateBuilder(args);
             Name = "Authorization",
             Type = SecuritySchemeType.Http,
             BearerFormat = "JWT",
-            Scheme = JwtBearerDefaults.AuthenticationScheme
+            Scheme = JwtBearerDefaults.AuthenticationScheme,
         });
         option.AddSecurityRequirement(new OpenApiSecurityRequirement
         {

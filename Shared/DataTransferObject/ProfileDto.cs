@@ -6,5 +6,14 @@ using System.Threading.Tasks;
 
 namespace Shared.DataTransferObject
 {
-    public record ProfileDto(Guid Id, string? Name, string? SelfIntroduction, string? PhotoUrl, Guid UserId, DateTime? UpdatedDate, DateTime? CreatedDate);
+    public record ProfileDto
+    {
+        public Guid Id { get; init; }
+        public string? Name { get; init; }
+        public string? SelfIntroduction { get; init; }
+        public string? PhotoUrl { get; init; }
+        public Guid UserId { get; init; }
+        public DateTime? UpdatedDate { get; init; }
+        public DateTime? CreatedDate { get; init; }
+    }
 }

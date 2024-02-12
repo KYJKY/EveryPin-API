@@ -6,5 +6,11 @@ using System.Threading.Tasks;
 
 namespace Shared.DataTransferObject
 {
-    public record CommentDto(int Id, Guid UserId, string? CommentMessage, DateTime? CreatedDate);
+    public record CommentDto()
+    {
+        public int Id { get; init; }
+        public Guid UserId { get; init; }
+        public string? CommentMessage { get; init; }
+        public DateTime? CreatedDate { get; init; }
+    }
 }

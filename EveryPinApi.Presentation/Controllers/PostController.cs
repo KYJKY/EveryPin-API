@@ -30,5 +30,13 @@ namespace EveryPinApi.Presentation.Controllers
             var posts = _service.PostService.GetAllPost(trackChanges: false);
             return Ok(posts);
         }
+
+        [HttpGet("{id:int}")]
+        public IActionResult GetPost(int id)
+        {
+            var post = _service.PostService.GetPost(id, trackChanges: false);
+
+            return Ok(post);
+        }
     }
 }

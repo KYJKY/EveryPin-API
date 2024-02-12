@@ -18,5 +18,10 @@ namespace Repository.Models
             FindAll(trackChanges)
             .OrderBy(c => c.PostId)
             .ToList();
+
+        public Post GetPost(int postId, bool trackChanges) =>
+            FindByCondition(post => post.PostId.Equals(postId), trackChanges)
+            .SingleOrDefault();
+
     }
 }

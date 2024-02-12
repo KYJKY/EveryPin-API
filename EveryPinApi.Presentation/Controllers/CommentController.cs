@@ -29,8 +29,16 @@ namespace EveryPinApi.Presentation.Controllers
         [Authorize(Roles ="NormalUser")]
         public IActionResult GetAllComment()
         {
-            var companies = _service.CommentService.GetAllComment(trackChanges: false);
-            return Ok(companies);
+            var comments = _service.CommentService.GetAllComment(trackChanges: false);
+            return Ok(comments);
+        }
+
+        [HttpGet("{postId:int}")]
+        public IActionResult GetCommentToPostId(int postId)
+        {
+            var comments = _service.CommentService.GetCommentToPostId(postId, trackChanges: false);
+
+            return Ok(comments);
         }
     }
 }

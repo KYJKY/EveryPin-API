@@ -10,5 +10,6 @@ namespace Contracts.Repository.Models
     public interface ILikeRepository
     {
         IEnumerable<Like> GetAllLike(bool trackChanges);
+        int GetLikeCountToPostId(int postId, bool trackChange);
     }
 }

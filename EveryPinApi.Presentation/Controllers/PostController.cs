@@ -31,10 +31,10 @@ namespace EveryPinApi.Presentation.Controllers
             return Ok(posts);
         }
 
-        [HttpGet("{id:int}")]
-        public IActionResult GetPost(int id)
+        [HttpGet("{postId:int}")]
+        public IActionResult GetPost(int postId)
         {
-            var post = _service.PostService.GetPost(id, trackChanges: false);
+            var post = _service.PostService.GetPost(postId, trackChanges: false);
 
             return Ok(post);
         }

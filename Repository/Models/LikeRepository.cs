@@ -18,5 +18,9 @@ namespace Repository.Models
             FindAll(trackChanges)
             .OrderBy(c => c.Id)
             .ToList();
+
+        public int GetLikeCountToPostId(int postId, bool trackChange) =>
+            FindByCondition(like => like.PostId.Equals(postId), trackChange)
+            .ToList().Count;
     }
 }

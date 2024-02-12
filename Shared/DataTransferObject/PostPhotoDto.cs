@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace Shared.DataTransferObject
 {
-    public record PostPhotoDto(Guid Id, string? photoUrl);
+    public record PostPhotoDto(int Id, string? photoUrl);
 }

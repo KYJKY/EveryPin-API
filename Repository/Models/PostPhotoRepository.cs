@@ -18,5 +18,10 @@ namespace Repository.Models
             FindAll(trackChanges)
             .OrderBy(c => c.Id)
             .ToList();
+
+        public IEnumerable<PostPhoto> GetPostPhotoToPostId(int postId, bool trackChange) =>
+            FindByCondition(postPhoto => postPhoto.PostId.Equals(postId), trackChange)
+            .OrderBy(postPhoto => postPhoto.PostId)
+            .ToList();
     }
 }

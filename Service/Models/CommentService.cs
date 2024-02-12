@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Entites.Models;
 using Microsoft.Extensions.Logging;
+using Entites.Exceptions;
+using System.ComponentModel.Design;
 
 namespace Service.Models
 {
@@ -30,6 +32,19 @@ namespace Service.Models
             var comments = _repository.Comment.GetAllComment(trackChanges);
             //var commentsDto = comments.Select(c => new CommentDto(c.Id, c.UserId, c.CommentMessage, c.CreatedDate)).ToList();
             var commentsDto = _mapper.Map<IEnumerable<CommentDto>>(comments);
+
+            return commentsDto;
+        }
+
+        public IEnumerable<CommentDto> GetCommentToPostId(int postId, bool trackChanges)
+        {
+            var post = _repository.Post.GetPost(postId, trackChanges);
+
+            if (post is null)
+                throw new PostNotFoundException(postId);
+
+            var commentsFromDb = _repository.Comment.GetCommentToPostId(postId, trackChanges);
+            var commentsDto = _mapper.Map<IEnumerable<CommentDto>>(commentsFromDb);
 
             return commentsDto;
         }

@@ -30,5 +30,13 @@ namespace EveryPinApi.Presentation.Controllers
             var likes = _service.LikeService.GetAllLike(trackChanges: false);
             return Ok(likes);
         }
+
+        [HttpGet("{postId:int}")]
+        public IActionResult GetLikeNumToPostId(int postId)
+        {
+            int likeNum = _service.LikeService.GetLikeCountToPostId(postId, trackChanges: false);
+
+            return Ok(likeNum);
+        }
     }
 }

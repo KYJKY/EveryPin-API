@@ -10,5 +10,6 @@ namespace Service.Contracts.Models
     public interface ILikeService
     {
         IEnumerable<LikeDto> GetAllLike(bool trackChanges);
+        int GetLikeCountToPostId(int postId, bool trackChanges);
     }
 }

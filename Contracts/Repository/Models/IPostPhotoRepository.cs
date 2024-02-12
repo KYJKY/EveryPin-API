@@ -10,5 +10,6 @@ namespace Contracts.Repository.Models
     public interface IPostPhotoRepository
     {
         IEnumerable<PostPhoto> GetAllPostPhoto(bool trackChanges);
+        IEnumerable<PostPhoto> GetPostPhotoToPostId(int postId, bool trackChange);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Contracts.Repository;
+using Entites.Exceptions;
 using Entites.Models;
 using Microsoft.Extensions.Logging;
 using Service.Models;
@@ -32,6 +33,18 @@ namespace Service.Contracts.Models
             var likesDto = _mapper.Map<IEnumerable<LikeDto>>(likes);
 
             return likesDto;
+        }
+
+        public int GetLikeCountToPostId(int postId, bool trackChanges)
+        {
+            var post = _repository.Post.GetPost(postId, trackChanges);
+
+            if (post is null)
+                throw new PostNotFoundException(postId);
+
+            int likeCount = _repository.Like.GetLikeCountToPostId(postId, trackChanges);
+
+            return likeCount;
         }
     }
 }

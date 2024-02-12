@@ -30,5 +30,13 @@ namespace EveryPinApi.Presentation.Controllers
             var postPhotos = _service.PostPhotoService.GetAllPostPhoto(trackChanges: false);
             return Ok(postPhotos);
         }
+
+        [HttpGet("{postId:int}")]
+        public IActionResult GetPostPhotoToPostId(int postId)
+        {
+            var postPhotos = _service.PostPhotoService.GetPostPhotoToPostId(postId, trackChanges: false);
+
+            return Ok(postPhotos);
+        }
     }
 }

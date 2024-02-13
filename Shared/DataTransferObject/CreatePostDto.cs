@@ -6,5 +6,12 @@ using System.Threading.Tasks;
 
 namespace Shared.DataTransferObject
 {
-    public record CreatePostDto(string PostContent, string UserId, string Address, double latitude, double longitude);
+    public class CreatePostDto
+    {
+        public string? PostContent { get; set; }
+        public string UserId { get; set; } = null!;
+        public string? Address { get; set; }
+        public double latitude { get; set; }
+        public double longitude { get; set; }
+    }
 }

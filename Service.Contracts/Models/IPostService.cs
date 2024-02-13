@@ -11,5 +11,6 @@ namespace Service.Contracts.Models
     {
         IEnumerable<PostDto> GetAllPost(bool trackChanges);
         PostDto GetPost(int postId, bool trackChanges);
+        PostDto CreatePost(CreatePostDto post);
     }
 }

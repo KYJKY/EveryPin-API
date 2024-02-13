@@ -19,6 +19,7 @@ namespace EveryPinApi
             CreateMap<PostPhoto, PostPhotoDto>();
             CreateMap<Entites.Models.Profile, ProfileDto>();
             CreateMap<RegistUserDto, User>();
+            CreateMap<CreatePostDto, Post>();
         }
     }
 }

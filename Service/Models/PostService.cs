@@ -46,5 +46,17 @@ namespace Service.Contracts.Models
 
             return postDto;
         }
+
+        public PostDto CreatePost(CreatePostDto post)
+        {
+            var postEntity = _mapper.Map<Post>(post);
+
+            _repository.Post.CreatePost(postEntity);
+            _repository.Save();
+
+            var postToReturn = _mapper.Map<PostDto>(postEntity);
+
+            return postToReturn;
+        }
     }
 }

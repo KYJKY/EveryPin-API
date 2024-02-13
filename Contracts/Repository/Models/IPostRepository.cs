@@ -11,5 +11,6 @@ namespace Contracts.Repository.Models
     {
         IEnumerable<Post> GetAllPost(bool trackChanges);
         Post GetPost(int postId, bool trackChanges);
+        void CreatePost(Post post);
     }
 }

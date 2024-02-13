@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Service.Contracts;
+using Shared.DataTransferObject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,12 +32,23 @@ namespace EveryPinApi.Presentation.Controllers
             return Ok(posts);
         }
 
-        [HttpGet("{postId:int}")]
+        [HttpGet("{postId:int}", Name = "GetPostById")]
         public IActionResult GetPost(int postId)
         {
             var post = _service.PostService.GetPost(postId, trackChanges: false);
 
             return Ok(post);
+        }
+
+        [HttpPost]
+        public IActionResult CreatePost([FromBody] CreatePostDto post)
+        {
+            if (post is null)
+                return BadRequest("게시글의 내용이 비었습니다.");
+
+            var createPost = _service.PostService.CreatePost(post);
+
+            return CreatedAtRoute("GetPostById", new { postId = createPost.PostId }, createPost);
         }
     }
 }

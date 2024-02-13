@@ -23,5 +23,7 @@ namespace Repository.Models
             FindByCondition(post => post.PostId.Equals(postId), trackChanges)
             .SingleOrDefault();
 
+        public void CreatePost(Post post) =>
+            Create(post);
     }
 }

@@ -48,5 +48,17 @@ namespace Service.Models
 
             return commentsDto;
         }
+
+        public CommentDto CreateComment(CreateCommentDto comment)
+        {
+            var commentEntity = _mapper.Map<Comment>(comment);
+
+            _repository.Comment.CreateComment(commentEntity);
+            _repository.Save();
+
+            var commentToReturn = _mapper.Map<CommentDto>(commentEntity);
+
+            return commentToReturn;
+        }
     }
 }

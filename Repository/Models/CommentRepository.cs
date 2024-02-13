@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Repository.Models
 {
@@ -25,5 +24,8 @@ namespace Repository.Models
             FindByCondition(comment => comment.PostId.Equals(postId), trackChange)
             .OrderBy(comment => comment.CreatedDate)
             .ToList();
+
+        public void CreateComment(Comment comment) =>
+            Create(comment);
     }
 }

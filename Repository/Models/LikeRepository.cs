@@ -22,5 +22,8 @@ namespace Repository.Models
         public int GetLikeCountToPostId(int postId, bool trackChange) =>
             FindByCondition(like => like.PostId.Equals(postId), trackChange)
             .ToList().Count;
+
+        public void CreateLike(Like like) =>
+            Create(like);
     }
 }

@@ -23,5 +23,8 @@ namespace Repository.Models
             FindByCondition(postPhoto => postPhoto.PostId.Equals(postId), trackChange)
             .OrderBy(postPhoto => postPhoto.PostId)
             .ToList();
+
+        public void CreatePostPhoto(PostPhoto postphoto) =>
+            Create(postphoto);
     }
 }

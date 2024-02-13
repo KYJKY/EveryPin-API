@@ -11,5 +11,6 @@ namespace Contracts.Repository.Models
     {
         IEnumerable<Comment> GetAllComment(bool trackChanges);
         IEnumerable<Comment> GetCommentToPostId(int postId, bool trackChange);
+        void CreateComment(Comment comment);
     }
 }

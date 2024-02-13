@@ -11,5 +11,6 @@ namespace Service.Contracts.Models
     {
         IEnumerable<CommentDto> GetAllComment(bool trackChanges);
         IEnumerable<CommentDto> GetCommentToPostId(int postId, bool trackChanges);
+        CommentDto CreateComment(CreateCommentDto comment);
     }
 }

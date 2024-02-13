@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Service.Contracts;
@@ -16,11 +17,13 @@ namespace EveryPinApi.Presentation.Controllers
     {
         private readonly ILogger _logger;
         private readonly IServiceManager _service;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public PostPhotoController(ILogger<PostPhotoController> logger, IServiceManager service)
+        public PostPhotoController(ILogger<PostPhotoController> logger, IServiceManager service, IHttpContextAccessor httpContextAccessor)
         {
             _logger = logger;
             _service = service;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [HttpGet]

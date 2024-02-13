@@ -47,5 +47,17 @@ namespace Service.Contracts.Models
 
             return postPhotosDto;
         }
+
+        public PostPhotoDto CreatePostPhoto(CreatePostPhotoDto postphoto)
+        {
+            var postPhotoEntity = _mapper.Map<PostPhoto>(postphoto);
+
+            _repository.PostPhoto.CreatePostPhoto(postPhotoEntity);
+            _repository.Save();
+
+            var postPhotoToReturn = _mapper.Map<PostPhotoDto>(postPhotoEntity);
+
+            return postPhotoToReturn;
+        }
     }
 }

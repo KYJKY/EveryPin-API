@@ -11,5 +11,6 @@ namespace Service.Contracts.Models
     {
         IEnumerable<LikeDto> GetAllLike(bool trackChanges);
         int GetLikeCountToPostId(int postId, bool trackChanges);
+        LikeDto CreateLike(CreateLikeDto like);
     }
 }

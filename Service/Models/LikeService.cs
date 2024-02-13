@@ -46,5 +46,17 @@ namespace Service.Contracts.Models
 
             return likeCount;
         }
+
+        public LikeDto CreateLike(CreateLikeDto like)
+        {
+            var likeEntity = _mapper.Map<Like>(like);
+
+            _repository.Like.CreateLike(likeEntity);
+            _repository.Save();
+
+            var likeToReturn = _mapper.Map<LikeDto>(likeEntity);
+
+            return likeToReturn;
+        }
     }
 }

@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 
 namespace EveryPinApi.Presentation.Controllers
 {
@@ -18,11 +19,13 @@ namespace EveryPinApi.Presentation.Controllers
     {
         private readonly ILogger _logger;
         private readonly IServiceManager _service;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public CommentController(ILogger<CommentController> logger, IServiceManager service)
+        public CommentController(ILogger<CommentController> logger, IServiceManager service, IHttpContextAccessor httpContextAccessor)
         {
             _logger = logger;
             _service = service;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [HttpGet(Name = "GetComment")]

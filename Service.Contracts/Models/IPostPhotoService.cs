@@ -11,5 +11,6 @@ namespace Service.Contracts.Models
     {
         IEnumerable<PostPhotoDto> GetAllPostPhoto(bool trackChanges);
         IEnumerable<PostPhotoDto> GetPostPhotoToPostId(int postId, bool trackChanges);
+        PostPhotoDto CreatePostPhoto(CreatePostPhotoDto postphoto);
     }
 }

@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace Shared.DataTransferObject
 {
-    public record CreateLikeDto(int postId);
+    public record CreateLikeDto(int PostId, string UserId);
 }

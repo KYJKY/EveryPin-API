@@ -11,7 +11,7 @@ namespace Entites.Models
     public class PostPhoto
     {
         [Column("PostPhotoId")]
-        public int Id { get; set; }
+        public int PostPhotoId { get; set; }
 
         public int? PostId { get; set; }
         public Post? Post { get; set; }

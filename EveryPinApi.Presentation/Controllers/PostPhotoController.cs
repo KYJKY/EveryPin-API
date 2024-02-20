@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Service.Contracts;
+using Shared.DataTransferObject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -40,6 +42,21 @@ namespace EveryPinApi.Presentation.Controllers
             var postPhotos = _service.PostPhotoService.GetPostPhotoToPostId(postId, trackChanges: false);
 
             return Ok(postPhotos);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "NormalUser")]
+        public IActionResult CreatePostPhoto([FromBody] CreatePostPhotoDto postPhotoDto)
+        {
+            if (postPhotoDto is null)
+                return BadRequest("게시글 사진 데이터가 빈 값입니다.");
+
+            string UserId = _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+
+            var createPostPhoto = _service.PostPhotoService.CreatePostPhoto(postPhotoDto);
+
+            return CreatedAtRoute("GetPostPhotoById", new { postId = createPostPhoto.PostPhotoId }, createPostPhoto);
         }
     }
 }

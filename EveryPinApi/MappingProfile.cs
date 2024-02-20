@@ -16,8 +16,10 @@ namespace EveryPinApi
             CreateMap<CreateCommentDto, Comment>();
             
             CreateMap<Like, LikeDto>();
-            
+            CreateMap<CreateLikeDto, Like>();
+
             CreateMap<PostPhoto, PostPhotoDto>();
+            CreateMap<CreatePostPhotoDto, PostPhoto>();
 
             //CreateMap<Post, PostDto>()
             //.ForMember(dest => dest.PostPhotos, opt => opt.MapFrom(m => m.PostPhotos))

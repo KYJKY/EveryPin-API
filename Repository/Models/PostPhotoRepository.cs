@@ -16,7 +16,7 @@ namespace Repository.Models
 
         public IEnumerable<PostPhoto> GetAllPostPhoto(bool trackChanges) =>
             FindAll(trackChanges)
-            .OrderBy(c => c.Id)
+            .OrderBy(c => c.PostPhotoId)
             .ToList();
 
         public IEnumerable<PostPhoto> GetPostPhotoToPostId(int postId, bool trackChange) =>

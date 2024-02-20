@@ -35,6 +35,19 @@ namespace Service.Contracts.Models
             return likesDto;
         }
 
+        public IEnumerable<LikeDto> GetLikeToPostId(int postId, bool trackChanges)
+        {
+            var post = _repository.Post.GetPost(postId, trackChanges);
+
+            if (post is null)
+                throw new PostNotFoundException(postId);
+
+            var likes = _repository.Like.GetLikeToPostId(postId, trackChanges);
+            var likesDto = _mapper.Map<IEnumerable<LikeDto>>(likes);
+
+            return likesDto;
+        }
+
         public int GetLikeCountToPostId(int postId, bool trackChanges)
         {
             var post = _repository.Post.GetPost(postId, trackChanges);

@@ -16,7 +16,11 @@ namespace Repository.Models
 
         public IEnumerable<Like> GetAllLike(bool trackChanges) =>
             FindAll(trackChanges)
-            .OrderBy(c => c.Id)
+            .OrderBy(c => c.LikeId)
+            .ToList();
+
+        public IEnumerable<Like> GetLikeToPostId(int postId, bool trackChange) =>
+            FindByCondition(like => like.PostId.Equals(postId), trackChange)
             .ToList();
 
         public int GetLikeCountToPostId(int postId, bool trackChange) =>

@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace Shared.DataTransferObject
 {
-    public record CreateCommentDto(int postId, string commentMessage)
+    public record CreateCommentDto(int PostId, string UserId, string CommentMessage);
 }

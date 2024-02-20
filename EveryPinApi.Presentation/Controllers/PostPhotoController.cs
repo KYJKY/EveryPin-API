@@ -34,7 +34,7 @@ namespace EveryPinApi.Presentation.Controllers
             return Ok(postPhotos);
         }
 
-        [HttpGet("{postId:int}")]
+        [HttpGet("{postId:int}", Name = "GetPostPhotoById")]
         public IActionResult GetPostPhotoToPostId(int postId)
         {
             var postPhotos = _service.PostPhotoService.GetPostPhotoToPostId(postId, trackChanges: false);

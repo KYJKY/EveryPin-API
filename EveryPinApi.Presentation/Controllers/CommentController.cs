@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Shared.DataTransferObject;
+using System.Security.Claims;
 
 namespace EveryPinApi.Presentation.Controllers
 {
@@ -36,12 +38,30 @@ namespace EveryPinApi.Presentation.Controllers
             return Ok(comments);
         }
 
-        [HttpGet("{postId:int}")]
+        [HttpGet("{postId:int}", Name = "GetCommentToPostId")]
         public IActionResult GetCommentToPostId(int postId)
         {
             var comments = _service.CommentService.GetCommentToPostId(postId, trackChanges: false);
 
             return Ok(comments);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "NormalUser")]
+        public IActionResult CreateComment(int postId, string commentMessage)
+        {
+            if (string.IsNullOrEmpty(commentMessage))
+                return BadRequest("댓글 내용이 작성되지 않았습니다.");
+            else if (postId <= 0)
+                return BadRequest("PostId 값이 비정상입니다.");
+
+            string UserId = _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            CreateCommentDto comment = new CreateCommentDto(postId, UserId, commentMessage);
+
+            var createComment = _service.CommentService.CreateComment(comment);
+
+            return CreatedAtRoute("GetCommentToPostId", new { postId = createComment.PostId }, createComment);
         }
     }
 }

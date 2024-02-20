@@ -9,7 +9,7 @@ namespace Shared.DataTransferObject
     public class CreatePostDto
     {
         public string? PostContent { get; set; }
-        public string UserId { get; set; } = null!;
+        public string? UserId { get; set; }
         public string? Address { get; set; }
         public double latitude { get; set; }
         public double longitude { get; set; }

@@ -10,7 +10,7 @@ namespace Entites.Models
     public class Comment
     {
         [Column("CommentId")]
-        public int Id { get; set; }
+        public int CommentId { get; set; }
 
         public int? PostId { get; set; }
         public Post? Post { get; set; }

@@ -97,7 +97,7 @@ namespace Service.Models
             {
                 new Claim(ClaimTypes.NameIdentifier, _user.Id),
                 new Claim(ClaimTypes.Email, _user.Email),
-                new Claim(ClaimTypes.Name, _user.Name)
+                new Claim(ClaimTypes.Name, _user.UserName)
             };
         
             var roles = await _userManager.GetRolesAsync(_user);

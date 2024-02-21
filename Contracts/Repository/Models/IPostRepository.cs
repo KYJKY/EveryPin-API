@@ -10,5 +10,7 @@ namespace Contracts.Repository.Models
     public interface IPostRepository
     {
         IEnumerable<Post> GetAllPost(bool trackChanges);
+        Post GetPost(int postId, bool trackChanges);
+        void CreatePost(Post post);
     }
 }

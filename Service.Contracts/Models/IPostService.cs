@@ -10,5 +10,7 @@ namespace Service.Contracts.Models
     public interface IPostService
     {
         IEnumerable<PostDto> GetAllPost(bool trackChanges);
+        PostDto GetPost(int postId, bool trackChanges);
+        PostDto CreatePost(CreatePostDto post);
     }
 }

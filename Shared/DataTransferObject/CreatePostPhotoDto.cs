@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entites.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace Shared.DataTransferObject
 {
-    public record PostPhotoDto(int PostPhotoId, string? photoUrl);
+    public record CreatePostPhotoDto(int PostId, string photoUrl);
 }

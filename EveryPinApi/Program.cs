@@ -8,6 +8,9 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 {
+
+    
+
     // Add services to the container.
     builder.Services.ConfigureCors();       // CORS
     builder.Services.ConfigureRepositoryManager();      // RepositoryManager 추가
@@ -58,8 +61,12 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.ConfigureIdentity();
     builder.Services.ConfigureJWT(builder.Configuration);
 
+    // 유저 claim 접근
+    builder.Services.AddHttpContextAccessor();
+
     // AutoMapper
     builder.Services.AddAutoMapper(typeof(Program));
+
 }
 
 var app = builder.Build();

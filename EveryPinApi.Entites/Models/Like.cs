@@ -10,7 +10,7 @@ namespace Entites.Models
     public class Like
     {
         [Column("LikeId")]
-        public int Id { get; set; }
+        public int LikeId { get; set; }
 
         public int? PostId { get; set; }
         public Post? Post { get; set; }

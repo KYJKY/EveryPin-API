@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using System.Xml.Linq;
 
 namespace Repository.Models
 {
@@ -17,7 +17,15 @@ namespace Repository.Models
 
         public IEnumerable<Comment> GetAllComment(bool trackChanges) =>
             FindAll(trackChanges)
-            .OrderBy(c => c.UserId)
+            .OrderBy(comment => comment.UserId)
             .ToList();
+
+        public IEnumerable<Comment> GetCommentToPostId(int postId, bool trackChange) =>
+            FindByCondition(comment => comment.PostId.Equals(postId), trackChange)
+            .OrderBy(comment => comment.CreatedDate)
+            .ToList();
+
+        public void CreateComment(Comment comment) =>
+            Create(comment);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Contracts.Repository;
+using Entites.Exceptions;
 using Entites.Models;
 using Microsoft.Extensions.Logging;
 using Service.Models;
@@ -32,6 +33,31 @@ namespace Service.Contracts.Models
             var postPhotosDto = _mapper.Map<IEnumerable<PostPhotoDto>>(postPhotos);
 
             return postPhotosDto;
+        }
+
+        public IEnumerable<PostPhotoDto> GetPostPhotoToPostId(int postId, bool trackChanges)
+        {
+            var post = _repository.Post.GetPost(postId, trackChanges);
+
+            if (post is null)
+                throw new PostNotFoundException(postId);
+
+            var postPhotosFromDb = _repository.PostPhoto.GetPostPhotoToPostId(postId, trackChanges);
+            var postPhotosDto = _mapper.Map<IEnumerable<PostPhotoDto>>(postPhotosFromDb);
+
+            return postPhotosDto;
+        }
+
+        public PostPhotoDto CreatePostPhoto(CreatePostPhotoDto postphoto)
+        {
+            var postPhotoEntity = _mapper.Map<PostPhoto>(postphoto);
+
+            _repository.PostPhoto.CreatePostPhoto(postPhotoEntity);
+            _repository.Save();
+
+            var postPhotoToReturn = _mapper.Map<PostPhotoDto>(postPhotoEntity);
+
+            return postPhotoToReturn;
         }
     }
 }

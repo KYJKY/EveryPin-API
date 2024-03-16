@@ -24,7 +24,8 @@ namespace Service
         private readonly Lazy<IPostService> _postService;
         private readonly Lazy<IProfileService> _profileService;
         private readonly Lazy<IAuthenticationService> _authenticationService;
-        
+        private readonly Lazy<IKakaoService> _kakaoService;
+
         public ServiceManager(IRepositoryManager repositoryManager, IMapper mapper, UserManager<User> userManager, IConfiguration configuration, ILoggerFactory loggerFactory)
         {
             _commentService = new Lazy<ICommentService>(() => new CommentService(loggerFactory.CreateLogger<CommentService>(), repositoryManager, mapper));
@@ -33,6 +34,7 @@ namespace Service
             _postService = new Lazy<IPostService>(() => new PostService(loggerFactory.CreateLogger<PostService>(), repositoryManager, mapper));
             _profileService = new Lazy<IProfileService>(() => new ProfileService(loggerFactory.CreateLogger<ProfileService>(), repositoryManager, mapper));
             _authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationService(loggerFactory.CreateLogger<AuthenticationService>(), mapper, userManager, configuration));
+            _kakaoService = new Lazy<IKakaoService>(() => new KakaoService(configuration));
         }
 
         public ICommentService CommentService => _commentService.Value;
@@ -41,5 +43,6 @@ namespace Service
         public IPostService PostService => _postService.Value;
         public IProfileService ProfileService => _profileService.Value;
         public IAuthenticationService AuthenticationService => _authenticationService.Value;
+        public IKakaoService KakaoService => _kakaoService.Value;
     }
 }

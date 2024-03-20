@@ -70,10 +70,44 @@ namespace Service.Models
             return accessToken;
         }
 
-        public Task<KakaoLoginDto> GetUserInfo(string accessToken)
+        public async Task<KakaoLoginDto> GetUserInfo(string accessToken)
         {
-            throw new NotImplementedException();
+            string postURL = "https://kapi.kakao.com/v2/user/me";
 
+            // HTTP 요청 생성
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(postURL);
+            request.Method = "POST";
+            request.Headers["Authorization"] = "Bearer " + accessToken;
+
+            using (HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync())
+            {
+                int responseCode = (int)response.StatusCode;
+
+                if (responseCode == 200)
+                {
+                    string jsonResponse;
+
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+                        jsonResponse = reader.ReadToEnd();
+
+                        JsonDocument jsonDocument = JsonDocument.Parse(jsonResponse);
+                        JsonElement root = jsonDocument.RootElement;
+
+                        JsonElement kakao_account = root.GetProperty("kakao_account");
+                        JsonElement profile = kakao_account.GetProperty("profile");
+
+                        string nickname = profile.GetProperty("nickname").GetString();
+                        string email = kakao_account.GetProperty("email").GetString();
+
+                        return new KakaoLoginDto() { UserNickName =  nickname };
+                    }
+                }
+                else
+                {
+                    throw new Exception("Kakao 유저 정보를 불러올 수 없습니다.");
+                }
+            }
         }
     }
 }

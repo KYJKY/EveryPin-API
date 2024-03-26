@@ -31,11 +31,13 @@ namespace EveryPinApi.Presentation.Controllers
                 // URL에 포함된 code를 이용하여 액세스 토큰 발급
                 string accessToken = await _service.KakaoService.GetKakaoAccessToken(code);
 
-                // 액세스 토큰을 이용하여 카카오 서버에서 유저 정보(닉네임, 이메일) 받아오기
+                // 액세스 토큰을 이용하여 카카오 서버에서 유저 정보(카톡 닉네임, 이메일) 받아오기
                 KakaoLoginDto userInfo = await _service.KakaoService.GetUserInfo(accessToken);
 
                 // 만일, DB에 해당 email을 가지는 유저가 없으면 회원가입 시키고 유저 식별자와 JWT 반환
-                if (string.IsNullOrEmpty(userInfo.UserEmail))
+                bool isUserExist = _service.KakaoService.CheckUserInfo(userInfo);
+
+                if (isUserExist)
                 {
 
                 }

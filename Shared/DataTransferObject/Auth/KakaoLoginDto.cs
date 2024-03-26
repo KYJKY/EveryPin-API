@@ -8,8 +8,9 @@ namespace Shared.DataTransferObject.Auth
 {
     public class KakaoLoginDto
     {
-        public int Id { get; set; }
         public string? UserNickName { get; set; }
         public string? UserEmail { get; set;}
+        public 
+        public bool? IsUserInDb { get; set; }
     }
 }

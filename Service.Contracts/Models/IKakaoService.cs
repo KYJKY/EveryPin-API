@@ -11,5 +11,6 @@ namespace Service.Contracts.Models
     {
         Task<string> GetKakaoAccessToken(string code);
         Task<KakaoLoginDto> GetUserInfo(string accessToken);
+        bool CheckUserInfo(KakaoLoginDto userInfo);
     }
 }

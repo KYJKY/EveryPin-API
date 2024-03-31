@@ -9,6 +9,6 @@ namespace Service.Contracts.Models
 {
     public interface IProfileService
     {
-        IEnumerable<ProfileDto> GetAllProfile(bool trackChanges);
+        Task<IEnumerable<ProfileDto>> GetAllProfile(bool trackChanges);
     }
 }

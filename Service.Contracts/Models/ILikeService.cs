@@ -9,9 +9,9 @@ namespace Service.Contracts.Models
 {
     public interface ILikeService
     {
-        IEnumerable<LikeDto> GetAllLike(bool trackChanges);
-        IEnumerable<LikeDto> GetLikeToPostId(int postId, bool trackChanges);
-        int GetLikeCountToPostId(int postId, bool trackChanges);
-        LikeDto CreateLike(CreateLikeDto like);
+        Task<IEnumerable<LikeDto>> GetAllLike(bool trackChanges);
+        Task<IEnumerable<LikeDto>> GetLikeToPostId(int postId, bool trackChanges);
+        Task<int> GetLikeCountToPostId(int postId, bool trackChanges);
+        Task<LikeDto> CreateLike(CreateLikeDto like);
     }
 }

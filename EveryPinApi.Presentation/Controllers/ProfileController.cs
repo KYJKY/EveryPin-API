@@ -25,9 +25,9 @@ namespace EveryPinApi.Presentation.Controllers
 
         [HttpGet]
         [Authorize(Roles = "NormalUser")]
-        public IActionResult GetAllProfile()
+        public async Task<IActionResult> GetAllProfile()
         {
-            var profiles = _service.ProfileService.GetAllProfile(trackChanges: false);
+            var profiles = await _service.ProfileService.GetAllProfile(trackChanges: false);
             return Ok(profiles);
         }
     }

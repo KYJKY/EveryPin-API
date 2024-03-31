@@ -9,8 +9,8 @@ namespace Service.Contracts.Models
 {
     public interface ICommentService
     {
-        IEnumerable<CommentDto> GetAllComment(bool trackChanges);
-        IEnumerable<CommentDto> GetCommentToPostId(int postId, bool trackChanges);
-        CommentDto CreateComment(CreateCommentDto comment);
+        Task<IEnumerable<CommentDto>> GetAllComment(bool trackChanges);
+        Task<IEnumerable<CommentDto>> GetCommentToPostId(int postId, bool trackChanges);
+        Task<CommentDto> CreateComment(CreateCommentDto comment);
     }
 }

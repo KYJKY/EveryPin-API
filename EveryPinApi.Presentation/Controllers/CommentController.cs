@@ -32,9 +32,9 @@ namespace EveryPinApi.Presentation.Controllers
 
         [HttpGet(Name = "GetComment")]
         [Authorize(Roles ="NormalUser")]
-        public IActionResult GetAllComment()
+        public async Task<IActionResult> GetAllComment()
         {
-            var comments = _service.CommentService.GetAllComment(trackChanges: false);
+            var comments = await _service.CommentService.GetAllComment(trackChanges: false);
             return Ok(comments);
         }
 
@@ -48,7 +48,7 @@ namespace EveryPinApi.Presentation.Controllers
 
         [HttpPost]
         [Authorize(Roles = "NormalUser")]
-        public IActionResult CreateComment(int postId, string commentMessage)
+        public async Task<IActionResult> CreateComment(int postId, string commentMessage)
         {
             if (string.IsNullOrEmpty(commentMessage))
                 return BadRequest("댓글 내용이 작성되지 않았습니다.");
@@ -59,7 +59,7 @@ namespace EveryPinApi.Presentation.Controllers
 
             CreateCommentDto comment = new CreateCommentDto(postId, UserId, commentMessage);
 
-            var createComment = _service.CommentService.CreateComment(comment);
+            var createComment = await _service.CommentService.CreateComment(comment);
 
             return CreatedAtRoute("GetCommentToPostId", new { postId = createComment.PostId }, createComment);
         }

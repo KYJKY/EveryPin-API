@@ -26,9 +26,9 @@ namespace Service.Contracts.Models
             _mapper = mapper;
         }
 
-        public IEnumerable<ProfileDto> GetAllProfile(bool trackChanges)
+        public async Task<IEnumerable<ProfileDto>> GetAllProfile(bool trackChanges)
         {
-            var profiles = _repository.Profile.GetAllProfile(trackChanges);
+            var profiles = await _repository.Profile.GetAllProfile(trackChanges);
             var profilesDto = _mapper.Map<IEnumerable<ProfileDto>>(profiles);
 
             return profilesDto;

@@ -9,6 +9,6 @@ namespace Contracts.Repository.Models
 {
     public interface IProfileRepository
     {
-        IEnumerable<Profile> GetAllProfile(bool trackChanges);
+        Task<IEnumerable<Profile>> GetAllProfile(bool trackChanges);
     }
 }

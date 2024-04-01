@@ -27,34 +27,34 @@ namespace Service.Models
             _mapper = mapper;
         }
 
-        public IEnumerable<CommentDto> GetAllComment(bool trackChanges)
+        public async Task<IEnumerable<CommentDto>> GetAllComment(bool trackChanges)
         {
-            var comments = _repository.Comment.GetAllComment(trackChanges);
+            var comments = await _repository.Comment.GetAllComment(trackChanges);
             //var commentsDto = comments.Select(c => new CommentDto(c.Id, c.UserId, c.CommentMessage, c.CreatedDate)).ToList();
             var commentsDto = _mapper.Map<IEnumerable<CommentDto>>(comments);
 
             return commentsDto;
         }
 
-        public IEnumerable<CommentDto> GetCommentToPostId(int postId, bool trackChanges)
+        public async Task<IEnumerable<CommentDto>> GetCommentToPostId(int postId, bool trackChanges)
         {
-            var post = _repository.Post.GetPost(postId, trackChanges);
+            var post = await _repository.Post.GetPost(postId, trackChanges);
 
             if (post is null)
                 throw new PostNotFoundException(postId);
 
-            var commentsFromDb = _repository.Comment.GetCommentToPostId(postId, trackChanges);
+            var commentsFromDb = await _repository.Comment.GetCommentToPostId(postId, trackChanges);
             var commentsDto = _mapper.Map<IEnumerable<CommentDto>>(commentsFromDb);
 
             return commentsDto;
         }
 
-        public CommentDto CreateComment(CreateCommentDto comment)
+        public async Task<CommentDto> CreateComment(CreateCommentDto comment)
         {
             var commentEntity = _mapper.Map<Comment>(comment);
 
             _repository.Comment.CreateComment(commentEntity);
-            _repository.Save();
+            await _repository.SaveAsync();
 
             var commentToReturn = _mapper.Map<CommentDto>(commentEntity);
 

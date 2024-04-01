@@ -27,17 +27,17 @@ namespace Service.Contracts.Models
             _mapper = mapper;
         }
 
-        public IEnumerable<PostPhotoDto> GetAllPostPhoto(bool trackChanges)
+        public async Task<IEnumerable<PostPhotoDto>> GetAllPostPhoto(bool trackChanges)
         {
-            var postPhotos = _repository.PostPhoto.GetAllPostPhoto(trackChanges);
+            var postPhotos = await _repository.PostPhoto.GetAllPostPhoto(trackChanges);
             var postPhotosDto = _mapper.Map<IEnumerable<PostPhotoDto>>(postPhotos);
 
             return postPhotosDto;
         }
 
-        public IEnumerable<PostPhotoDto> GetPostPhotoToPostId(int postId, bool trackChanges)
+        public async Task<IEnumerable<PostPhotoDto>> GetPostPhotoToPostId(int postId, bool trackChanges)
         {
-            var post = _repository.Post.GetPost(postId, trackChanges);
+            var post = await _repository.Post.GetPost(postId, trackChanges);
 
             if (post is null)
                 throw new PostNotFoundException(postId);
@@ -48,12 +48,12 @@ namespace Service.Contracts.Models
             return postPhotosDto;
         }
 
-        public PostPhotoDto CreatePostPhoto(CreatePostPhotoDto postphoto)
+        public async Task<PostPhotoDto> CreatePostPhoto(CreatePostPhotoDto postphoto)
         {
             var postPhotoEntity = _mapper.Map<PostPhoto>(postphoto);
 
             _repository.PostPhoto.CreatePostPhoto(postPhotoEntity);
-            _repository.Save();
+            await _repository.SaveAsync();
 
             var postPhotoToReturn = _mapper.Map<PostPhotoDto>(postPhotoEntity);
 

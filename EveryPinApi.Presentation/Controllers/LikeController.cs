@@ -30,31 +30,31 @@ namespace EveryPinApi.Presentation.Controllers
 
         [HttpGet]
         [Authorize(Roles = "NormalUser")]
-        public IActionResult GetAllLike()
+        public async Task<IActionResult> GetAllLike()
         {
-            var likes = _service.LikeService.GetAllLike(trackChanges: false);
+            var likes = await _service.LikeService.GetAllLike(trackChanges: false);
             return Ok(likes);
         }
 
         [HttpGet("{postId:int}", Name = "GetLikeToPostId")]
-        public IActionResult GetLikeToPostId(int postId)
+        public async Task<IActionResult> GetLikeToPostId(int postId)
         {
-            var likeNum = _service.LikeService.GetLikeToPostId(postId, trackChanges: false);
+            var likeNum = await _service.LikeService.GetLikeToPostId(postId, trackChanges: false);
 
             return Ok(likeNum);
         }
 
         [HttpGet("num/{postId:int}", Name = "GetLikeNumToPostId")]
-        public IActionResult GetLikeNumToPostId(int postId)
+        public async Task<IActionResult> GetLikeNumToPostId(int postId)
         {
-            int likeNum = _service.LikeService.GetLikeCountToPostId(postId, trackChanges: false);
+            int likeNum = await _service.LikeService.GetLikeCountToPostId(postId, trackChanges: false);
 
             return Ok(likeNum);
         }
 
         [HttpPost]
         [Authorize(Roles = "NormalUser")]
-        public IActionResult CreateLike(int postId)
+        public async Task<IActionResult> CreateLike(int postId)
         {
             if (postId <= 0)
                 return BadRequest("postId 값이 비정상입니다.");
@@ -63,7 +63,7 @@ namespace EveryPinApi.Presentation.Controllers
 
             CreateLikeDto like = new CreateLikeDto(postId, UserId);
 
-            var createLike = _service.LikeService.CreateLike(like);
+            var createLike = await _service.LikeService.CreateLike(like);
 
             return CreatedAtRoute("GetLikeToPostId", new { postId = createLike.PostId }, createLike);
         }

@@ -39,7 +39,7 @@ namespace Repository
         public IProfileRepository Profile => _profileRepository.Value;
         public IUserRepository User => _userRepository.Value;
 
-        public void Save() => _repositoryContext.SaveChanges();
+        public async Task SaveAsync() => await _repositoryContext.SaveChangesAsync();
     }
 
 }

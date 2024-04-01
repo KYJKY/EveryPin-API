@@ -39,9 +39,9 @@ namespace EveryPinApi.Presentation.Controllers
         }
 
         [HttpGet("{postId:int}", Name = "GetCommentToPostId")]
-        public IActionResult GetCommentToPostId(int postId)
+        public async Task<IActionResult> GetCommentToPostId(int postId)
         {
-            var comments = _service.CommentService.GetCommentToPostId(postId, trackChanges: false);
+            var comments = await _service.CommentService.GetCommentToPostId(postId, trackChanges: false);
 
             return Ok(comments);
         }

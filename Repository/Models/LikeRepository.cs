@@ -20,11 +20,11 @@ namespace Repository.Models
             .OrderBy(c => c.LikeId)
             .ToListAsync();
 
-        public async Task<IEnumerable<Like>> GetLikeToPostId(int postId, bool trackChange) =>
+        public async Task<IEnumerable<Like>> GetLikeByPostId(int postId, bool trackChange) =>
             await FindByCondition(like => like.PostId.Equals(postId), trackChange)
             .ToListAsync();
 
-        public async Task<int> GetLikeCountToPostId(int postId, bool trackChange) =>
+        public async Task<int> GetLikeCountByPostId(int postId, bool trackChange) =>
             (await FindByCondition(like => like.PostId.Equals(postId), trackChange)
             .ToListAsync()).Count;
 

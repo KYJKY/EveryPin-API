@@ -10,7 +10,6 @@ namespace Service.Contracts.Models
     public interface IKakaoService
     {
         Task<string> GetKakaoAccessToken(string code);
-        Task<KakaoLoginDto> GetUserInfo(string accessToken);
-        bool CheckUserInfo(KakaoLoginDto userInfo);
+        Task<KakaoUserInfo> GetUserInfo(string accessToken);
     }
 }

@@ -9,7 +9,7 @@ namespace Contracts.Repository.Models
 {
     public interface IUserRepository
     {
-        IEnumerable<User> GetAllUser(bool trackChanges);
-        IEnumerable<User> GetUserByEmail(string email, bool tackChanges);
+        Task<IEnumerable<User>> GetAllUser(bool trackChanges);
+        Task<User> GetUserByEmail(string email, bool tackChanges);
     }
 }

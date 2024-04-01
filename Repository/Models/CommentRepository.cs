@@ -21,7 +21,7 @@ namespace Repository.Models
             .OrderBy(comment => comment.UserId)
             .ToListAsync();
 
-        public async Task<IEnumerable<Comment>> GetCommentToPostId(int postId, bool trackChange) =>
+        public async Task<IEnumerable<Comment>> GetCommentByPostId(int postId, bool trackChange) =>
             await FindByCondition(comment => comment.PostId.Equals(postId), trackChange)
             .OrderBy(comment => comment.CreatedDate)
             .ToListAsync();

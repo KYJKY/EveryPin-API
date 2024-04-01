@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace Shared.DataTransferObject.Auth
 {
-    public class KakaoLoginDto
+    public class KakaoUserInfo
     {
         public string? UserNickName { get; set; }
         public string? UserEmail { get; set;}
-        public 
-        public bool? IsUserInDb { get; set; }
     }
 }

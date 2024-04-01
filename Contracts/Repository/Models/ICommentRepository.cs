@@ -10,7 +10,7 @@ namespace Contracts.Repository.Models
     public interface ICommentRepository
     {
         Task<IEnumerable<Comment>> GetAllComment(bool trackChanges);
-        Task<IEnumerable<Comment>> GetCommentToPostId(int postId, bool trackChange);
+        Task<IEnumerable<Comment>> GetCommentByPostId(int postId, bool trackChange);
         void CreateComment(Comment comment);
     }
 }

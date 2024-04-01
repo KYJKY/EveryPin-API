@@ -1,6 +1,7 @@
 ﻿using Contracts.Repository;
 using Entites.Models;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Service.Contracts.Models;
 using Shared.DataTransferObject;
 using Shared.DataTransferObject.Auth;
@@ -18,9 +19,11 @@ namespace Service.Models
     {
         private readonly IConfiguration _configuration;
         private readonly IRepositoryManager _repositoryManager;
+        private readonly ILogger<KakaoService> _logger;
 
-        public KakaoService(IConfiguration configuration, IRepositoryManager repositoryManager) 
+        public KakaoService(ILogger<KakaoService> logger, IConfiguration configuration, IRepositoryManager repositoryManager) 
         {
+            _logger = logger;
             _configuration = configuration;
             _repositoryManager = repositoryManager;
         }
@@ -74,7 +77,7 @@ namespace Service.Models
             return accessToken;
         }
 
-        public async Task<KakaoLoginDto> GetUserInfo(string accessToken)
+        public async Task<KakaoUserInfo> GetUserInfo(string accessToken)
         {
             string postURL = "https://kapi.kakao.com/v2/user/me";
 
@@ -106,7 +109,7 @@ namespace Service.Models
                             string nickname = profile.GetProperty("nickname").GetString();
                             string email = kakao_account.GetProperty("email").GetString();
 
-                            return new KakaoLoginDto() { UserNickName =  nickname, UserEmail = email};
+                            return new KakaoUserInfo() { UserNickName =  nickname, UserEmail = email};
                         }
                         catch(Exception ex)
                         {
@@ -121,7 +124,7 @@ namespace Service.Models
             }
         }
 
-        public bool CheckUserInfo(KakaoLoginDto userInfo)
+        public bool CheckUserInfo(KakaoUserInfo userInfo)
         {
             bool isExistUserInfo = false;
 

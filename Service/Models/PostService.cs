@@ -37,7 +37,7 @@ namespace Service.Contracts.Models
 
         public async Task<PostDto> GetPost(int postId, bool trackChanges)
         {
-            var post = await _repository.Post.GetPost(postId, trackChanges);
+            var post = await _repository.Post.GetPostById(postId, trackChanges);
 
             if (post is null) 
                 throw new PostNotFoundException(postId);

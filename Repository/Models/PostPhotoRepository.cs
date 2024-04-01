@@ -20,7 +20,7 @@ namespace Repository.Models
             .OrderBy(c => c.PostPhotoId)
             .ToListAsync();
 
-        public async Task<IEnumerable<PostPhoto>> GetPostPhotoToPostId(int postId, bool trackChange) =>
+        public async Task<IEnumerable<PostPhoto>> GetPostPhotoByPostId(int postId, bool trackChange) =>
             await FindByCondition(postPhoto => postPhoto.PostId.Equals(postId), trackChange)
             .OrderBy(postPhoto => postPhoto.PostId)
             .ToListAsync();

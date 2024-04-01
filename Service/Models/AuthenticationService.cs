@@ -44,10 +44,10 @@ namespace Service.Models
             return result;
         }
         
-        public async Task<bool> ValidateUser(UserAutenticationDto userForAuth)
+        public async Task<bool> ValidateUser(string userEmail)
         {
-            _user = await _userManager.FindByEmailAsync(userForAuth.Email);
-            //var result = (_user != null && await _userManager.CheckPasswordAsync(_user, userForAuth.Password));
+            _user = await _userManager.FindByEmailAsync(userEmail);
+
             var result = _user != null;
 
             if (!result)

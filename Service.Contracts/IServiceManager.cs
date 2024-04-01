@@ -16,6 +16,7 @@ namespace Service.Contracts
         IProfileService ProfileService { get; }
         IAuthenticationService AuthenticationService { get; }
         IKakaoService KakaoService { get; }
+        IUserService UserService { get; }
     }
 
 }

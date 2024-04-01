@@ -38,12 +38,12 @@ namespace Service.Models
 
         public async Task<IEnumerable<CommentDto>> GetCommentToPostId(int postId, bool trackChanges)
         {
-            var post = await _repository.Post.GetPost(postId, trackChanges);
+            var post = await _repository.Post.GetPostById(postId, trackChanges);
 
             if (post is null)
                 throw new PostNotFoundException(postId);
 
-            var commentsFromDb = await _repository.Comment.GetCommentToPostId(postId, trackChanges);
+            var commentsFromDb = await _repository.Comment.GetCommentByPostId(postId, trackChanges);
             var commentsDto = _mapper.Map<IEnumerable<CommentDto>>(commentsFromDb);
 
             return commentsDto;

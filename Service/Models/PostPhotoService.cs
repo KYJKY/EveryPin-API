@@ -37,12 +37,12 @@ namespace Service.Contracts.Models
 
         public async Task<IEnumerable<PostPhotoDto>> GetPostPhotoToPostId(int postId, bool trackChanges)
         {
-            var post = await _repository.Post.GetPost(postId, trackChanges);
+            var post = await _repository.Post.GetPostById(postId, trackChanges);
 
             if (post is null)
                 throw new PostNotFoundException(postId);
 
-            var postPhotosFromDb = _repository.PostPhoto.GetPostPhotoToPostId(postId, trackChanges);
+            var postPhotosFromDb = _repository.PostPhoto.GetPostPhotoByPostId(postId, trackChanges);
             var postPhotosDto = _mapper.Map<IEnumerable<PostPhotoDto>>(postPhotosFromDb);
 
             return postPhotosDto;

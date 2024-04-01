@@ -37,12 +37,12 @@ namespace Service.Contracts.Models
 
         public async Task<IEnumerable<LikeDto>> GetLikeToPostId(int postId, bool trackChanges)
         {
-            var post = await _repository.Post.GetPost(postId, trackChanges);
+            var post = await _repository.Post.GetPostById(postId, trackChanges);
 
             if (post is null)
                 throw new PostNotFoundException(postId);
 
-            var likes = await _repository.Like.GetLikeToPostId(postId, trackChanges);
+            var likes = await _repository.Like.GetLikeByPostId(postId, trackChanges);
             var likesDto = _mapper.Map<IEnumerable<LikeDto>>(likes);
 
             return likesDto;
@@ -50,12 +50,12 @@ namespace Service.Contracts.Models
 
         public async Task<int> GetLikeCountToPostId(int postId, bool trackChanges)
         {
-            var post = await _repository.Post.GetPost(postId, trackChanges);
+            var post = await _repository.Post.GetPostById(postId, trackChanges);
 
             if (post is null)
                 throw new PostNotFoundException(postId);
 
-            int likeCount = await _repository.Like.GetLikeCountToPostId(postId, trackChanges);
+            int likeCount = await _repository.Like.GetLikeCountByPostId(postId, trackChanges);
 
             return likeCount;
         }

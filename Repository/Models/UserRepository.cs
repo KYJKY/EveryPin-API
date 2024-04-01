@@ -18,5 +18,9 @@ namespace Repository.Models
             FindAll(trackChanges)
             .OrderBy(c => c.Id)
             .ToList();
+
+        public IEnumerable<User> GetUserByEmail(string email, bool tackChanges) =>
+            FindByCondition(u => u.Email.Equals(email), tackChanges)
+            .ToList();
     }
 }

@@ -24,7 +24,7 @@ namespace Service
         private readonly Lazy<IPostService> _postService;
         private readonly Lazy<IProfileService> _profileService;
         private readonly Lazy<IAuthenticationService> _authenticationService;
-        private readonly Lazy<IKakaoService> _kakaoService;
+        private readonly Lazy<ISingleSignOnService> _kakaoService;
         private readonly Lazy<IUserService> _userService;
 
         public ServiceManager(IRepositoryManager repositoryManager, IMapper mapper, UserManager<User> userManager, IConfiguration configuration, ILoggerFactory loggerFactory)
@@ -35,7 +35,7 @@ namespace Service
             _postService = new Lazy<IPostService>(() => new PostService(loggerFactory.CreateLogger<PostService>(), repositoryManager, mapper));
             _profileService = new Lazy<IProfileService>(() => new ProfileService(loggerFactory.CreateLogger<ProfileService>(), repositoryManager, mapper));
             _authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationService(loggerFactory.CreateLogger<AuthenticationService>(), mapper, userManager, configuration));
-            _kakaoService = new Lazy<IKakaoService>(() => new KakaoService(loggerFactory.CreateLogger<KakaoService>(), configuration, repositoryManager));
+            _kakaoService = new Lazy<ISingleSignOnService>(() => new SingleSignOnService(loggerFactory.CreateLogger<SingleSignOnService>(), configuration, repositoryManager));
             _userService = new Lazy<IUserService>(() => new UserService(loggerFactory.CreateLogger<UserService>(), repositoryManager));
         }
 
@@ -45,7 +45,7 @@ namespace Service
         public IPostService PostService => _postService.Value;
         public IProfileService ProfileService => _profileService.Value;
         public IAuthenticationService AuthenticationService => _authenticationService.Value;
-        public IKakaoService KakaoService => _kakaoService.Value;
+        public ISingleSignOnService SingleSignOnService => _kakaoService.Value;
         public IUserService UserService => _userService.Value;
     }
 }

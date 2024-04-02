@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Shared.DataTransferObject.Auth
 {
-    public class KakaoUserInfo
+    public class SingleSignOnUserInfo
     {
         public string? UserNickName { get; set; }
         public string? UserEmail { get; set;}

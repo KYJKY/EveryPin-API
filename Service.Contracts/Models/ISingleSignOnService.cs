@@ -7,9 +7,11 @@ using System.Threading.Tasks;
 
 namespace Service.Contracts.Models
 {
-    public interface IKakaoService
+    public interface ISingleSignOnService
     {
         Task<string> GetKakaoAccessToken(string code);
-        Task<KakaoUserInfo> GetUserInfo(string accessToken);
+        Task<GoogleTokenDto> GetGoogleAccessToken(string code);
+        Task<SingleSignOnUserInfo> GetKakaoUserInfo(string accessToken);
+        Task<SingleSignOnUserInfo> GetGoogleUserInfo(string accessToken);
     }
 }

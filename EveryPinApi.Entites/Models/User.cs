@@ -12,6 +12,7 @@ namespace Entites.Models
     {
         //[Column("UserId")]
         //public int Id { get; set; } 
+        [ForeignKey("CodeOAuthPlatform")]
         public int PlatformCodeId { get; set; }
         public Profile? Profile { get; set; }
         public ICollection<Like> Like { get; set; } = new List<Like>();

@@ -65,12 +65,19 @@ namespace EveryPinApi.Extensions
             var builder = services.AddIdentity<User, IdentityRole>(option =>
             {
                 // Password settings.
-                option.Password.RequireDigit = true;
+                //option.Password.RequireDigit = true;
+                //option.Password.RequireLowercase = false;
+                //option.Password.RequireUppercase = false;
+                //option.Password.RequireNonAlphanumeric = false;
+                //option.Password.RequiredLength = 10;
+                //option.Password.RequiredUniqueChars = 1;
+
+                option.Password.RequireDigit = false;
                 option.Password.RequireLowercase = false;
                 option.Password.RequireUppercase = false;
                 option.Password.RequireNonAlphanumeric = false;
-                option.Password.RequiredLength = 10;
-                //option.Password.RequiredUniqueChars = 1;
+                option.Password.RequiredLength = 1; // 비밀번호 길이 요구 사항을 최소값으로 설정
+
 
                 // Lockout settings.
                 //options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
@@ -78,8 +85,8 @@ namespace EveryPinApi.Extensions
                 //options.Lockout.AllowedForNewUsers = true;
 
                 // User settings.
-                option.User.AllowedUserNameCharacters =
-                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                option.User.AllowedUserNameCharacters = string.Empty;       // 한글 사용 가능
+                //option.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
                 option.User.RequireUniqueEmail = true;
             })
             .AddEntityFrameworkStores<RepositoryContext>()

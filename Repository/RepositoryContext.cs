@@ -28,6 +28,7 @@ namespace Repository
             //modelBuilder.ApplyConfiguration(new ProfileConfiguration());
             //modelBuilder.ApplyConfiguration(new RoleConfiguration());
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
+            modelBuilder.ApplyConfiguration(new CodeOAuthPlatformConfiguration());
 
             //// 선택적 1:1
             //modelBuilder.Entity<User>()
@@ -63,6 +64,5 @@ namespace Repository
         public DbSet<PostPhoto>? PostPhotos { get; set; }
         public DbSet<Like>? Likes { get; set; }
         public DbSet<Comment>? Comments { get; set; }
-        public DbSet<CodeOAuthPlatform>? CodeOAuthPlatforms { get; set; }
     }
 }

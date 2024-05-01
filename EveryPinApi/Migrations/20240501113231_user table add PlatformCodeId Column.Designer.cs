@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repository;
 
@@ -11,9 +12,11 @@ using Repository;
 namespace EveryPinApi.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20240501113231_user table add PlatformCodeId Column")]
+    partial class usertableaddPlatformCodeIdColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,16 +51,11 @@ namespace EveryPinApi.Migrations
                         new
                         {
                             Id = 1,
-                            PlatformName = "none"
-                        },
-                        new
-                        {
-                            Id = 2,
                             PlatformName = "kakao"
                         },
                         new
                         {
-                            Id = 3,
+                            Id = 2,
                             PlatformName = "google"
                         });
                 });
@@ -330,13 +328,13 @@ namespace EveryPinApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "47932b56-9f54-4094-85dc-e40ecf95f011",
+                            Id = "1602644b-5c89-47a7-92a1-e1fa1fe30408",
                             Name = "NormalUser",
                             NormalizedName = "NORMALUSER"
                         },
                         new
                         {
-                            Id = "370f2e0a-7844-4c8b-9cd2-35cb5568dd57",
+                            Id = "cd111682-f052-4f10-88af-74ade56a7b7e",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });

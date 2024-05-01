@@ -27,45 +27,45 @@ namespace Service.Contracts.Models
             _mapper = mapper;
         }
 
-        public IEnumerable<LikeDto> GetAllLike(bool trackChanges)
+        public async Task<IEnumerable<LikeDto>> GetAllLike(bool trackChanges)
         {
-            var likes = _repository.Like.GetAllLike(trackChanges);
+            var likes = await _repository.Like.GetAllLike(trackChanges);
             var likesDto = _mapper.Map<IEnumerable<LikeDto>>(likes);
 
             return likesDto;
         }
 
-        public IEnumerable<LikeDto> GetLikeToPostId(int postId, bool trackChanges)
+        public async Task<IEnumerable<LikeDto>> GetLikeToPostId(int postId, bool trackChanges)
         {
-            var post = _repository.Post.GetPost(postId, trackChanges);
+            var post = await _repository.Post.GetPostById(postId, trackChanges);
 
             if (post is null)
                 throw new PostNotFoundException(postId);
 
-            var likes = _repository.Like.GetLikeToPostId(postId, trackChanges);
+            var likes = await _repository.Like.GetLikeByPostId(postId, trackChanges);
             var likesDto = _mapper.Map<IEnumerable<LikeDto>>(likes);
 
             return likesDto;
         }
 
-        public int GetLikeCountToPostId(int postId, bool trackChanges)
+        public async Task<int> GetLikeCountToPostId(int postId, bool trackChanges)
         {
-            var post = _repository.Post.GetPost(postId, trackChanges);
+            var post = await _repository.Post.GetPostById(postId, trackChanges);
 
             if (post is null)
                 throw new PostNotFoundException(postId);
 
-            int likeCount = _repository.Like.GetLikeCountToPostId(postId, trackChanges);
+            int likeCount = await _repository.Like.GetLikeCountByPostId(postId, trackChanges);
 
             return likeCount;
         }
 
-        public LikeDto CreateLike(CreateLikeDto like)
+        public async Task<LikeDto> CreateLike(CreateLikeDto like)
         {
             var likeEntity = _mapper.Map<Like>(like);
 
             _repository.Like.CreateLike(likeEntity);
-            _repository.Save();
+            await _repository.SaveAsync();
 
             var likeToReturn = _mapper.Map<LikeDto>(likeEntity);
 

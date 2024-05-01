@@ -1,5 +1,6 @@
 ﻿using Contracts.Repository.Models;
 using Entites.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,14 +15,14 @@ namespace Repository.Models
         {
         }
 
-        public IEnumerable<Post> GetAllPost(bool trackChanges) =>
-            FindAll(trackChanges)
+        public async Task<IEnumerable<Post>> GetAllPost(bool trackChanges) =>
+            await FindAll(trackChanges)
             .OrderBy(c => c.PostId)
-            .ToList();
+            .ToListAsync();
 
-        public Post GetPost(int postId, bool trackChanges) =>
-            FindByCondition(post => post.PostId.Equals(postId), trackChanges)
-            .SingleOrDefault();
+        public async Task<Post> GetPostById(int postId, bool trackChanges) =>
+            await FindByCondition(post => post.PostId.Equals(postId), trackChanges)
+            .SingleOrDefaultAsync();
 
         public void CreatePost(Post post) =>
             Create(post);

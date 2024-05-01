@@ -27,17 +27,17 @@ namespace Service.Contracts.Models
             _mapper = mapper;
         }
 
-        public IEnumerable<PostDto> GetAllPost(bool trackChanges)
+        public async Task<IEnumerable<PostDto>> GetAllPost(bool trackChanges)
         {
-            var posts = _repository.Post.GetAllPost(trackChanges);
+            var posts = await _repository.Post.GetAllPost(trackChanges);
             var postsDto = _mapper.Map<IEnumerable<PostDto>>(posts);
 
             return postsDto;
         }
 
-        public PostDto GetPost(int postId, bool trackChanges)
+        public async Task<PostDto> GetPost(int postId, bool trackChanges)
         {
-            var post = _repository.Post.GetPost(postId, trackChanges);
+            var post = await _repository.Post.GetPostById(postId, trackChanges);
 
             if (post is null) 
                 throw new PostNotFoundException(postId);
@@ -47,12 +47,12 @@ namespace Service.Contracts.Models
             return postDto;
         }
 
-        public PostDto CreatePost(CreatePostDto post)
+        public async Task<PostDto> CreatePost(CreatePostDto post)
         {
             var postEntity = _mapper.Map<Post>(post);
 
             _repository.Post.CreatePost(postEntity);
-            _repository.Save();
+            await _repository.SaveAsync();
 
             var postToReturn = _mapper.Map<PostDto>(postEntity);
 

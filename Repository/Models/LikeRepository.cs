@@ -1,5 +1,6 @@
 ﻿using Contracts.Repository.Models;
 using Entites.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,18 +15,18 @@ namespace Repository.Models
         {
         }
 
-        public IEnumerable<Like> GetAllLike(bool trackChanges) =>
-            FindAll(trackChanges)
+        public async Task<IEnumerable<Like>> GetAllLike(bool trackChanges) =>
+            await FindAll(trackChanges)
             .OrderBy(c => c.LikeId)
-            .ToList();
+            .ToListAsync();
 
-        public IEnumerable<Like> GetLikeToPostId(int postId, bool trackChange) =>
-            FindByCondition(like => like.PostId.Equals(postId), trackChange)
-            .ToList();
+        public async Task<IEnumerable<Like>> GetLikeByPostId(int postId, bool trackChange) =>
+            await FindByCondition(like => like.PostId.Equals(postId), trackChange)
+            .ToListAsync();
 
-        public int GetLikeCountToPostId(int postId, bool trackChange) =>
-            FindByCondition(like => like.PostId.Equals(postId), trackChange)
-            .ToList().Count;
+        public async Task<int> GetLikeCountByPostId(int postId, bool trackChange) =>
+            (await FindByCondition(like => like.PostId.Equals(postId), trackChange)
+            .ToListAsync()).Count;
 
         public void CreateLike(Like like) =>
             Create(like);

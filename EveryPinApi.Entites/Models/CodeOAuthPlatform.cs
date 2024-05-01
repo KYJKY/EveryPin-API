@@ -14,5 +14,6 @@ namespace Entites.Models
         public int Id { get; set; }
         [Required]
         public string? PlatformName { get; set; }
+        public User? User { get; set; }
     }
 }

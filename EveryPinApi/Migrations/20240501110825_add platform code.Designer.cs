@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repository;
 
@@ -11,9 +12,11 @@ using Repository;
 namespace EveryPinApi.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    partial class RepositoryContextModelSnapshot : ModelSnapshot
+    [Migration("20240501110825_add platform code")]
+    partial class addplatformcode
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,12 +38,7 @@ namespace EveryPinApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("CodeOAuthPlatform");
 
@@ -48,16 +46,11 @@ namespace EveryPinApi.Migrations
                         new
                         {
                             Id = 1,
-                            PlatformName = "none"
-                        },
-                        new
-                        {
-                            Id = 2,
                             PlatformName = "kakao"
                         },
                         new
                         {
-                            Id = 3,
+                            Id = 2,
                             PlatformName = "google"
                         });
                 });
@@ -269,9 +262,6 @@ namespace EveryPinApi.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<int>("PlatformCodeId")
-                        .HasColumnType("int");
-
                     b.Property<string>("RefreshToken")
                         .HasColumnType("nvarchar(max)");
 
@@ -330,13 +320,13 @@ namespace EveryPinApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "47932b56-9f54-4094-85dc-e40ecf95f011",
+                            Id = "2c207deb-2865-49c0-8398-3b800ca13852",
                             Name = "NormalUser",
                             NormalizedName = "NORMALUSER"
                         },
                         new
                         {
-                            Id = "370f2e0a-7844-4c8b-9cd2-35cb5568dd57",
+                            Id = "3570fcfe-f177-4597-971b-7eed1b11df04",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -446,15 +436,6 @@ namespace EveryPinApi.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("Entites.Models.CodeOAuthPlatform", b =>
-                {
-                    b.HasOne("Entites.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Entites.Models.Comment", b =>

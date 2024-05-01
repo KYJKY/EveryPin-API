@@ -1,4 +1,4 @@
-﻿using Shared.DataTransferObject;
+﻿using Entites.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Service.Contracts.Models
 {
-    public interface IProfileService
+    public interface IUserService
     {
-        Task<IEnumerable<ProfileDto>> GetAllProfile(bool trackChanges);
+        Task<User> GetUserByEmail(string email, bool trackChanges);
     }
 }

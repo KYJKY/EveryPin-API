@@ -1,5 +1,6 @@
 ﻿using Contracts.Repository.Models;
 using Entites.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +15,9 @@ namespace Repository.Models
         {
         }
 
-        public IEnumerable<Profile> GetAllProfile(bool trackChanges) =>
-            FindAll(trackChanges)
+        public async Task<IEnumerable<Profile>> GetAllProfile(bool trackChanges) =>
+            await FindAll(trackChanges)
             .OrderBy(c => c.Id)
-            .ToList();
+            .ToListAsync();
     }
 }

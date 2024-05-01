@@ -30,23 +30,23 @@ namespace EveryPinApi.Presentation.Controllers
 
         [HttpGet]
         [Authorize(Roles = "NormalUser")]
-        public IActionResult GetAllPostPhoto()
+        public async Task<IActionResult> GetAllPostPhoto()
         {
-            var postPhotos = _service.PostPhotoService.GetAllPostPhoto(trackChanges: false);
+            var postPhotos = await _service.PostPhotoService.GetAllPostPhoto(trackChanges: false);
             return Ok(postPhotos);
         }
 
         [HttpGet("{postId:int}", Name = "GetPostPhotoById")]
-        public IActionResult GetPostPhotoToPostId(int postId)
+        public async Task<IActionResult> GetPostPhotoToPostId(int postId)
         {
-            var postPhotos = _service.PostPhotoService.GetPostPhotoToPostId(postId, trackChanges: false);
+            var postPhotos = await _service.PostPhotoService.GetPostPhotoToPostId(postId, trackChanges: false);
 
             return Ok(postPhotos);
         }
 
         [HttpPost]
         [Authorize(Roles = "NormalUser")]
-        public IActionResult CreatePostPhoto([FromBody] CreatePostPhotoDto postPhotoDto)
+        public async Task<IActionResult> CreatePostPhoto([FromBody] CreatePostPhotoDto postPhotoDto)
         {
             if (postPhotoDto is null)
                 return BadRequest("게시글 사진 데이터가 빈 값입니다.");
@@ -54,7 +54,7 @@ namespace EveryPinApi.Presentation.Controllers
             string UserId = _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
 
-            var createPostPhoto = _service.PostPhotoService.CreatePostPhoto(postPhotoDto);
+            var createPostPhoto = await _service.PostPhotoService.CreatePostPhoto(postPhotoDto);
 
             return CreatedAtRoute("GetPostPhotoById", new { postId = createPostPhoto.PostPhotoId }, createPostPhoto);
         }

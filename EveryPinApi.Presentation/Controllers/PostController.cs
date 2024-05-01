@@ -30,23 +30,23 @@ namespace EveryPinApi.Presentation.Controllers
 
         [HttpGet]
         [Authorize(Roles = "NormalUser")]
-        public IActionResult GetAllPost()
+        public async Task<IActionResult> GetAllPost()
         {
-            var posts = _service.PostService.GetAllPost(trackChanges: false);
+            var posts = await _service.PostService.GetAllPost(trackChanges: false);
             return Ok(posts);
         }
 
         [HttpGet("{postId:int}", Name = "GetPostById")]
-        public IActionResult GetPost(int postId)
+        public async Task<IActionResult> GetPost(int postId)
         {
-            var post = _service.PostService.GetPost(postId, trackChanges: false);
+            var post = await _service.PostService.GetPost(postId, trackChanges: false);
 
             return Ok(post);
         }
 
         [HttpPost]
         [Authorize(Roles = "NormalUser")]
-        public IActionResult CreatePost([FromBody] CreatePostDto post)
+        public async Task<IActionResult> CreatePost([FromBody] CreatePostDto post)
         {
             if (post is null)
                 return BadRequest("게시글의 내용이 비었습니다.");
@@ -54,7 +54,7 @@ namespace EveryPinApi.Presentation.Controllers
             // 로그인 유저 ID로 생성하도록 처리
             post.UserId = _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var createPost = _service.PostService.CreatePost(post);
+            var createPost = await _service.PostService.CreatePost(post);
 
             return CreatedAtRoute("GetPostById", new { postId = createPost.PostId }, createPost);
         }

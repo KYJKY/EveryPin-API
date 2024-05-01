@@ -15,6 +15,6 @@ namespace Contracts.Repository
         IPostRepository Post { get; }
         IProfileRepository Profile { get; }
         IUserRepository User { get; }   
-        void Save();
+        Task SaveAsync();
     }
 }

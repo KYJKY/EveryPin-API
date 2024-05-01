@@ -27,12 +27,12 @@ namespace EveryPinApi.Presentation.Controllers
         }
 
         [HttpGet("kakao-login")]
-        public async Task<IActionResult> KakaoLogin(string code)
+        public async Task<IActionResult> KakaoLogin(string kakaoAccessToken)
         {
             try
             {
                 // URL에 포함된 code를 이용하여 액세스 토큰 발급
-                string kakaoAccessToken = await _service.SingleSignOnService.GetKakaoAccessToken(code);
+                //string kakaoAccessToken = await _service.SingleSignOnService.GetKakaoAccessToken(code);
 
                 // 액세스 토큰을 이용하여 카카오 서버에서 유저 정보(카톡 닉네임, 이메일) 받아오기
                 SingleSignOnUserInfo userInfo = await _service.SingleSignOnService.GetKakaoUserInfo(kakaoAccessToken);

@@ -33,7 +33,8 @@ namespace Service.Models
             string accessToken = "";
             string refreshToken = "";
 
-            string redirectURI = "http://localhost:5283/api/single-sign-on/kakao-login";
+            //string redirectURI = "http://localhost:5283/api/test/test-platform-web-login";
+            string redirectURI = "http://everypin-api.azurewebsites.net/api/test/test-platform-web-login";
             string clientId = _configuration.GetConnectionString("kakao-rest-api-key");
             string requestURL = "https://kauth.kakao.com/oauth/token";
             string authorizationCode = "authorization_code";
@@ -86,7 +87,7 @@ namespace Service.Models
             string scope = "";
             string id_token = "";
 
-            string redirectURI = "http://localhost:5283/api/single-sign-on/google-login";
+            string redirectURI = "http://everypin-api.azurewebsites.net/api/test/test-platform-web-login";
             string clientId = _configuration.GetConnectionString("google-client-id");
             string clientSecret = _configuration.GetConnectionString("google-client-secret");
             string requestURL = "https://oauth2.googleapis.com/token";
@@ -198,11 +199,11 @@ namespace Service.Models
 
         public async Task<SingleSignOnUserInfo> GetGoogleUserInfo(string googleAccessToken)
         {
-            string hostURL = "https://www.googleapis.com/oauth2/v1/userinfo";
+            string postURL = "https://www.googleapis.com/oauth2/v1/userinfo";
             //string postURL = $"https://www.googleapis.com/drive/v2/files?access_token={googleAccessToken}";
 
             // HTTP 요청 생성
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(hostURL);
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(postURL);
             request.Method = "GET";
             request.Headers["Authorization"] = "Bearer " + googleAccessToken;
 

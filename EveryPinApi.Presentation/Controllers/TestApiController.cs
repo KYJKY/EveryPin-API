@@ -7,28 +7,60 @@ using Shared.DataTransferObject.Auth;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace EveryPinApi.Presentation.Controllers
 {
-    [Route("api/authentication")]
+    [Route("api/test")]
     [ApiController]
-    public class AuthenticationController : ControllerBase
+    public class TestApiController : ControllerBase
     {
         private readonly ILogger _logger;
         private readonly IServiceManager _service;
 
-        public AuthenticationController(ILogger<AuthenticationController> logger, IServiceManager service)
+        public TestApiController(ILogger<TestApiController> logger, IServiceManager service)
         {
             _logger = logger;
             _service = service;
         }
 
-        [HttpGet("login")]
-        public async Task<IActionResult> Login(byte platformCode,  string accessToken)
+
+        [HttpPost("regist")]
+        //[ServiceFilter(typeof(ValidationFilterAttribute))]
+        public async Task<IActionResult> RegisterUser([FromBody] RegistUserDto registUserDto)
         {
+            var result = await _service.AuthenticationService.RegisterUser(registUserDto);
+
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.TryAddModelError(error.Code, error.Description);
+                }
+                return BadRequest(ModelState);
+            }
+
+            return StatusCode(201);
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Authenticate([FromBody] UserAutenticationDto user)
+        {
+            if (!await _service.AuthenticationService.ValidateUser(user.Email))
+                return Unauthorized();
+
+            var tokenDto = await _service.AuthenticationService.CreateToken(populateExp: true);
+
+            return Ok(tokenDto);
+
+        }
+
+        [HttpGet("test-platform-web-login")]
+        public async Task<IActionResult> PlatformWebLogin(string code)
+        {
+            byte platformCode = 2;
+
             try
             {
                 // 액세스 토큰을 이용하여 플랫폼에서 유저 정보 받아오기
@@ -37,10 +69,12 @@ namespace EveryPinApi.Presentation.Controllers
                 switch (platformCode)
                 {
                     case 2:
-                        userInfo = await _service.SingleSignOnService.GetKakaoUserInfo(accessToken);
+                        string kakaoAccessToken = await _service.SingleSignOnService.GetKakaoAccessToken(code);
+                        userInfo = await _service.SingleSignOnService.GetKakaoUserInfo(kakaoAccessToken);
                         break;
                     case 3:
-                        userInfo = await _service.SingleSignOnService.GetGoogleUserInfo(accessToken);
+                        GoogleTokenDto googleAccessToken = await _service.SingleSignOnService.GetGoogleAccessToken(code);
+                        userInfo = await _service.SingleSignOnService.GetGoogleUserInfo(googleAccessToken.accessToken);
                         break;
                     default:
                         throw new Exception("유효한 platformCode 값이 아닙니다.");
@@ -63,7 +97,7 @@ namespace EveryPinApi.Presentation.Controllers
                         UserName = userInfo.UserNickName,
                         Email = userInfo.UserEmail,
                         Password = "0",
-                        PlatformCodeId = 1,
+                        PlatformCodeId = platformCode,
                         Roles = new List<string>() { "NormalUser" }
                     };
 

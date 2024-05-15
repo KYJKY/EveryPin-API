@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Entites.Code;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Service.Contracts;
@@ -29,19 +31,23 @@ namespace EveryPinApi.Presentation.Controllers
 
         [HttpGet("login")]
         [ProducesDefaultResponseType(typeof(TokenDto))]
-        public async Task<IActionResult> Login(byte platformCode,  string accessToken)
+        public async Task<IActionResult> Login(string platformCode,  string accessToken)
         {
             try
             {
+                CodePlatform userPlatform = CodePlatform.NONE;
+
                 // 액세스 토큰을 이용하여 플랫폼에서 유저 정보 받아오기
                 SingleSignOnUserInfo userInfo = null;
 
                 switch (platformCode)
                 {
-                    case 2:
+                    case nameof(CodePlatform.KAKAO):
+                        userPlatform = CodePlatform.KAKAO;
                         userInfo = await _service.SingleSignOnService.GetKakaoUserInfo(accessToken);
                         break;
-                    case 3:
+                    case nameof(CodePlatform.GOOGLE):
+                        userPlatform = CodePlatform.GOOGLE;
                         userInfo = await _service.SingleSignOnService.GetGoogleUserInfo(accessToken);
                         break;
                     default:
@@ -65,7 +71,7 @@ namespace EveryPinApi.Presentation.Controllers
                         UserName = userInfo.UserNickName,
                         Email = userInfo.UserEmail,
                         Password = "0",
-                        PlatformCodeId = 1,
+                        PlatformCodeId = (int)userPlatform,
                         Roles = new List<string>() { "NormalUser" }
                     };
 

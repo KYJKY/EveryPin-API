@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Shared.DataTransferObject;
 using System.Security.Claims;
+using Shared.DataTransferObject.Auth;
 
 namespace EveryPinApi.Presentation.Controllers
 {
@@ -32,6 +33,7 @@ namespace EveryPinApi.Presentation.Controllers
 
         [HttpGet(Name = "GetComment")]
         [Authorize(Roles ="NormalUser")]
+        [ProducesDefaultResponseType(typeof(IEnumerable<CommentDto>))]
         public async Task<IActionResult> GetAllComment()
         {
             var comments = await _service.CommentService.GetAllComment(trackChanges: false);
@@ -39,6 +41,7 @@ namespace EveryPinApi.Presentation.Controllers
         }
 
         [HttpGet("{postId:int}", Name = "GetCommentToPostId")]
+        [ProducesDefaultResponseType(typeof(CommentDto))]
         public async Task<IActionResult> GetCommentToPostId(int postId)
         {
             var comments = await _service.CommentService.GetCommentToPostId(postId, trackChanges: false);

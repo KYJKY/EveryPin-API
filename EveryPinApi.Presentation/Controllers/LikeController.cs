@@ -30,6 +30,7 @@ namespace EveryPinApi.Presentation.Controllers
 
         [HttpGet]
         [Authorize(Roles = "NormalUser")]
+        [ProducesDefaultResponseType(typeof(LikeDto))]
         public async Task<IActionResult> GetAllLike()
         {
             var likes = await _service.LikeService.GetAllLike(trackChanges: false);
@@ -37,6 +38,7 @@ namespace EveryPinApi.Presentation.Controllers
         }
 
         [HttpGet("{postId:int}", Name = "GetLikeToPostId")]
+        [ProducesDefaultResponseType(typeof(IEnumerable<LikeDto>))]
         public async Task<IActionResult> GetLikeToPostId(int postId)
         {
             var likeNum = await _service.LikeService.GetLikeToPostId(postId, trackChanges: false);
@@ -45,6 +47,7 @@ namespace EveryPinApi.Presentation.Controllers
         }
 
         [HttpGet("num/{postId:int}", Name = "GetLikeNumToPostId")]
+        [ProducesDefaultResponseType(typeof(int))]
         public async Task<IActionResult> GetLikeNumToPostId(int postId)
         {
             int likeNum = await _service.LikeService.GetLikeCountToPostId(postId, trackChanges: false);

@@ -27,7 +27,7 @@ namespace EveryPinApi.Presentation.Controllers
 
 
         [HttpPost("regist")]
-        //[ServiceFilter(typeof(ValidationFilterAttribute))]
+        //[ServiceFilter(typeof(ValidationFilterAttribute))]        
         public async Task<IActionResult> RegisterUser([FromBody] RegistUserDto registUserDto)
         {
             var result = await _service.AuthenticationService.RegisterUser(registUserDto);
@@ -45,6 +45,7 @@ namespace EveryPinApi.Presentation.Controllers
         }
 
         [HttpPost("login")]
+        [ProducesDefaultResponseType(typeof(TokenDto))]
         public async Task<IActionResult> Authenticate([FromBody] UserAutenticationDto user)
         {
             if (!await _service.AuthenticationService.ValidateUser(user.Email))
@@ -57,6 +58,7 @@ namespace EveryPinApi.Presentation.Controllers
         }
 
         [HttpGet("test-platform-web-login")]
+        [ProducesDefaultResponseType(typeof(TokenDto))]
         public async Task<IActionResult> PlatformWebLogin(string code)
         {
             byte platformCode = 2;

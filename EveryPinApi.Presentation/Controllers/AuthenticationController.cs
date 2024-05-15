@@ -6,6 +6,7 @@ using Shared.DataTransferObject;
 using Shared.DataTransferObject.Auth;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -27,6 +28,7 @@ namespace EveryPinApi.Presentation.Controllers
         }
 
         [HttpGet("login")]
+        [ProducesDefaultResponseType(typeof(TokenDto))]
         public async Task<IActionResult> Login(byte platformCode,  string accessToken)
         {
             try

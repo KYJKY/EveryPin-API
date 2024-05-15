@@ -18,6 +18,7 @@ namespace EveryPinApi.Presentation.Controllers
         public TokenController(IServiceManager service) => _service = service;
 
         [HttpPost("refresh")]
+        [ProducesDefaultResponseType(typeof(TokenDto))]
         public async Task<IActionResult> Refresh([FromBody] TokenDto tokenDto)
         {
             var tokenDtoToReturn = await _service.AuthenticationService.RefreshToken(tokenDto);

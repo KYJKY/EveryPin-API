@@ -30,6 +30,7 @@ namespace EveryPinApi.Presentation.Controllers
 
         [HttpGet]
         [Authorize(Roles = "NormalUser")]
+        [ProducesDefaultResponseType(typeof(IEnumerable<PostPhotoDto>))]
         public async Task<IActionResult> GetAllPostPhoto()
         {
             var postPhotos = await _service.PostPhotoService.GetAllPostPhoto(trackChanges: false);
@@ -37,6 +38,7 @@ namespace EveryPinApi.Presentation.Controllers
         }
 
         [HttpGet("{postId:int}", Name = "GetPostPhotoById")]
+        [ProducesDefaultResponseType(typeof(IEnumerable<PostPhotoDto>))]
         public async Task<IActionResult> GetPostPhotoToPostId(int postId)
         {
             var postPhotos = await _service.PostPhotoService.GetPostPhotoToPostId(postId, trackChanges: false);

@@ -30,6 +30,7 @@ namespace EveryPinApi.Presentation.Controllers
 
         [HttpGet]
         [Authorize(Roles = "NormalUser")]
+        [ProducesDefaultResponseType(typeof(IEnumerable<PostDto>))]
         public async Task<IActionResult> GetAllPost()
         {
             var posts = await _service.PostService.GetAllPost(trackChanges: false);
@@ -37,6 +38,7 @@ namespace EveryPinApi.Presentation.Controllers
         }
 
         [HttpGet("{postId:int}", Name = "GetPostById")]
+        [ProducesDefaultResponseType(typeof(PostDto))]
         public async Task<IActionResult> GetPost(int postId)
         {
             var post = await _service.PostService.GetPost(postId, trackChanges: false);

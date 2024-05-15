@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Service.Contracts;
+using Shared.DataTransferObject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,7 @@ namespace EveryPinApi.Presentation.Controllers
 
         [HttpGet]
         [Authorize(Roles = "NormalUser")]
+        [ProducesDefaultResponseType(typeof(IEnumerable<ProfileDto>))]
         public async Task<IActionResult> GetAllProfile()
         {
             var profiles = await _service.ProfileService.GetAllProfile(trackChanges: false);

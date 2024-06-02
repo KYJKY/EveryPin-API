@@ -1,5 +1,9 @@
 ﻿using Contracts.Repository;
 using Entites.Models;
+using Google.Apis.Auth.OAuth2;
+using Google.Apis.Auth;
+using Google.Apis.PeopleService.v1;
+using Google.Apis.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Service.Contracts.Models;
@@ -12,6 +16,7 @@ using System.Net;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Reflection.Metadata.Ecma335;
 
 namespace Service.Models
 {
@@ -33,8 +38,8 @@ namespace Service.Models
             string accessToken = "";
             string refreshToken = "";
 
-            string redirectURI = "http://localhost:5283/api/test/test-platform-web-login";
-            //string redirectURI = "https://everypin-api.azurewebsites.net/api/test/test-platform-web-login";
+            //string redirectURI = "https://localhost:5283/api/test/test-platform-web-login";
+            string redirectURI = "https://everypin-api.azurewebsites.net/api/test/test-platform-web-login";
             string clientId = _configuration.GetConnectionString("kakao-rest-api-key");
             string requestURL = "https://kauth.kakao.com/oauth/token";
             string authorizationCode = "authorization_code";
@@ -247,6 +252,29 @@ namespace Service.Models
             {
                 throw new Exception("Google 유저 정보를 불러올 수 없습니다.");
             }
+        }
+
+        public async Task<SingleSignOnUserInfo> GetGoogleUserInfoToIdToken(string googleIdToken)
+        {
+            string googleClientId = _configuration.GetConnectionString("google-client-id");
+
+            var settings = new GoogleJsonWebSignature.ValidationSettings()
+            {
+                Audience = new[] { googleClientId } // OAuth 클라이언트 ID
+            };
+
+            var payload = await GoogleJsonWebSignature.ValidateAsync(googleIdToken, settings);
+
+            string userName = payload.Name;
+            string userEmail = payload.Email;
+
+            SingleSignOnUserInfo userInfo = new SingleSignOnUserInfo()
+            {
+                UserNickName = userName,
+                UserEmail = userEmail
+            };
+
+            return userInfo;
         }
     }
 }

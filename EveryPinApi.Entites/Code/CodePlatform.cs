@@ -8,8 +8,8 @@ namespace Entites.Code
 {
     public enum CodePlatform
     {
-        NONE,
-        KAKAO,
-        GOOGLE
+        NONE = 0,
+        KAKAO = 1,
+        GOOGLE = 2
     }
 }

@@ -16,18 +16,18 @@ namespace Repository.Configuration
             builder.HasData(
                 new CodeOAuthPlatform
                 {
+                    Id = 0,
+                    PlatformName = "NONE"
+                },
+                new CodeOAuthPlatform
+                {
                     Id = 1,
-                    PlatformName = "none"
+                    PlatformName = "KAKAO"
                 },
                 new CodeOAuthPlatform
                 {
                     Id = 2,
-                    PlatformName = "kakao"
-                },
-                new CodeOAuthPlatform
-                {
-                    Id = 3,
-                    PlatformName = "google"
+                    PlatformName = "GOOGLE"
                 }
             );
         }

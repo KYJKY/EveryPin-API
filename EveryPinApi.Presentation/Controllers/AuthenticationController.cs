@@ -40,7 +40,7 @@ namespace EveryPinApi.Presentation.Controllers
                 // 액세스 토큰을 이용하여 플랫폼에서 유저 정보 받아오기
                 SingleSignOnUserInfo userInfo = null;
 
-                switch (platformCode)
+                switch (platformCode.ToUpper())
                 {
                     case nameof(CodePlatform.KAKAO):
                         userPlatform = CodePlatform.KAKAO;
@@ -48,7 +48,7 @@ namespace EveryPinApi.Presentation.Controllers
                         break;
                     case nameof(CodePlatform.GOOGLE):
                         userPlatform = CodePlatform.GOOGLE;
-                        userInfo = await _service.SingleSignOnService.GetGoogleUserInfo(accessToken);
+                        userInfo = await _service.SingleSignOnService.GetGoogleUserInfoToIdToken(accessToken);
                         break;
                     default:
                         throw new Exception("유효한 platformCode 값이 아닙니다.");

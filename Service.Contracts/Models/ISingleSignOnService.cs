@@ -13,5 +13,6 @@ namespace Service.Contracts.Models
         Task<GoogleTokenDto> GetGoogleAccessToken(string code);
         Task<SingleSignOnUserInfo> GetKakaoUserInfo(string accessToken);
         Task<SingleSignOnUserInfo> GetGoogleUserInfo(string accessToken);
+        Task<SingleSignOnUserInfo> GetGoogleUserInfoToIdToken(string googleIdToken);
     }
 }

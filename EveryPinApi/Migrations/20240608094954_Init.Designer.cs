@@ -12,15 +12,15 @@ using Repository;
 namespace EveryPinApi.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20240128060203_AdditionalUserFiledsForRefreshToken")]
-    partial class AdditionalUserFiledsForRefreshToken
+    [Migration("20240608094954_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.15")
+                .HasAnnotation("ProductVersion", "8.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -40,17 +40,34 @@ namespace EveryPinApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CodeOAuthPlatforms");
+                    b.ToTable("CodeOAuthPlatform");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = -1,
+                            PlatformName = "NONE"
+                        },
+                        new
+                        {
+                            Id = 1,
+                            PlatformName = "KAKAO"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            PlatformName = "GOOGLE"
+                        });
                 });
 
             modelBuilder.Entity("Entites.Models.Comment", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("CommentId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("CommentId");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CommentId"));
 
                     b.Property<string>("CommentMessage")
                         .HasColumnType("nvarchar(max)");
@@ -65,7 +82,7 @@ namespace EveryPinApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("Id");
+                    b.HasKey("CommentId");
 
                     b.HasIndex("PostId");
 
@@ -76,12 +93,12 @@ namespace EveryPinApi.Migrations
 
             modelBuilder.Entity("Entites.Models.Like", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("LikeId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("LikeId");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LikeId"));
 
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -93,7 +110,7 @@ namespace EveryPinApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("Id");
+                    b.HasKey("LikeId");
 
                     b.HasIndex("PostId");
 
@@ -111,6 +128,9 @@ namespace EveryPinApi.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PostId"));
 
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -122,21 +142,29 @@ namespace EveryPinApi.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<double?>("x")
+                        .HasColumnType("float");
+
+                    b.Property<double?>("y")
+                        .HasColumnType("float");
 
                     b.HasKey("PostId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Posts");
                 });
 
             modelBuilder.Entity("Entites.Models.PostPhoto", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("PostPhotoId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("PostPhotoId");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PostPhotoId"));
 
                     b.Property<int?>("PostId")
                         .HasColumnType("int");
@@ -144,7 +172,7 @@ namespace EveryPinApi.Migrations
                     b.Property<string>("photoUrl")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("PostPhotoId");
 
                     b.HasIndex("PostId");
 
@@ -193,6 +221,9 @@ namespace EveryPinApi.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CodeOAuthPlatformId")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -262,6 +293,8 @@ namespace EveryPinApi.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CodeOAuthPlatformId");
+
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -302,13 +335,13 @@ namespace EveryPinApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "2179ba12-d152-45d3-9d76-d2f5eaca01cf",
+                            Id = "d0e4284d-687e-4ed5-af8f-891aba60fe12",
                             Name = "NormalUser",
                             NormalizedName = "NORMALUSER"
                         },
                         new
                         {
-                            Id = "8160263c-668a-4495-89dc-35b9296d3a0f",
+                            Id = "1aebf893-ab00-4ad9-888a-5105f184e270",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -454,6 +487,15 @@ namespace EveryPinApi.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Entites.Models.Post", b =>
+                {
+                    b.HasOne("Entites.Models.User", null)
+                        .WithMany("Post")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Entites.Models.PostPhoto", b =>
                 {
                     b.HasOne("Entites.Models.Post", "Post")
@@ -472,6 +514,13 @@ namespace EveryPinApi.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Entites.Models.User", b =>
+                {
+                    b.HasOne("Entites.Models.CodeOAuthPlatform", null)
+                        .WithMany("User")
+                        .HasForeignKey("CodeOAuthPlatformId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -525,6 +574,11 @@ namespace EveryPinApi.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Entites.Models.CodeOAuthPlatform", b =>
+                {
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Entites.Models.Post", b =>
                 {
                     b.Navigation("Comments");
@@ -537,6 +591,8 @@ namespace EveryPinApi.Migrations
             modelBuilder.Entity("Entites.Models.User", b =>
                 {
                     b.Navigation("Like");
+
+                    b.Navigation("Post");
 
                     b.Navigation("Profile");
                 });

@@ -12,7 +12,7 @@ namespace Entites.Models
         [Column("ProfileId")]
         public int Id { get; set; }
 
-        [ForeignKey("User")]
+        [ForeignKey(nameof(User))]
         public required string UserId { get; set; }
         public User? User { get; set; }
         

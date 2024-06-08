@@ -12,10 +12,9 @@ namespace Entites.Models
     {
         //[Column("UserId")]
         //public int Id { get; set; } 
-        [ForeignKey("CodeOAuthPlatform")]
+        [ForeignKey(nameof(CodeOAuthPlatform))]
         public int PlatformCodeId { get; set; }
         public Profile? Profile { get; set; }
-        public ICollection<Like> Like { get; set; } = new List<Like>();
         public string? Name { get; set; }
         //public string? Email { get; set; }
         public string? RefreshToken { get; set; }
@@ -23,5 +22,7 @@ namespace Entites.Models
         public DateTime CreatedDate { get; set; }
         public DateTime LastLoginDate { get; set; }
         public bool DeleteCheck { get; set; }
+        public ICollection<Like> Like { get; set; } = new List<Like>();
+        public ICollection<Post> Post { get; set; } = new List<Post>();
     }
 }

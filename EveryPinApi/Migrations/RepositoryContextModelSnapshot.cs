@@ -35,30 +35,25 @@ namespace EveryPinApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("CodeOAuthPlatform");
 
                     b.HasData(
                         new
                         {
+                            Id = -1,
+                            PlatformName = "NONE"
+                        },
+                        new
+                        {
                             Id = 1,
-                            PlatformName = "none"
+                            PlatformName = "KAKAO"
                         },
                         new
                         {
                             Id = 2,
-                            PlatformName = "kakao"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            PlatformName = "google"
+                            PlatformName = "GOOGLE"
                         });
                 });
 
@@ -144,15 +139,17 @@ namespace EveryPinApi.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<double?>("latitude")
+                    b.Property<double?>("x")
                         .HasColumnType("float");
 
-                    b.Property<double?>("longitude")
+                    b.Property<double?>("y")
                         .HasColumnType("float");
 
                     b.HasKey("PostId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Posts");
                 });
@@ -223,6 +220,9 @@ namespace EveryPinApi.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<int?>("CodeOAuthPlatformId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -290,6 +290,8 @@ namespace EveryPinApi.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CodeOAuthPlatformId");
+
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -330,13 +332,13 @@ namespace EveryPinApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "47932b56-9f54-4094-85dc-e40ecf95f011",
+                            Id = "d0e4284d-687e-4ed5-af8f-891aba60fe12",
                             Name = "NormalUser",
                             NormalizedName = "NORMALUSER"
                         },
                         new
                         {
-                            Id = "370f2e0a-7844-4c8b-9cd2-35cb5568dd57",
+                            Id = "1aebf893-ab00-4ad9-888a-5105f184e270",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -448,15 +450,6 @@ namespace EveryPinApi.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Entites.Models.CodeOAuthPlatform", b =>
-                {
-                    b.HasOne("Entites.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Entites.Models.Comment", b =>
                 {
                     b.HasOne("Entites.Models.Post", "Post")
@@ -491,6 +484,15 @@ namespace EveryPinApi.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Entites.Models.Post", b =>
+                {
+                    b.HasOne("Entites.Models.User", null)
+                        .WithMany("Post")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Entites.Models.PostPhoto", b =>
                 {
                     b.HasOne("Entites.Models.Post", "Post")
@@ -509,6 +511,13 @@ namespace EveryPinApi.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Entites.Models.User", b =>
+                {
+                    b.HasOne("Entites.Models.CodeOAuthPlatform", null)
+                        .WithMany("User")
+                        .HasForeignKey("CodeOAuthPlatformId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -562,6 +571,11 @@ namespace EveryPinApi.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Entites.Models.CodeOAuthPlatform", b =>
+                {
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Entites.Models.Post", b =>
                 {
                     b.Navigation("Comments");
@@ -574,6 +588,8 @@ namespace EveryPinApi.Migrations
             modelBuilder.Entity("Entites.Models.User", b =>
                 {
                     b.Navigation("Like");
+
+                    b.Navigation("Post");
 
                     b.Navigation("Profile");
                 });

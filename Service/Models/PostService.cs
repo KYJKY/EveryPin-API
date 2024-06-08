@@ -5,6 +5,8 @@ using Entites.Models;
 using Microsoft.Extensions.Logging;
 using Service.Models;
 using Shared.DataTransferObject;
+using Shared.DataTransferObject.InputDto;
+using Shared.DataTransferObject.OutputDto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,6 +47,25 @@ namespace Service.Contracts.Models
             var postDto = _mapper.Map<PostDto>(post);
 
             return postDto;
+        }
+
+        public async Task<IEnumerable<PostDto>> GetSearchPost(double x, double y, double range, bool trackChanges)
+        {
+            var posts = await _repository.Post.GetSearchPost(x, y, range, trackChanges);
+            //var users = await _repository.User.GetAllUser(trackChanges);
+            //var joinposts = posts.Join(
+            //                    users,
+            //                    post => post.UserId,
+            //                    user => user.Id,
+            //                    (post, user) => new GetSearchPostOutputDto
+            //                    {
+            //
+            //                    }
+            //                    );
+
+            var postsDto = _mapper.Map<IEnumerable<PostDto>>(posts);
+
+            return postsDto;
         }
 
         public async Task<PostDto> CreatePost(CreatePostDto post)

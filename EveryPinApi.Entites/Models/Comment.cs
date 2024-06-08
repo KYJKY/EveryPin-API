@@ -15,7 +15,7 @@ namespace Entites.Models
         public int? PostId { get; set; }
         public Post? Post { get; set; }
 
-        [ForeignKey("User")]
+        [ForeignKey(nameof(User))]
         public required string UserId { get; set; }
         public User? User { get; set; }
 

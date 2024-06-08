@@ -4,12 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Entites.Code
+namespace Shared.DataTransferObject.OutputDto
 {
-    public enum CodePlatform
+    public class GetSearchPostOutputDto
     {
-        NONE = -1,
-        KAKAO = 1,
-        GOOGLE = 2
     }
 }

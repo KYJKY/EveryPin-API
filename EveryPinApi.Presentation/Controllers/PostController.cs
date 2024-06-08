@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Service.Contracts;
 using Shared.DataTransferObject;
+using Shared.DataTransferObject.InputDto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,6 +43,14 @@ namespace EveryPinApi.Presentation.Controllers
         public async Task<IActionResult> GetPost(int postId)
         {
             var post = await _service.PostService.GetPost(postId, trackChanges: false);
+
+            return Ok(post);
+        }
+
+        [HttpGet("{x:double}/{y:double}/{range:double}", Name = "GetSearchPost")]
+        public async Task<IActionResult> GetSearchPost(double x, double y, double range)
+        {
+            var post = await _service.PostService.GetSearchPost(x, y, range, trackChanges: false);
 
             return Ok(post);
         }

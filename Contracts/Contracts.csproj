@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EveryPinApi.Entites\Entites.csproj" />
+    <ProjectReference Include="..\Shared\Shared.csproj" />
   </ItemGroup>
 
 </Project>

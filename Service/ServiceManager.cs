@@ -26,6 +26,7 @@ namespace Service
         private readonly Lazy<IAuthenticationService> _authenticationService;
         private readonly Lazy<ISingleSignOnService> _kakaoService;
         private readonly Lazy<IUserService> _userService;
+        private readonly Lazy<IUploadService> _uploadService;
 
         public ServiceManager(IRepositoryManager repositoryManager, IMapper mapper, UserManager<User> userManager, IConfiguration configuration, ILoggerFactory loggerFactory)
         {
@@ -37,6 +38,7 @@ namespace Service
             _authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationService(loggerFactory.CreateLogger<AuthenticationService>(), mapper, userManager, configuration));
             _kakaoService = new Lazy<ISingleSignOnService>(() => new SingleSignOnService(loggerFactory.CreateLogger<SingleSignOnService>(), configuration, repositoryManager));
             _userService = new Lazy<IUserService>(() => new UserService(loggerFactory.CreateLogger<UserService>(), repositoryManager));
+            _uploadService = new Lazy<IUploadService>(() => new UploadService(loggerFactory.CreateLogger<UploadService>(), repositoryManager, configuration));
         }
 
         public ICommentService CommentService => _commentService.Value;
@@ -47,5 +49,6 @@ namespace Service
         public IAuthenticationService AuthenticationService => _authenticationService.Value;
         public ISingleSignOnService SingleSignOnService => _kakaoService.Value;
         public IUserService UserService => _userService.Value;
+        public IUploadService UploadService => _uploadService.Value;
     }
 }

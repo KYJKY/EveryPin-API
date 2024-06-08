@@ -16,7 +16,7 @@ namespace Repository.Configuration
             builder.HasData(
                 new CodeOAuthPlatform
                 {
-                    Id = 0,
+                    Id = -1,
                     PlatformName = "NONE"
                 },
                 new CodeOAuthPlatform

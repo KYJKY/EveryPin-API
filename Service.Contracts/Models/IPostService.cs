@@ -1,4 +1,5 @@
 ﻿using Shared.DataTransferObject;
+using Shared.DataTransferObject.InputDto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,6 @@ namespace Service.Contracts.Models
         Task<IEnumerable<PostDto>> GetAllPost(bool trackChanges);
         Task<PostDto> GetPost(int postId, bool trackChanges);
         Task<PostDto> CreatePost(CreatePostDto post);
+        Task<IEnumerable<PostDto>> GetSearchPost(double x, double y, double range, bool trackChanges);
     }
 }

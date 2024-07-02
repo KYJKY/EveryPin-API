@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Shared.DataTransferObject.InputDto;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,14 @@ namespace Shared.DataTransferObject
         public string? PostContent { get; set; }
         public string? UserId { get; set; }
         public string? Address { get; set; }
-        public double x { get; set; }
-        public double y { get; set; }
+        public double X { get; set; }
+        public double Y { get; set; }
+
+        public void SetInputDto(CreatePostInputDto inputDto)
+        {
+            PostContent = inputDto.PostContent;
+            X = inputDto.X;
+            Y = inputDto.Y;
+        }
     }
 }

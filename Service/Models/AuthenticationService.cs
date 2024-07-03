@@ -171,7 +171,9 @@ namespace Service.Models
         public async Task<TokenDto> RefreshToken(TokenDto tokenDto)
         {
             var principal = GetPrincipalFromExpiredToken(tokenDto.AccessToken);
-            var user = await _userManager.FindByNameAsync(principal.Identity.Name);
+
+            var userEmail = principal.FindFirst(ClaimTypes.Email);
+            var user = await _userManager.FindByEmailAsync(userEmail?.Value);
 
             if (user == null || user.RefreshToken != tokenDto.RefreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
                 //throw new RefreshTokenBadRequest();

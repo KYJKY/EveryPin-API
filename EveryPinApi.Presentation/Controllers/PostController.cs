@@ -57,8 +57,11 @@ namespace EveryPinApi.Presentation.Controllers
 
         [HttpPost]
         [Authorize(Roles = "NormalUser")]
-        public async Task<IActionResult> CreatePost([FromBody] CreatePostDto post)
+        public async Task<IActionResult> CreatePost([FromBody] CreatePostInputDto inputPost)
         {
+            CreatePostDto post = new();
+            post.SetInputDto(inputPost);
+
             if (post is null)
                 return BadRequest("게시글의 내용이 비었습니다.");
 

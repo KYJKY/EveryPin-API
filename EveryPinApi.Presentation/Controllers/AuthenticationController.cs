@@ -86,7 +86,13 @@ namespace EveryPinApi.Presentation.Controllers
                     }
                     else
                     {
-                        _logger.LogError($"로그인 - 유저 생성 유효성 검사, platformCode: {platformCode}, accessToken: {accessToken}, userInfo.UserEmail: {userInfo.UserEmail}, registedUser.Errors: {registedUser.Errors}");
+                        _logger.LogError($"로그인 - 유저 생성 유효성 검사, platformCode: {platformCode}, accessToken: {accessToken}, userInfo.UserEmail: {userInfo.UserEmail}");
+
+                        foreach (var error in registedUser.Errors)
+                        {
+                            _logger.LogError($"Code: {error.Code}, Description: {error.Description}");
+                        }
+
                         return Unauthorized();
                     }
                 }

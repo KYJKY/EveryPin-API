@@ -38,7 +38,7 @@ namespace Service.Models
         public async Task<IdentityResult> RegisterUser(RegistUserDto registUserDto)
         {
             var user = _mapper.Map<User>(registUserDto);
-            var result = await _userManager.CreateAsync(user, registUserDto.Password);
+            var result = await _userManager.CreateAsync(user, registUserDto.Password ?? "0");
             if (result.Succeeded)
                 await _userManager.AddToRolesAsync(user, registUserDto.Roles);
             return result;

@@ -168,7 +168,7 @@ namespace Service.Models
             return principal;
         }
 
-        public async Task<TokenDto> RefreshToken(TokenDto tokenDto)
+        public async Task<TokenDto> RefreshTokenWeb(TokenDto tokenDto)
         {
             var principal = GetPrincipalFromExpiredToken(tokenDto.AccessToken);
 
@@ -176,12 +176,31 @@ namespace Service.Models
             var user = await _userManager.FindByEmailAsync(userEmail?.Value);
 
             if (user == null || user.RefreshToken != tokenDto.RefreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
+            {
+                _logger.LogError($"RefreshTokenWeb, userEmail: {userEmail}, user == null:{user == null}, user.RefreshToken != tokenDto.RefreshToken: {user.RefreshToken != tokenDto.RefreshToken}, user.RefreshTokenExpiryTime <= DateTime.Now: {user.RefreshTokenExpiryTime <= DateTime.Now}");
+                throw new Exception($"RefreshTokenWeb, userEmail: {userEmail}, user == null:{user == null}, user.RefreshToken != tokenDto.RefreshToken: {user.RefreshToken != tokenDto.RefreshToken}, user.RefreshTokenExpiryTime <= DateTime.Now: {user.RefreshTokenExpiryTime <= DateTime.Now}");
+            }
                 //throw new RefreshTokenBadRequest();
-                throw new Exception("리프레시 토큰 오류");
 
             _user = user;
+
             return await CreateToken(populateExp: false);
         }
 
+        public async Task<TokenDto> RefreshTokenMobile(RefreshMobileDto mobileRefreshDto)
+        {
+            var user = await _userManager.FindByEmailAsync(mobileRefreshDto.UserEmail);
+
+            if (user == null || user.RefreshToken != mobileRefreshDto.RefreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
+            {
+                //throw new RefreshTokenBadRequest();
+                _logger.LogError($"RefreshTokenMobile, mobileRefreshDto.UserEmail: {mobileRefreshDto.UserEmail}, user: {user?.Id}, user.RefreshTokenExpiryTime: {user?.RefreshTokenExpiryTime}, RefreshTokenIsValid?: {user?.RefreshTokenExpiryTime <= DateTime.Now}");
+                throw new Exception($"RefreshTokenMobile, mobileRefreshDto.UserEmail: {mobileRefreshDto.UserEmail}, user: {user?.Id}, user.RefreshTokenExpiryTime: {user?.RefreshTokenExpiryTime}, RefreshTokenIsValid?: {user?.RefreshTokenExpiryTime <= DateTime.Now}");
+            }
+
+            _user = user;
+
+            return await CreateToken(populateExp: false);
+        }
     }
 }

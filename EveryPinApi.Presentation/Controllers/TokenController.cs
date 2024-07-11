@@ -21,7 +21,23 @@ namespace EveryPinApi.Presentation.Controllers
         [ProducesDefaultResponseType(typeof(TokenDto))]
         public async Task<IActionResult> Refresh([FromBody] TokenDto tokenDto)
         {
-            var tokenDtoToReturn = await _service.AuthenticationService.RefreshToken(tokenDto);
+            var tokenDtoToReturn = await _service.AuthenticationService.RefreshTokenWeb(tokenDto);
+            return Ok(tokenDtoToReturn);
+        }
+
+        [HttpPost("refresh-web")]
+        [ProducesDefaultResponseType(typeof(TokenDto))]
+        public async Task<IActionResult> RefreshWeb([FromBody] TokenDto tokenDto)
+        {
+            var tokenDtoToReturn = await _service.AuthenticationService.RefreshTokenWeb(tokenDto);
+            return Ok(tokenDtoToReturn);
+        }
+
+        [HttpPost("refresh-mobile")]
+        [ProducesDefaultResponseType(typeof(TokenDto))]
+        public async Task<IActionResult> RefreshMobile([FromBody] RefreshMobileDto tokenDto)
+        {
+            var tokenDtoToReturn = await _service.AuthenticationService.RefreshTokenMobile(tokenDto);
             return Ok(tokenDtoToReturn);
         }
     }

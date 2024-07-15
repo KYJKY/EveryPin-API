@@ -1,20 +1,17 @@
-﻿using Azure.Identity;
-using Azure.Storage;
+﻿using Azure.Storage;
 using Azure.Storage.Blobs;
-using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Http;
 using Shared.DataTransferObject.Blob;
-using System.Reflection.Metadata;
-using static System.Reflection.Metadata.BlobBuilder;
 
-namespace EveryPinApi.Extensions.LibraryService
+namespace ExternalLibraryService
 {
-    public class BlobClientService
+    public class BlobHandlingService
     {
         private readonly BlobServiceClient _blobService;
         private readonly BlobContainerClient _blobContainer;
 
         #region 세팅
-        public BlobClientService(string accessKey, string storageAccountName, string containerName)
+        public BlobHandlingService(string accessKey, string storageAccountName, string containerName)
         {
 
             _blobService = GetBlobServiceClient(storageAccountName, accessKey);

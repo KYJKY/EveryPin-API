@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EveryPinApi.Presentation\EveryPinApi.Presentation.csproj" />
+    <ProjectReference Include="..\ExternalLibraryService\ExternalLibraryService.csproj" />
     <ProjectReference Include="..\Repository\Repository.csproj" />
     <ProjectReference Include="..\Service\Service.csproj" />
   </ItemGroup>

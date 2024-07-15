@@ -10,7 +10,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using EveryPinApi.Extensions.LibraryService;
+using ExternalLibraryService;
 
 namespace EveryPinApi.Extensions
 {
@@ -66,7 +66,7 @@ namespace EveryPinApi.Extensions
             string storageContainer = configuration.GetConnectionString("azure-storage-container");
             string storageAccessKey = configuration.GetConnectionString("azure-storage-access-key");
 
-            services.AddSingleton(new BlobClientService(storageAccount, storageContainer, storageAccessKey));
+            services.AddSingleton(new BlobHandlingService(storageAccount, storageContainer, storageAccessKey));
         }
 
         public static void ConfigureIdentity(this IServiceCollection services)

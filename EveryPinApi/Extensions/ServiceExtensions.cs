@@ -66,7 +66,7 @@ namespace EveryPinApi.Extensions
             string storageContainer = configuration.GetConnectionString("azure-storage-container");
             string storageAccessKey = configuration.GetConnectionString("azure-storage-access-key");
 
-            services.AddSingleton(new BlobHandlingService(storageAccount, storageContainer, storageAccessKey));
+            services.AddSingleton(new BlobHandlingService(storageAccessKey, storageAccount, storageContainer));
         }
 
         public static void ConfigureIdentity(this IServiceCollection services)

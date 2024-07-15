@@ -8,14 +8,12 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 {
-
-    
-
     // Add services to the container.
     builder.Services.ConfigureCors();       // CORS
     builder.Services.ConfigureRepositoryManager();      // RepositoryManager 추가
     builder.Services.ConfigureServiceManager();         // ServiceManager 추가
     builder.Services.ConfigureSqlContext(builder.Configuration);
+    builder.Services.ConfigureBlobStorage(builder.Configuration);   // Blob Storage 서비스 등록
 
     // Presentation Layer에서 ControllerBase 상속 가능하도록
     builder.Services.AddControllers()

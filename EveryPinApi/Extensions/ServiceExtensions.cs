@@ -6,11 +6,11 @@ using Microsoft.Extensions.Logging.AzureAppServices;
 using Repository;
 using Service.Contracts;
 using Service;
-using Service.Contracts;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using ExternalLibraryService;
 
 namespace EveryPinApi.Extensions
 {
@@ -59,6 +59,15 @@ namespace EveryPinApi.Extensions
 
         public static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration) =>
         services.AddSqlServer<RepositoryContext>(configuration.GetConnectionString("everypindb"));
+
+        public static void ConfigureBlobStorage(this IServiceCollection services, IConfiguration configuration)
+        {
+            string storageAccount = configuration.GetConnectionString("azure-storage-account");
+            string storageContainer = configuration.GetConnectionString("azure-storage-container");
+            string storageAccessKey = configuration.GetConnectionString("azure-storage-access-key");
+
+            services.AddSingleton(new BlobHandlingService(storageAccessKey, storageAccount, storageContainer));
+        }
 
         public static void ConfigureIdentity(this IServiceCollection services)
         {

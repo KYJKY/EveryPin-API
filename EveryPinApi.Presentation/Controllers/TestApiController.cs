@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using ExternalLibraryService;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Service.Contracts;
@@ -18,11 +20,13 @@ namespace EveryPinApi.Presentation.Controllers
     {
         private readonly ILogger _logger;
         private readonly IServiceManager _service;
+        private readonly BlobHandlingService _blobHandlingService;
 
-        public TestApiController(ILogger<TestApiController> logger, IServiceManager service)
+        public TestApiController(ILogger<TestApiController> logger, IServiceManager service, BlobHandlingService blobHandlingService)
         {
             _logger = logger;
             _service = service;
+            _blobHandlingService = blobHandlingService;
         }
 
 
@@ -57,7 +61,7 @@ namespace EveryPinApi.Presentation.Controllers
 
         }
 
-        [HttpGet("test-platform-web-login")]
+        [HttpGet("platform-web-login")]
         [ProducesDefaultResponseType(typeof(TokenDto))]
         public async Task<IActionResult> PlatformWebLogin(string code)
         {
@@ -124,5 +128,35 @@ namespace EveryPinApi.Presentation.Controllers
                 return Unauthorized();
             }
         }
+
+        #region Blob Storage 테스트
+        [HttpGet("listup-blob")]
+        public async Task<IActionResult> TestGetAllBlob()
+        {
+            var result = await _blobHandlingService.ListAsync();
+            return Ok(result);
+        }
+
+        [HttpPost("upload-blob")]
+        public async Task<IActionResult> TestUploadToBlobStorage(IFormFile file)
+        {
+            var result = await _blobHandlingService.UploadAsync(file);
+            return Ok(result);
+        }
+
+        [HttpGet("download-blob")]
+        public async Task<IActionResult> TestDownloadToBlobStorage(string fileName)
+        {
+            var result = await _blobHandlingService.DownloadAsync(fileName);
+            return File(result.Content, result.ContentType, result.Name);
+        }
+
+        [HttpDelete("delete-blob")]
+        public async Task<IActionResult> TestDeleteToBlobStorage(string fileName)
+        {
+            var result = await _blobHandlingService.DeleteAsync(fileName);
+            return Ok(result);
+        }
+        #endregion
     }
 }

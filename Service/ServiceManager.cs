@@ -13,6 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Service.Models;
+using ExternalLibraryService;
 
 namespace Service
 {
@@ -28,7 +29,7 @@ namespace Service
         private readonly Lazy<IUserService> _userService;
         private readonly Lazy<IUploadService> _uploadService;
 
-        public ServiceManager(IRepositoryManager repositoryManager, IMapper mapper, UserManager<User> userManager, IConfiguration configuration, ILoggerFactory loggerFactory)
+        public ServiceManager(IRepositoryManager repositoryManager, IMapper mapper, UserManager<User> userManager, IConfiguration configuration, ILoggerFactory loggerFactory, BlobHandlingService blobHandlingService)
         {
             _commentService = new Lazy<ICommentService>(() => new CommentService(loggerFactory.CreateLogger<CommentService>(), repositoryManager, mapper));
             _likeService = new Lazy<ILikeService>(() => new LikeService(loggerFactory.CreateLogger<LikeService>(), repositoryManager, mapper));
@@ -38,7 +39,7 @@ namespace Service
             _authenticationService = new Lazy<IAuthenticationService>(() => new AuthenticationService(loggerFactory.CreateLogger<AuthenticationService>(), mapper, userManager, configuration));
             _kakaoService = new Lazy<ISingleSignOnService>(() => new SingleSignOnService(loggerFactory.CreateLogger<SingleSignOnService>(), configuration, repositoryManager));
             _userService = new Lazy<IUserService>(() => new UserService(loggerFactory.CreateLogger<UserService>(), repositoryManager));
-            _uploadService = new Lazy<IUploadService>(() => new UploadService(loggerFactory.CreateLogger<UploadService>(), repositoryManager, configuration));
+            _uploadService = new Lazy<IUploadService>(() => new UploadService(loggerFactory.CreateLogger<UploadService>(), repositoryManager, configuration, blobHandlingService));
         }
 
         public ICommentService CommentService => _commentService.Value;

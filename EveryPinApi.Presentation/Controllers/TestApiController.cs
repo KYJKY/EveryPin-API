@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using ExternalLibraryService;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Service.Contracts;
@@ -18,11 +20,13 @@ namespace EveryPinApi.Presentation.Controllers
     {
         private readonly ILogger _logger;
         private readonly IServiceManager _service;
+        private readonly BlobHandlingService _blobHandlingService;
 
-        public TestApiController(ILogger<TestApiController> logger, IServiceManager service)
+        public TestApiController(ILogger<TestApiController> logger, IServiceManager service, BlobHandlingService blobHandlingService)
         {
             _logger = logger;
             _service = service;
+            _blobHandlingService = blobHandlingService;
         }
 
 
@@ -123,6 +127,34 @@ namespace EveryPinApi.Presentation.Controllers
             {
                 return Unauthorized();
             }
+        }
+
+        [HttpGet("test-listup-blob")]
+        public async Task<IActionResult> TestGetAllBlob()
+        {
+            var result = await _blobHandlingService.ListAsync();
+            return Ok(result);
+        }
+
+        [HttpPost("test-upload-blob")]
+        public async Task<IActionResult> TestUploadToBlobStorage(IFormFile file)
+        {
+            var result = await _blobHandlingService.UploadAsync(file);
+            return Ok(result);
+        }
+
+        [HttpGet("test-download-blob")]
+        public async Task<IActionResult> TestDownloadToBlobStorage(string fileName)
+        {
+            var result = await _blobHandlingService.DownloadAsync(fileName);
+            return File(result.Content, result.ContentType, result.Name);
+        }
+
+        [HttpDelete("test-delete-blob")]
+        public async Task<IActionResult> TestDeleteToBlobStorage(string fileName)
+        {
+            var result = await _blobHandlingService.DeleteAsync(fileName);
+            return Ok(result);
         }
     }
 }

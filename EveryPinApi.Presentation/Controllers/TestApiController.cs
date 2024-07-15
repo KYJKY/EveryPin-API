@@ -61,7 +61,7 @@ namespace EveryPinApi.Presentation.Controllers
 
         }
 
-        [HttpGet("test-platform-web-login")]
+        [HttpGet("platform-web-login")]
         [ProducesDefaultResponseType(typeof(TokenDto))]
         public async Task<IActionResult> PlatformWebLogin(string code)
         {
@@ -129,32 +129,34 @@ namespace EveryPinApi.Presentation.Controllers
             }
         }
 
-        [HttpGet("test-listup-blob")]
+        #region Blob Storage 테스트
+        [HttpGet("listup-blob")]
         public async Task<IActionResult> TestGetAllBlob()
         {
             var result = await _blobHandlingService.ListAsync();
             return Ok(result);
         }
 
-        [HttpPost("test-upload-blob")]
+        [HttpPost("upload-blob")]
         public async Task<IActionResult> TestUploadToBlobStorage(IFormFile file)
         {
             var result = await _blobHandlingService.UploadAsync(file);
             return Ok(result);
         }
 
-        [HttpGet("test-download-blob")]
+        [HttpGet("download-blob")]
         public async Task<IActionResult> TestDownloadToBlobStorage(string fileName)
         {
             var result = await _blobHandlingService.DownloadAsync(fileName);
             return File(result.Content, result.ContentType, result.Name);
         }
 
-        [HttpDelete("test-delete-blob")]
+        [HttpDelete("delete-blob")]
         public async Task<IActionResult> TestDeleteToBlobStorage(string fileName)
         {
             var result = await _blobHandlingService.DeleteAsync(fileName);
             return Ok(result);
         }
+        #endregion
     }
 }

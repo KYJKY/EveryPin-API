@@ -1,5 +1,6 @@
 ﻿using Azure.Storage;
 using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
 using Microsoft.AspNetCore.Http;
 using Shared.DataTransferObject.Blob;
 
@@ -73,16 +74,22 @@ namespace ExternalLibraryService
         {
             BlobResponseDto response = new BlobResponseDto();
             BlobClient client = _blobContainer.GetBlobClient(blob.FileName);
+            string contentType = "image/jpeg";
 
             await using (Stream? data = blob.OpenReadStream())
             {
-                await client.UploadAsync(data);
+                await client.UploadAsync(data); // 업로드
+
+                BlobHttpHeaders headers = new BlobHttpHeaders { ContentType = contentType };
+
+                await client.SetHttpHeadersAsync(headers);  // ContentType 변경
             }
 
             response.Status = $"{blob.FileName} 업로드 완료";
             response.Error = false;
             response.Blob.Uri = client.Uri.AbsoluteUri;
             response.Blob.Name = client.Name;
+            response.Blob.ContentType = contentType;
 
             return response;
         }

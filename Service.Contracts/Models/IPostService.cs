@@ -1,5 +1,7 @@
-﻿using Shared.DataTransferObject;
+﻿using Entites.Models;
+using Shared.DataTransferObject;
 using Shared.DataTransferObject.InputDto;
+using Shared.DataTransferObject.OutputDto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +13,8 @@ namespace Service.Contracts.Models
     public interface IPostService
     {
         Task<IEnumerable<PostDto>> GetAllPost(bool trackChanges);
-        Task<PostDto> GetPost(int postId, bool trackChanges);
+        Task<PostPostPhotoDto> GetPost(int postId, bool trackChanges);
         Task<PostDto> CreatePost(CreatePostDto post);
-        Task<IEnumerable<PostDto>> GetSearchPost(double x, double y, double range, bool trackChanges);
+        Task<IEnumerable<PostPostPhotoDto>> GetSearchPost(double x, double y, double range, bool trackChanges);
     }
 }

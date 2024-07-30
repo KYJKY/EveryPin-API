@@ -40,33 +40,23 @@ namespace Service.Contracts.Models
             return postsDto;
         }
 
-        public async Task<PostDto> GetPost(int postId, bool trackChanges)
+        public async Task<PostPostPhotoDto> GetPost(int postId, bool trackChanges)
         {
             var post = await _repository.Post.GetPostById(postId, trackChanges);
 
             if (post is null) 
                 throw new PostNotFoundException(postId);
 
-            var postDto = _mapper.Map<PostDto>(post);
+            var postDto = _mapper.Map<PostPostPhotoDto>(post);
 
             return postDto;
         }
 
-        public async Task<IEnumerable<PostDto>> GetSearchPost(double x, double y, double range, bool trackChanges)
+        public async Task<IEnumerable<PostPostPhotoDto>> GetSearchPost(double x, double y, double range, bool trackChanges)
         {
             var posts = await _repository.Post.GetSearchPost(x, y, range, trackChanges);
-            //var users = await _repository.User.GetAllUser(trackChanges);
-            //var joinposts = posts.Join(
-            //                    users,
-            //                    post => post.UserId,
-            //                    user => user.Id,
-            //                    (post, user) => new GetSearchPostOutputDto
-            //                    {
-            //
-            //                    }
-            //                    );
 
-            var postsDto = _mapper.Map<IEnumerable<PostDto>>(posts);
+            var postsDto = _mapper.Map<IEnumerable<PostPostPhotoDto>>(posts);
 
             return postsDto;
         }

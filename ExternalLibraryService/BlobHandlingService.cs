@@ -66,7 +66,7 @@ namespace ExternalLibraryService
         }
 
         /// <summary>
-        /// Blob Storage 컨테이너에 파일 업로드
+        /// Blob Storage 컨테이너에 이미지 파일 업로드
         /// </summary>
         /// <param name="blob"></param>
         /// <returns></returns>
@@ -76,22 +76,81 @@ namespace ExternalLibraryService
             BlobClient client = _blobContainer.GetBlobClient(blob.FileName);
             string contentType = "image/jpeg";
 
-            await using (Stream? data = blob.OpenReadStream())
+            if(blob is not null)
             {
-                await client.UploadAsync(data); // 업로드
+                await using (Stream? data = blob.OpenReadStream())
+                {
+                    await client.UploadAsync(data); // 업로드
 
-                BlobHttpHeaders headers = new BlobHttpHeaders { ContentType = contentType };
+                    BlobHttpHeaders headers = new BlobHttpHeaders { ContentType = contentType };
 
-                await client.SetHttpHeadersAsync(headers);  // ContentType 변경
+                    await client.SetHttpHeadersAsync(headers);  // ContentType 변경
+                }
+
+                response.Message = $"{blob.FileName} 업로드 완료";
+                response.Error = false;
+                response.Blob.Uri = client.Uri.AbsoluteUri;
+                response.Blob.Name = client.Name;
+                response.Blob.ContentType = contentType;
+            }
+            else
+            {
+                response.Message = $"업로드 실패";
+                response.Error = true;
+                response.Blob.Uri = null;
+                response.Blob.Name = null;
+                response.Blob.ContentType = null;
             }
 
-            response.Status = $"{blob.FileName} 업로드 완료";
-            response.Error = false;
-            response.Blob.Uri = client.Uri.AbsoluteUri;
-            response.Blob.Name = client.Name;
-            response.Blob.ContentType = contentType;
+            return response;
+        }
+
+        public async Task<BlobResponseDto> UploadPostPhotoAsync(int postPhotoId, IFormFile blob)
+        {
+            string blobFileName = $"PostPhoto_{postPhotoId}";
+            BlobResponseDto response = new BlobResponseDto();
+            BlobClient client = _blobContainer.GetBlobClient(blobFileName);
+            string contentType = "image/jpeg";
+
+            if (IsImageFile(blob))
+            {
+                await using (Stream? data = blob.OpenReadStream())
+                {
+                    await client.UploadAsync(data); // 업로드
+
+                    BlobHttpHeaders headers = new BlobHttpHeaders { ContentType = contentType };
+
+                    await client.SetHttpHeadersAsync(headers);  // ContentType 변경
+                }
+
+                response.Message = $"{blob.FileName} 업로드 완료";
+                response.Error = false;
+                response.Blob.Uri = client.Uri.AbsoluteUri;
+                response.Blob.Name = client.Name;
+                response.Blob.ContentType = contentType;
+            }
+            else
+            {
+                response.Message = "이미지 파일만 업로드할 수 있습니다.";
+                response.Error = true;
+                response.Blob.Uri = null;
+                response.Blob.Name = null;
+                response.Blob.ContentType = null;
+            }
 
             return response;
+        }
+
+        private bool IsImageFile(IFormFile file)
+        {
+            // 이미지 파일 확장자 목록
+            string[] imageExtensions = { ".jpg", ".jpeg", ".png", ".gif", ".bmp" };
+
+            // 파일 확장자 확인
+            string fileExtension = Path.GetExtension(file.FileName).ToLower();
+
+            // 이미지 파일인지 확인
+            return imageExtensions.Contains(fileExtension);
         }
 
         /// <summary>
@@ -127,7 +186,7 @@ namespace ExternalLibraryService
             BlobClient file = _blobContainer.GetBlobClient(blobFileName);
             await file.DeleteAsync();
 
-            return new BlobResponseDto { Error = false, Status = $"{blobFileName} 삭제 완료" };
+            return new BlobResponseDto { Error = false, Message = $"{blobFileName} 삭제 완료" };
         }
     }
 }

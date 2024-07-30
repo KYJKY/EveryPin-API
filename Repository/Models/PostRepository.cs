@@ -23,6 +23,7 @@ namespace Repository.Models
 
         public async Task<Post> GetPostById(int postId, bool trackChanges) =>
             await FindByCondition(post => post.PostId.Equals(postId), trackChanges)
+            .Include(post => post.PostPhotos)
             .SingleOrDefaultAsync();
 
         public async Task<IEnumerable<Post>> GetSearchPost(double x, double y, double range, bool trackChanges)
@@ -31,7 +32,8 @@ namespace Repository.Models
                 .Where(post => post.x.HasValue &&
                                post.y.HasValue &&
                                Math.Pow(post.x.Value - x, 2) + Math.Pow(post.y.Value - y, 2) <= Math.Pow(range, 2))
-                .OrderBy(c => c.PostId) 
+                .Include(post => post.PostPhotos)
+                .OrderBy(c => c.PostId)
                 .ToListAsync();
 
             return posts;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,7 @@ namespace Shared.DataTransferObject.InputDto
     public record CreatePostInputDto(
         string? PostContent,
         double X,
-        double Y
+        double Y,
+        List<IFormFile> PhotoFiles
     );
 }

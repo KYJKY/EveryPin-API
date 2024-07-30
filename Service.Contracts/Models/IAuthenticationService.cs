@@ -14,8 +14,7 @@ namespace Service.Contracts.Models
         Task<IdentityResult> RegisterUser(RegistUserDto registUserDto);
         Task<bool> ValidateUser(string userEmail);
         Task<TokenDto> CreateToken(bool populateExp);
-        Task<TokenDto> RefreshTokenWeb(TokenDto tokenDto);
-        Task<TokenDto> RefreshTokenMobile(RefreshMobileDto tokenDto);
+        Task<TokenDto> RefreshToken(TokenDto tokenDto);
     }
 
 }

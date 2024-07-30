@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Entites.Models;
 using Shared.DataTransferObject;
+using Shared.DataTransferObject.OutputDto;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace EveryPinApi
@@ -11,6 +12,13 @@ namespace EveryPinApi
         {
             CreateMap<Post, PostDto>();
             CreateMap<CreatePostDto, Post>();
+            CreateMap<Post, PostPostPhotoDto>()
+            .ForMember(dest => dest.PostPhotos, opt => opt.MapFrom(src => src.PostPhotos));
+
+            CreateMap<PostPhoto, PostPhotoDto>()
+                .ForMember(dest => dest.PostPhotoId, opt => opt.MapFrom(src => src.PostPhotoId))
+                .ForMember(dest => dest.photoUrl, opt => opt.MapFrom(src => src.photoUrl));
+
 
             CreateMap<Comment, CommentDto>();
             CreateMap<CreateCommentDto, Comment>();

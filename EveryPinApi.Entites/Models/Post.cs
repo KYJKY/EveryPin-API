@@ -17,7 +17,7 @@ namespace Entites.Models
         public string? Address { get; set; }
         public double? x { get; set; }
         public double? y { get; set; }
-        public ICollection<PostPhoto> PostPhotos { get; } = new List<PostPhoto>();
+        public ICollection<PostPhoto> PostPhotos { get; set; } = new List<PostPhoto>();
         public ICollection<Like> Likes { get; } = new List<Like>();    
         public ICollection<Comment> Comments { get; } = new List<Comment>();
         public DateTime? UpdateDate { get; set; } = null;

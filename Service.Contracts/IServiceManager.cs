@@ -17,7 +17,5 @@ namespace Service.Contracts
         IAuthenticationService AuthenticationService { get; }
         ISingleSignOnService SingleSignOnService { get; }
         IUserService UserService { get; }
-        IUploadService UploadService { get; }
     }
-
 }

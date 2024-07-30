@@ -141,7 +141,11 @@ namespace EveryPinApi.Presentation.Controllers
         public async Task<IActionResult> TestUploadToBlobStorage(IFormFile file)
         {
             var result = await _blobHandlingService.UploadAsync(file);
-            return Ok(result);
+
+            if (result.Error)
+                return StatusCode(415, result);
+            else
+                return Ok(result);
         }
 
         [HttpGet("download-blob")]

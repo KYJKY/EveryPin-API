@@ -12,5 +12,6 @@ namespace Contracts.Repository.Models
         Task<IEnumerable<PostPhoto>> GetAllPostPhoto(bool trackChanges);
         Task<IEnumerable<PostPhoto>> GetPostPhotoByPostId(int postId, bool trackChange);
         void CreatePostPhoto(PostPhoto postphoto);
+        Task<int> GetLatestPostPhotoId();
     }
 }

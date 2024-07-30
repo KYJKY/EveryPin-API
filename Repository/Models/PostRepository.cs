@@ -21,6 +21,8 @@ namespace Repository.Models
             .OrderBy(c => c.PostId)
             .ToListAsync();
 
+
+
         public async Task<Post> GetPostById(int postId, bool trackChanges) =>
             await FindByCondition(post => post.PostId.Equals(postId), trackChanges)
             .SingleOrDefaultAsync();

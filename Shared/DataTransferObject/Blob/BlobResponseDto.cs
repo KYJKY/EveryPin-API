@@ -9,7 +9,7 @@ namespace Shared.DataTransferObject.Blob
     public class BlobResponseDto
     {
         public BlobDto Blob { get; set; }
-        public string? Status { get; set; }
+        public string? Message { get; set; }
         public bool Error {  get; set; }
 
         public BlobResponseDto()

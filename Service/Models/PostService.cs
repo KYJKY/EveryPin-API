@@ -2,6 +2,7 @@
 using Contracts.Repository;
 using Entites.Exceptions;
 using Entites.Models;
+using ExternalLibraryService;
 using Microsoft.Extensions.Logging;
 using Service.Models;
 using Shared.DataTransferObject;
@@ -21,12 +22,14 @@ namespace Service.Contracts.Models
         private readonly ILogger<PostService> _logger;
         private readonly IRepositoryManager _repository;
         private readonly IMapper _mapper;
+        private readonly BlobHandlingService _blobHandlingService;
 
-        public PostService(ILogger<PostService> logger, IRepositoryManager repository, IMapper mapper)
+        public PostService(ILogger<PostService> logger, IRepositoryManager repository, IMapper mapper, BlobHandlingService blobHandlingService)
         {
             _logger = logger;
             _repository = repository;
             _mapper = mapper;
+            _blobHandlingService = blobHandlingService;
         }
 
         public async Task<IEnumerable<PostDto>> GetAllPost(bool trackChanges)
@@ -71,9 +74,41 @@ namespace Service.Contracts.Models
         public async Task<PostDto> CreatePost(CreatePostDto post)
         {
             var postEntity = _mapper.Map<Post>(post);
+            List<PostPhoto> postPhotos = new();
+            bool isUploadSuccess = false;
 
-            _repository.Post.CreatePost(postEntity);
-            await _repository.SaveAsync();
+            if (post.PhotoFiles != null)
+            {
+                var postPhotoId = await _repository.PostPhoto.GetLatestPostPhotoId();
+
+                foreach (var photo in post.PhotoFiles)
+                {
+                    var result = await _blobHandlingService.UploadPostPhotoAsync(++postPhotoId, photo);
+            
+                    if (result.Error)
+                    {
+                        isUploadSuccess = false;
+                        break;
+                    }
+                    else
+                    {
+                        var postPhoto = new PostPhoto
+                        {
+                            photoUrl = result.Blob.Uri
+                        };
+                        postPhotos.Add(postPhoto);
+
+                        isUploadSuccess = true;
+                    }
+                }
+            }
+
+            if (isUploadSuccess)
+            {
+                postEntity.PostPhotos = postPhotos;
+                _repository.Post.CreatePost(postEntity);
+                await _repository.SaveAsync();
+            }
 
             var postToReturn = _mapper.Map<PostDto>(postEntity);
 
@@ -81,3 +116,4 @@ namespace Service.Contracts.Models
         }
     }
 }
+

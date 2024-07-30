@@ -1,4 +1,5 @@
-﻿using Shared.DataTransferObject.InputDto;
+﻿using Microsoft.AspNetCore.Http;
+using Shared.DataTransferObject.InputDto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,12 +15,14 @@ namespace Shared.DataTransferObject
         public string? Address { get; set; }
         public double X { get; set; }
         public double Y { get; set; }
+        public List<IFormFile>? PhotoFiles { get; set; }
 
         public void SetInputDto(CreatePostInputDto inputDto)
         {
             PostContent = inputDto.PostContent;
             X = inputDto.X;
             Y = inputDto.Y;
+            PhotoFiles = inputDto.PhotoFiles;
         }
     }
 }

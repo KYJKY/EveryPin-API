@@ -27,5 +27,14 @@ namespace Repository.Models
 
         public void CreatePostPhoto(PostPhoto postphoto) =>
             Create(postphoto);
+
+        public async Task<int> GetLatestPostPhotoId()
+        {
+            var latestPostPhoto = await FindAll(trackChanges: false)
+                .OrderByDescending(c => c.PostPhotoId)
+                .FirstOrDefaultAsync();
+
+            return latestPostPhoto?.PostPhotoId ?? 0;
+        }
     }
 }

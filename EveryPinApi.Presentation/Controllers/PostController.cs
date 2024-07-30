@@ -57,7 +57,7 @@ namespace EveryPinApi.Presentation.Controllers
 
         [HttpPost]
         [Authorize(Roles = "NormalUser")]
-        public async Task<IActionResult> CreatePost([FromBody] CreatePostInputDto inputPost)
+        public async Task<IActionResult> CreatePost([FromForm] CreatePostInputDto inputPost)
         {
             CreatePostDto post = new();
             post.SetInputDto(inputPost);

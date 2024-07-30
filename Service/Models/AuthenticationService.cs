@@ -150,7 +150,7 @@ namespace Service.Models
                 ValidateIssuer = true,
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(key),
-                ValidateLifetime = true,
+                ValidateLifetime = false,
                 ValidIssuer = validIssuer,
                 ValidAudience = validAudience
             };
@@ -168,7 +168,7 @@ namespace Service.Models
             return principal;
         }
 
-        public async Task<TokenDto> RefreshTokenWeb(TokenDto tokenDto)
+        public async Task<TokenDto> RefreshToken(TokenDto tokenDto)
         {
             var principal = GetPrincipalFromExpiredToken(tokenDto.AccessToken);
 
@@ -177,25 +177,8 @@ namespace Service.Models
 
             if (user == null || user.RefreshToken != tokenDto.RefreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
             {
-                _logger.LogError($"RefreshTokenWeb, userEmail: {userEmail}, user == null:{user == null}, user.RefreshToken != tokenDto.RefreshToken: {user.RefreshToken != tokenDto.RefreshToken}, user.RefreshTokenExpiryTime <= DateTime.Now: {user.RefreshTokenExpiryTime <= DateTime.Now}");
-                throw new Exception($"RefreshTokenWeb, userEmail: {userEmail}, user == null:{user == null}, user.RefreshToken != tokenDto.RefreshToken: {user.RefreshToken != tokenDto.RefreshToken}, user.RefreshTokenExpiryTime <= DateTime.Now: {user.RefreshTokenExpiryTime <= DateTime.Now}");
-            }
-                //throw new RefreshTokenBadRequest();
-
-            _user = user;
-
-            return await CreateToken(populateExp: false);
-        }
-
-        public async Task<TokenDto> RefreshTokenMobile(RefreshMobileDto mobileRefreshDto)
-        {
-            var user = await _userManager.FindByEmailAsync(mobileRefreshDto.UserEmail);
-
-            if (user == null || user.RefreshToken != mobileRefreshDto.RefreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
-            {
-                //throw new RefreshTokenBadRequest();
-                _logger.LogError($"RefreshTokenMobile, mobileRefreshDto.UserEmail: {mobileRefreshDto.UserEmail}, user: {user?.Id}, user.RefreshTokenExpiryTime: {user?.RefreshTokenExpiryTime}, RefreshTokenIsValid?: {user?.RefreshTokenExpiryTime <= DateTime.Now}");
-                throw new Exception($"RefreshTokenMobile, mobileRefreshDto.UserEmail: {mobileRefreshDto.UserEmail}, user: {user?.Id}, user.RefreshTokenExpiryTime: {user?.RefreshTokenExpiryTime}, RefreshTokenIsValid?: {user?.RefreshTokenExpiryTime <= DateTime.Now}");
+                _logger.LogError($"RefreshToken, userEmail: {userEmail}, user == null:{user == null}, user.RefreshToken != tokenDto.RefreshToken: {user.RefreshToken != tokenDto.RefreshToken}, user.RefreshTokenExpiryTime <= DateTime.Now: {user.RefreshTokenExpiryTime <= DateTime.Now}");
+                throw new Exception($"RefreshToken, userEmail: {userEmail}, user == null:{user == null}, user.RefreshToken != tokenDto.RefreshToken: {user.RefreshToken != tokenDto.RefreshToken}, user.RefreshTokenExpiryTime <= DateTime.Now: {user.RefreshTokenExpiryTime <= DateTime.Now}");
             }
 
             _user = user;

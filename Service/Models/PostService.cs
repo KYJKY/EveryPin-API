@@ -43,11 +43,13 @@ namespace Service.Contracts.Models
         public async Task<PostPostPhotoDto> GetPost(int postId, bool trackChanges)
         {
             var post = await _repository.Post.GetPostById(postId, trackChanges);
+            int likeNum = await _repository.Like.GetLikeCountByPostId(postId, trackChanges);
 
             if (post is null) 
                 throw new PostNotFoundException(postId);
 
             var postDto = _mapper.Map<PostPostPhotoDto>(post);
+            postDto.LikeCount = likeNum;
 
             return postDto;
         }

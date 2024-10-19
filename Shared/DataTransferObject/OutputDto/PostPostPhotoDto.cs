@@ -14,6 +14,7 @@ namespace Shared.DataTransferObject.OutputDto
         public double? x {get; set;}
         public double? y {get; set;}
         public ICollection<PostPhotoDto> PostPhotos { get; set; }
+        public int LikeCount {get; set;}
         public DateTime? UpdateDate {get; set;}
         public DateTime? CreatedDate {get; set;}
     }

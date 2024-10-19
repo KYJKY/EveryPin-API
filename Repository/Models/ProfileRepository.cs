@@ -19,5 +19,8 @@ namespace Repository.Models
             await FindAll(trackChanges)
             .OrderBy(c => c.Id)
             .ToListAsync();
+
+        public void CreateProfile(Profile profile) =>
+            Create(profile);
     }
 }

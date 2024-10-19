@@ -1,4 +1,5 @@
 ﻿using Entites.Code;
+using Entites.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -79,10 +80,29 @@ namespace EveryPinApi.Presentation.Controllers
 
                     if (registedUser.Succeeded && await _service.AuthenticationService.ValidateUser(userInfo.UserEmail))
                     {
+                        var userAccountInfo = await _service.UserService.GetUserByEmail(userInfo.UserEmail, false);
 
-                        var tokenDto = await _service.AuthenticationService.CreateToken(populateExp: true);
+                        var profile = new Entites.Models.Profile()
+                        {
+                            UserId = userAccountInfo.Id,
+                            Name = null,
+                            SelfIntroduction = null,
+                            PhotoUrl = null
+                        };
 
-                        return Ok(tokenDto);
+                        var createdProfile = await _service.ProfileService.CreateProfile(profile);
+
+                        if (createdProfile != null)
+                        {
+                            var tokenDto = await _service.AuthenticationService.CreateToken(populateExp: true);
+
+                            return Ok(tokenDto);
+                        }
+                        else
+                        {
+                            _logger.LogError($"프로필 생성 실패 - userId: {userAccountInfo.Id}");
+                            return BadRequest("프로필 생성에 실패하였습니다.");
+                        }
                     }
                     else
                     {

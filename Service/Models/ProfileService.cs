@@ -33,5 +33,20 @@ namespace Service.Contracts.Models
 
             return profilesDto;
         }
+
+        public async Task<Entites.Models.Profile> CreateProfile(Entites.Models.Profile profile)
+        {
+            if (profile != null)
+            {
+                _repository.Profile.CreateProfile(profile);
+                await _repository.SaveAsync();
+            }
+            else
+            {
+
+            }
+
+            return profile;
+        }
     }
 }

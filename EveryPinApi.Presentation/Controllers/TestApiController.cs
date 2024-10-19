@@ -45,7 +45,26 @@ namespace EveryPinApi.Presentation.Controllers
                 return BadRequest(ModelState);
             }
 
-            return StatusCode(201);
+            var userAccountInfo = await _service.UserService.GetUserByEmail(registUserDto.Email, false);
+
+            var profile = new Entites.Models.Profile()
+            {
+                UserId = userAccountInfo.Id,
+                Name = null,
+                SelfIntroduction = null,
+                PhotoUrl = null
+            };
+
+            var createdProfile = await _service.ProfileService.CreateProfile(profile);
+
+            if (createdProfile != null)
+            {
+                return StatusCode(201);
+            }
+            else
+            {
+                return BadRequest("createdProfile가 null입니다.");
+            }
         }
 
         [HttpPost("login")]

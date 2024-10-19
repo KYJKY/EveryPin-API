@@ -106,6 +106,11 @@ namespace Service.Contracts.Models
 
             return postToReturn;
         }
+
+        public async Task<PostDto> UpdatePost(CreatePostDto post)
+        {
+            var postEntity = _mapper.Map<Post>(post);
+        }
     }
 }
 

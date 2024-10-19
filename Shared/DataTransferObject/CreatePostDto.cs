@@ -24,5 +24,13 @@ namespace Shared.DataTransferObject
             Y = inputDto.Y;
             PhotoFiles = inputDto.PhotoFiles;
         }
+
+        public void SetUpdateDto(UpdatePostInputDto updateDto)
+        {
+            PostContent = updateDto.PostContent;
+            X = updateDto.X;
+            Y = updateDto.Y;
+            PhotoFiles = updateDto.PhotoFiles;
+        }
     }
 }

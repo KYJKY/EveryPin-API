@@ -72,5 +72,22 @@ namespace EveryPinApi.Presentation.Controllers
 
             return CreatedAtRoute("GetPostById", new { postId = createPost.PostId }, createPost);
         }
-    }
+
+        [HttpPut]
+        [Authorize(Roles = "NormalUser")]
+        public async Task<IActionResult> UpdatePost([FromForm] UpdatePostInputDto inputPost)
+        {
+            CreatePostDto post = new();
+            post.SetUpdateDto(inputPost);
+
+            if (post is null)
+                return BadRequest("게시글의 내용이 비었습니다.");
+
+            // 로그인 유저 ID로 생성하도록 처리
+            post.UserId = _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var createPost = await _service.PostService.UpdatePost(post);
+
+            return CreatedAtRoute("GetPostById", new { postId = createPost.PostId }, createPost);
+        }
 }

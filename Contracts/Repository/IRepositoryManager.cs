@@ -5,16 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Contracts.Repository
+namespace Contracts.Repository;
+
+public interface IRepositoryManager
 {
-    public interface IRepositoryManager
-    {
-        ICommentRepository Comment { get; }
-        ILikeRepository Like { get; }
-        IPostPhotoRepository PostPhoto { get; }
-        IPostRepository Post { get; }
-        IProfileRepository Profile { get; }
-        IUserRepository User { get; }   
-        Task SaveAsync();
-    }
+    ICommentRepository Comment { get; }
+    ILikeRepository Like { get; }
+    IPostPhotoRepository PostPhoto { get; }
+    IPostRepository Post { get; }
+    IProfileRepository Profile { get; }
+    IUserRepository User { get; }   
+    Task SaveAsync();
 }

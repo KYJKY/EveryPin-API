@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Entites.Code
+namespace Entites.Code;
+
+public enum CodePlatform
 {
-    public enum CodePlatform
-    {
-        NONE = -1,
-        KAKAO = 1,
-        GOOGLE = 2
-    }
+    NONE = -1,
+    KAKAO = 1,
+    GOOGLE = 2
 }

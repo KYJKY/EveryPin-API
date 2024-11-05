@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Shared.DataTransferObject.Auth
-{
-    public record TokenDto(string AccessToken, string RefreshToken);
-}
+namespace Shared.DataTransferObject.Auth;
+
+public record TokenDto(string AccessToken, string RefreshToken);

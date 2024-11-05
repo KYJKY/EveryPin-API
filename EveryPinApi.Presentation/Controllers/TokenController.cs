@@ -7,22 +7,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EveryPinApi.Presentation.Controllers
+namespace EveryPinApi.Presentation.Controllers;
+
+[Route("api/token")]
+[ApiController]
+public class TokenController : ControllerBase
 {
-    [Route("api/token")]
-    [ApiController]
-    public class TokenController : ControllerBase
+    private readonly IServiceManager _service;
+
+    public TokenController(IServiceManager service) => _service = service;
+
+    [HttpPost("refresh")]
+    [ProducesDefaultResponseType(typeof(TokenDto))]
+    public async Task<IActionResult> Refresh([FromBody] TokenDto tokenDto)
     {
-        private readonly IServiceManager _service;
-
-        public TokenController(IServiceManager service) => _service = service;
-
-        [HttpPost("refresh")]
-        [ProducesDefaultResponseType(typeof(TokenDto))]
-        public async Task<IActionResult> Refresh([FromBody] TokenDto tokenDto)
-        {
-            var tokenDtoToReturn = await _service.AuthenticationService.RefreshToken(tokenDto);
-            return Ok(tokenDtoToReturn);
-        }
+        var tokenDtoToReturn = await _service.AuthenticationService.RefreshToken(tokenDto);
+        return Ok(tokenDtoToReturn);
     }
 }

@@ -5,10 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Service.Contracts.Models
+namespace Service.Contracts.Models;
+
+public interface IUserService
 {
-    public interface IUserService
-    {
-        Task<User> GetUserByEmail(string email, bool trackChanges);
-    }
+    Task<User> GetUserByEmail(string email, bool trackChanges);
 }

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Shared.DataTransferObject
-{
-    public record CreateCommentDto(int PostId, string UserId, string CommentMessage);
-}
+namespace Shared.DataTransferObject;
+
+public record CreateCommentDto(int PostId, string UserId, string CommentMessage);

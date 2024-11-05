@@ -5,13 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Contracts.Repository.Models
+namespace Contracts.Repository.Models;
+
+public interface IPostPhotoRepository
 {
-    public interface IPostPhotoRepository
-    {
-        Task<IEnumerable<PostPhoto>> GetAllPostPhoto(bool trackChanges);
-        Task<IEnumerable<PostPhoto>> GetPostPhotoByPostId(int postId, bool trackChange);
-        void CreatePostPhoto(PostPhoto postphoto);
-        Task<int> GetLatestPostPhotoId();
-    }
+    Task<IEnumerable<PostPhoto>> GetAllPostPhoto(bool trackChanges);
+    Task<IEnumerable<PostPhoto>> GetPostPhotoByPostId(int postId, bool trackChange);
+    void CreatePostPhoto(PostPhoto postphoto);
+    Task<int> GetLatestPostPhotoId();
 }

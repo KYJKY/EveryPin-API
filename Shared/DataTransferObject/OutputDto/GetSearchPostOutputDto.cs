@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Shared.DataTransferObject.OutputDto
+namespace Shared.DataTransferObject.OutputDto;
+
+public class GetSearchPostOutputDto
 {
-    public class GetSearchPostOutputDto
-    {
-    }
 }

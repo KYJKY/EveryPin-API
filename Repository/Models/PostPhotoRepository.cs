@@ -7,34 +7,33 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Repository.Models
+namespace Repository.Models;
+
+public class PostPhotoRepository : RepositoryBase<PostPhoto>, IPostPhotoRepository
 {
-    public class PostPhotoRepository : RepositoryBase<PostPhoto>, IPostPhotoRepository
+    public PostPhotoRepository(RepositoryContext repositoryContext) : base(repositoryContext)
     {
-        public PostPhotoRepository(RepositoryContext repositoryContext) : base(repositoryContext)
-        {
-        }
+    }
 
-        public async Task<IEnumerable<PostPhoto>> GetAllPostPhoto(bool trackChanges) =>
-            await FindAll(trackChanges)
-            .OrderBy(c => c.PostPhotoId)
-            .ToListAsync();
+    public async Task<IEnumerable<PostPhoto>> GetAllPostPhoto(bool trackChanges) =>
+        await FindAll(trackChanges)
+        .OrderBy(c => c.PostPhotoId)
+        .ToListAsync();
 
-        public async Task<IEnumerable<PostPhoto>> GetPostPhotoByPostId(int postId, bool trackChange) =>
-            await FindByCondition(postPhoto => postPhoto.PostId.Equals(postId), trackChange)
-            .OrderBy(postPhoto => postPhoto.PostId)
-            .ToListAsync();
+    public async Task<IEnumerable<PostPhoto>> GetPostPhotoByPostId(int postId, bool trackChange) =>
+        await FindByCondition(postPhoto => postPhoto.PostId.Equals(postId), trackChange)
+        .OrderBy(postPhoto => postPhoto.PostId)
+        .ToListAsync();
 
-        public void CreatePostPhoto(PostPhoto postphoto) =>
-            Create(postphoto);
+    public void CreatePostPhoto(PostPhoto postphoto) =>
+        Create(postphoto);
 
-        public async Task<int> GetLatestPostPhotoId()
-        {
-            var latestPostPhoto = await FindAll(trackChanges: false)
-                .OrderByDescending(c => c.PostPhotoId)
-                .FirstOrDefaultAsync();
+    public async Task<int> GetLatestPostPhotoId()
+    {
+        var latestPostPhoto = await FindAll(trackChanges: false)
+            .OrderByDescending(c => c.PostPhotoId)
+            .FirstOrDefaultAsync();
 
-            return latestPostPhoto?.PostPhotoId ?? 0;
-        }
+        return latestPostPhoto?.PostPhotoId ?? 0;
     }
 }

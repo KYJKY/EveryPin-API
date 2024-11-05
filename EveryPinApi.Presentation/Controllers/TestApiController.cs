@@ -13,198 +13,197 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EveryPinApi.Presentation.Controllers
-{
-    [Route("api/test")]
-    [ApiController]
-    public class TestApiController : ControllerBase
-    {
-        private readonly ILogger _logger;
-        private readonly IServiceManager _service;
-        private readonly BlobHandlingService _blobHandlingService;
+namespace EveryPinApi.Presentation.Controllers;
 
-        public TestApiController(ILogger<TestApiController> logger, IServiceManager service, BlobHandlingService blobHandlingService)
+[Route("api/test")]
+[ApiController]
+public class TestApiController : ControllerBase
+{
+    private readonly ILogger _logger;
+    private readonly IServiceManager _service;
+    private readonly BlobHandlingService _blobHandlingService;
+
+    public TestApiController(ILogger<TestApiController> logger, IServiceManager service, BlobHandlingService blobHandlingService)
+    {
+        _logger = logger;
+        _service = service;
+        _blobHandlingService = blobHandlingService;
+    }
+
+
+    [HttpPost("regist")]
+    //[ServiceFilter(typeof(ValidationFilterAttribute))]        
+    public async Task<IActionResult> RegisterUser([FromBody] RegistUserDto registUserDto)
+    {
+        var result = await _service.AuthenticationService.RegisterUser(registUserDto);
+
+        if (!result.Succeeded)
         {
-            _logger = logger;
-            _service = service;
-            _blobHandlingService = blobHandlingService;
+            foreach (var error in result.Errors)
+            {
+                ModelState.TryAddModelError(error.Code, error.Description);
+            }
+            return BadRequest(ModelState);
         }
 
+        var userAccountInfo = await _service.UserService.GetUserByEmail(registUserDto.Email, false);
 
-        [HttpPost("regist")]
-        //[ServiceFilter(typeof(ValidationFilterAttribute))]        
-        public async Task<IActionResult> RegisterUser([FromBody] RegistUserDto registUserDto)
+        var profile = new Entites.Models.Profile()
         {
-            var result = await _service.AuthenticationService.RegisterUser(registUserDto);
+            UserId = userAccountInfo.Id,
+            Name = null,
+            SelfIntroduction = null,
+            PhotoUrl = null
+        };
 
-            if (!result.Succeeded)
+        var createdProfile = await _service.ProfileService.CreateProfile(profile);
+
+        if (createdProfile != null)
+        {
+            return StatusCode(201);
+        }
+        else
+        {
+            return BadRequest("createdProfile가 null입니다.");
+        }
+    }
+
+    [HttpPost("login")]
+    [ProducesDefaultResponseType(typeof(TokenDto))]
+    public async Task<IActionResult> Authenticate([FromBody] UserAutenticationDto user)
+    {
+        if (!await _service.AuthenticationService.ValidateUser(user.Email))
+            return Unauthorized();
+
+        var tokenDto = await _service.AuthenticationService.CreateToken(populateExp: true);
+
+        return Ok(tokenDto);
+
+    }
+
+    [HttpGet("platform-web-login")]
+    [ProducesDefaultResponseType(typeof(TokenDto))]
+    public async Task<IActionResult> PlatformWebLogin(string code)
+    {
+        byte platformCode = 2;
+
+        try
+        {
+            // 액세스 토큰을 이용하여 플랫폼에서 유저 정보 받아오기
+            SingleSignOnUserInfo userInfo = null;
+
+            switch (platformCode)
             {
-                foreach (var error in result.Errors)
-                {
-                    ModelState.TryAddModelError(error.Code, error.Description);
-                }
-                return BadRequest(ModelState);
+                case 2:
+                    string kakaoAccessToken = await _service.SingleSignOnService.GetKakaoAccessToken(code);
+                    userInfo = await _service.SingleSignOnService.GetKakaoUserInfo(kakaoAccessToken);
+                    break;
+                case 3:
+                    GoogleTokenDto googleAccessToken = await _service.SingleSignOnService.GetGoogleAccessToken(code);
+                    userInfo = await _service.SingleSignOnService.GetGoogleUserInfo(googleAccessToken.accessToken);
+                    break;
+                default:
+                    throw new Exception("유효한 platformCode 값이 아닙니다.");
             }
 
-            var userAccountInfo = await _service.UserService.GetUserByEmail(registUserDto.Email, false);
+            // 만일, DB에 해당 email을 가지는 유저가 없으면 회원가입 시키고 유저 식별자와 JWT 반환
+            var user = await _service.AuthenticationService.ValidateUser(userInfo.UserEmail);
 
-            var profile = new Entites.Models.Profile()
+            if (user)
             {
-                UserId = userAccountInfo.Id,
-                Name = null,
-                SelfIntroduction = null,
-                PhotoUrl = null
-            };
+                var tokenDto = await _service.AuthenticationService.CreateToken(populateExp: true);
 
-            var createdProfile = await _service.ProfileService.CreateProfile(profile);
-
-            if (createdProfile != null)
-            {
-                return StatusCode(201);
+                return Ok(tokenDto);
             }
             else
             {
-                return BadRequest("createdProfile가 null입니다.");
-            }
-        }
-
-        [HttpPost("login")]
-        [ProducesDefaultResponseType(typeof(TokenDto))]
-        public async Task<IActionResult> Authenticate([FromBody] UserAutenticationDto user)
-        {
-            if (!await _service.AuthenticationService.ValidateUser(user.Email))
-                return Unauthorized();
-
-            var tokenDto = await _service.AuthenticationService.CreateToken(populateExp: true);
-
-            return Ok(tokenDto);
-
-        }
-
-        [HttpGet("platform-web-login")]
-        [ProducesDefaultResponseType(typeof(TokenDto))]
-        public async Task<IActionResult> PlatformWebLogin(string code)
-        {
-            byte platformCode = 2;
-
-            try
-            {
-                // 액세스 토큰을 이용하여 플랫폼에서 유저 정보 받아오기
-                SingleSignOnUserInfo userInfo = null;
-
-                switch (platformCode)
+                RegistUserDto registerUser = new RegistUserDto()
                 {
-                    case 2:
-                        string kakaoAccessToken = await _service.SingleSignOnService.GetKakaoAccessToken(code);
-                        userInfo = await _service.SingleSignOnService.GetKakaoUserInfo(kakaoAccessToken);
-                        break;
-                    case 3:
-                        GoogleTokenDto googleAccessToken = await _service.SingleSignOnService.GetGoogleAccessToken(code);
-                        userInfo = await _service.SingleSignOnService.GetGoogleUserInfo(googleAccessToken.accessToken);
-                        break;
-                    default:
-                        throw new Exception("유효한 platformCode 값이 아닙니다.");
-                }
+                    Name = userInfo.UserNickName,
+                    UserName = userInfo.UserNickName,
+                    Email = userInfo.UserEmail,
+                    Password = "0",
+                    PlatformCodeId = platformCode,
+                    Roles = new List<string>() { "NormalUser" }
+                };
 
-                // 만일, DB에 해당 email을 가지는 유저가 없으면 회원가입 시키고 유저 식별자와 JWT 반환
-                var user = await _service.AuthenticationService.ValidateUser(userInfo.UserEmail);
+                IdentityResult registedUser = await _service.AuthenticationService.RegisterUser(registerUser);
 
-                if (user)
+                if (registedUser.Succeeded && await _service.AuthenticationService.ValidateUser(userInfo.UserEmail))
                 {
-                    var tokenDto = await _service.AuthenticationService.CreateToken(populateExp: true);
+                    var userAccountInfo = await _service.UserService.GetUserByEmail(userInfo.UserEmail, false);
 
-                    return Ok(tokenDto);
-                }
-                else
-                {
-                    RegistUserDto registerUser = new RegistUserDto()
+                    var profile = new Entites.Models.Profile()
                     {
-                        Name = userInfo.UserNickName,
-                        UserName = userInfo.UserNickName,
-                        Email = userInfo.UserEmail,
-                        Password = "0",
-                        PlatformCodeId = platformCode,
-                        Roles = new List<string>() { "NormalUser" }
+                        UserId = userAccountInfo.Id,
+                        Name = null,
+                        SelfIntroduction = null,
+                        PhotoUrl = null
                     };
 
-                    IdentityResult registedUser = await _service.AuthenticationService.RegisterUser(registerUser);
+                    var createdProfile = await _service.ProfileService.CreateProfile(profile);
 
-                    if (registedUser.Succeeded && await _service.AuthenticationService.ValidateUser(userInfo.UserEmail))
+                    if (createdProfile != null)
                     {
-                        var userAccountInfo = await _service.UserService.GetUserByEmail(userInfo.UserEmail, false);
+                        var tokenDto = await _service.AuthenticationService.CreateToken(populateExp: true);
 
-                        var profile = new Entites.Models.Profile()
-                        {
-                            UserId = userAccountInfo.Id,
-                            Name = null,
-                            SelfIntroduction = null,
-                            PhotoUrl = null
-                        };
-
-                        var createdProfile = await _service.ProfileService.CreateProfile(profile);
-
-                        if (createdProfile != null)
-                        {
-                            var tokenDto = await _service.AuthenticationService.CreateToken(populateExp: true);
-
-                            return Ok(tokenDto);
-                        }
-                        else
-                        {
-                            _logger.LogError($"테스트 프로필 생성 실패 - userId: {userAccountInfo.Id}");
-                            return BadRequest("테스트 프로필 생성에 실패하였습니다.");
-                        }
+                        return Ok(tokenDto);
                     }
                     else
                     {
-                        foreach (var error in registedUser.Errors)
-                        {
-                            _logger.LogError($"테스트 Code: {error.Code}, Description: {error.Description}");
-                        }
-
-                        return Unauthorized();
+                        _logger.LogError($"테스트 프로필 생성 실패 - userId: {userAccountInfo.Id}");
+                        return BadRequest("테스트 프로필 생성에 실패하였습니다.");
                     }
                 }
+                else
+                {
+                    foreach (var error in registedUser.Errors)
+                    {
+                        _logger.LogError($"테스트 Code: {error.Code}, Description: {error.Description}");
+                    }
 
+                    return Unauthorized();
+                }
             }
-            catch (Exception ex)
-            {
-                return Unauthorized();
-            }
-        }
 
-        #region Blob Storage 테스트
-        [HttpGet("listup-blob")]
-        public async Task<IActionResult> TestGetAllBlob()
+        }
+        catch (Exception ex)
         {
-            var result = await _blobHandlingService.ListAsync();
-            return Ok(result);
+            return Unauthorized();
         }
-
-        [HttpPost("upload-blob")]
-        public async Task<IActionResult> TestUploadToBlobStorage(IFormFile file)
-        {
-            var result = await _blobHandlingService.UploadAsync(file);
-
-            if (result.Error)
-                return StatusCode(415, result);
-            else
-                return Ok(result);
-        }
-
-        [HttpGet("download-blob")]
-        public async Task<IActionResult> TestDownloadToBlobStorage(string fileName)
-        {
-            var result = await _blobHandlingService.DownloadAsync(fileName);
-            return File(result.Content, result.ContentType, result.Name);
-        }
-
-        [HttpDelete("delete-blob")]
-        public async Task<IActionResult> TestDeleteToBlobStorage(string fileName)
-        {
-            var result = await _blobHandlingService.DeleteAsync(fileName);
-            return Ok(result);
-        }
-        #endregion
     }
+
+    #region Blob Storage 테스트
+    [HttpGet("listup-blob")]
+    public async Task<IActionResult> TestGetAllBlob()
+    {
+        var result = await _blobHandlingService.ListAsync();
+        return Ok(result);
+    }
+
+    [HttpPost("upload-blob")]
+    public async Task<IActionResult> TestUploadToBlobStorage(IFormFile file)
+    {
+        var result = await _blobHandlingService.UploadAsync(file);
+
+        if (result.Error)
+            return StatusCode(415, result);
+        else
+            return Ok(result);
+    }
+
+    [HttpGet("download-blob")]
+    public async Task<IActionResult> TestDownloadToBlobStorage(string fileName)
+    {
+        var result = await _blobHandlingService.DownloadAsync(fileName);
+        return File(result.Content, result.ContentType, result.Name);
+    }
+
+    [HttpDelete("delete-blob")]
+    public async Task<IActionResult> TestDeleteToBlobStorage(string fileName)
+    {
+        var result = await _blobHandlingService.DeleteAsync(fileName);
+        return Ok(result);
+    }
+    #endregion
 }

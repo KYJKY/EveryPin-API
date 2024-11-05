@@ -15,7 +15,8 @@ public class Profile
     [ForeignKey(nameof(User))]
     public required string UserId { get; set; }
     public User? User { get; set; }
-    
+
+    public string? TagId { get; set; } = null!;
     public string? Name { get; set; }
     public string? SelfIntroduction { get; set; }
     public string? PhotoUrl { get; set; }

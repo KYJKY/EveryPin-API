@@ -48,5 +48,13 @@ namespace Service.Contracts.Models
 
             return profile;
         }
+
+        public async Task<Entites.Models.Profile> GetProfileByUserId(string userId, bool trackChanges)
+        {
+            var profile = await _repository.Profile.GetProfileByUserId(userId, trackChanges);
+            //var profileDto = _mapper.Map<ProfileDto>(profile);
+
+            return profile;
+        }
     }
 }

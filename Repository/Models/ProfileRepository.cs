@@ -22,5 +22,9 @@ namespace Repository.Models
 
         public void CreateProfile(Profile profile) =>
             Create(profile);
+
+        public async Task<Profile> GetProfileByUserId(string userId, bool trackChanges) =>
+            await FindByCondition(profile => profile.UserId.Equals(userId), trackChanges)
+            .SingleOrDefaultAsync();
     }
 }

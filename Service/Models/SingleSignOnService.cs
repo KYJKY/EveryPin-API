@@ -38,7 +38,7 @@ namespace Service.Models
             string accessToken = "";
             string refreshToken = "";
 
-            //string redirectURI = "https://localhost:5283/api/test/test-platform-web-login";
+            //string redirectURI = "http://localhost:5283/api/test/platform-web-login";  // 테스트 시 사용
             string redirectURI = "https://everypin-api.azurewebsites.net/api/test/test-platform-web-login";
             string clientId = _configuration.GetConnectionString("kakao-rest-api-key");
             string requestURL = "https://kauth.kakao.com/oauth/token";

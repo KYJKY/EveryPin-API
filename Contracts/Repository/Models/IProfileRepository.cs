@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Contracts.Repository.Models
+namespace Contracts.Repository.Models;
+
+public interface IProfileRepository
 {
-    public interface IProfileRepository
-    {
-        Task<IEnumerable<Profile>> GetAllProfile(bool trackChanges);
-        void CreateProfile(Profile profile);
-    }
+    Task<IEnumerable<Profile>> GetAllProfile(bool trackChanges);
+    void CreateProfile(Profile profile);
+    Task<Profile> GetProfileByUserId(string userId, bool trackChanges);
 }

@@ -25,12 +25,19 @@ namespace EveryPinApi.Presentation.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "NormalUser")]
         [ProducesDefaultResponseType(typeof(IEnumerable<ProfileDto>))]
         public async Task<IActionResult> GetAllProfile()
         {
             var profiles = await _service.ProfileService.GetAllProfile(trackChanges: false);
             return Ok(profiles);
+        }
+
+        [HttpGet("{userId:guid}", Name = "GetProfileByUserId")]
+        [Authorize(Roles = "NormalUser")]
+        public async Task<IActionResult> GetProfileByUserId(string userId)
+        {
+            var profile = await _service.ProfileService.GetProfileByUserId(userId, trackChanges: false);
+            return Ok(profile);
         }
     }
 }

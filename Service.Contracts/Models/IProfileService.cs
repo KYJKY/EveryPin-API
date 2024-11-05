@@ -12,5 +12,6 @@ namespace Service.Contracts.Models
     {
         Task<IEnumerable<ProfileDto>> GetAllProfile(bool trackChanges);
         Task<Profile> CreateProfile(Profile profile);
+        Task<Profile> GetProfileByUserId(string userId, bool trackChanges);
     }
 }

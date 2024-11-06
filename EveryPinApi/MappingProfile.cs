@@ -4,38 +4,37 @@ using Shared.DataTransferObject;
 using Shared.DataTransferObject.OutputDto;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
-namespace EveryPinApi
+namespace EveryPinApi;
+
+public class MappingProfile : AutoMapper.Profile
 {
-    public class MappingProfile : AutoMapper.Profile
+    public MappingProfile()
     {
-        public MappingProfile()
-        {
-            CreateMap<Post, PostDto>();
-            CreateMap<CreatePostDto, Post>();
-            CreateMap<Post, PostPostPhotoDto>()
-            .ForMember(dest => dest.PostPhotos, opt => opt.MapFrom(src => src.PostPhotos));
+        CreateMap<Post, PostDto>();
+        CreateMap<CreatePostDto, Post>();
+        CreateMap<Post, PostPostPhotoDto>()
+        .ForMember(dest => dest.PostPhotos, opt => opt.MapFrom(src => src.PostPhotos));
 
-            CreateMap<PostPhoto, PostPhotoDto>()
-                .ForMember(dest => dest.PostPhotoId, opt => opt.MapFrom(src => src.PostPhotoId))
-                .ForMember(dest => dest.photoUrl, opt => opt.MapFrom(src => src.photoUrl));
+        CreateMap<PostPhoto, PostPhotoDto>()
+            .ForMember(dest => dest.PostPhotoId, opt => opt.MapFrom(src => src.PostPhotoId))
+            .ForMember(dest => dest.photoUrl, opt => opt.MapFrom(src => src.photoUrl));
 
 
-            CreateMap<Comment, CommentDto>();
-            CreateMap<CreateCommentDto, Comment>();
-            
-            CreateMap<Like, LikeDto>();
-            CreateMap<CreateLikeDto, Like>();
+        CreateMap<Comment, CommentDto>();
+        CreateMap<CreateCommentDto, Comment>();
+        
+        CreateMap<Like, LikeDto>();
+        CreateMap<CreateLikeDto, Like>();
 
-            CreateMap<PostPhoto, PostPhotoDto>();
-            CreateMap<CreatePostPhotoDto, PostPhoto>();
+        CreateMap<PostPhoto, PostPhotoDto>();
+        CreateMap<CreatePostPhotoDto, PostPhoto>();
 
-            //CreateMap<Post, PostDto>()
-            //.ForMember(dest => dest.PostPhotos, opt => opt.MapFrom(m => m.PostPhotos))
-            //.ForMember(dest => dest.Likes, opt => opt.MapFrom(m => m.Likes))
-            //.ForMember(dest => dest.Comments, opt => opt.MapFrom(m => m.Comments));
-            
-            CreateMap<Entites.Models.Profile, ProfileDto>();
-            CreateMap<RegistUserDto, User>();
-        }
+        //CreateMap<Post, PostDto>()
+        //.ForMember(dest => dest.PostPhotos, opt => opt.MapFrom(m => m.PostPhotos))
+        //.ForMember(dest => dest.Likes, opt => opt.MapFrom(m => m.Likes))
+        //.ForMember(dest => dest.Comments, opt => opt.MapFrom(m => m.Comments));
+        
+        CreateMap<Entites.Models.Profile, ProfileDto>();
+        CreateMap<RegistUserDto, User>();
     }
 }

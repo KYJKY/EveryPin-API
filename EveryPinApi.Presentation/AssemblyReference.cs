@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EveryPinApi.Presentation
+namespace EveryPinApi.Presentation;
+
+public static class AssemblyReference
 {
-    public static class AssemblyReference
-    {
-    }
 }

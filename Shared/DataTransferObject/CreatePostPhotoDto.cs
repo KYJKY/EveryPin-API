@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Shared.DataTransferObject
-{
-    public record CreatePostPhotoDto(int PostId, string photoUrl);
-}
+namespace Shared.DataTransferObject;
+
+public record CreatePostPhotoDto(int PostId, string photoUrl);

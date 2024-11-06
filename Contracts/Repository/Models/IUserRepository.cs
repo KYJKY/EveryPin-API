@@ -5,11 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Contracts.Repository.Models
+namespace Contracts.Repository.Models;
+
+public interface IUserRepository
 {
-    public interface IUserRepository
-    {
-        Task<IEnumerable<User>> GetAllUser(bool trackChanges);
-        Task<User> GetUserByEmail(string email, bool tackChanges);
-    }
+    Task<IEnumerable<User>> GetAllUser(bool trackChanges);
+    Task<User> GetUserByEmail(string email, bool tackChanges);
 }

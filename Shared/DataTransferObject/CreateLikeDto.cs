@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Shared.DataTransferObject
-{
-    public record CreateLikeDto(int PostId, string UserId);
-}
+namespace Shared.DataTransferObject;
+
+public record CreateLikeDto(int PostId, string UserId);

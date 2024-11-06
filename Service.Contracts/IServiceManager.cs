@@ -5,17 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Service.Contracts
+namespace Service.Contracts;
+
+public interface IServiceManager
 {
-    public interface IServiceManager
-    {
-        ICommentService CommentService { get; }
-        ILikeService LikeService { get; }
-        IPostPhotoService PostPhotoService { get; }
-        IPostService PostService { get; }
-        IProfileService ProfileService { get; }
-        IAuthenticationService AuthenticationService { get; }
-        ISingleSignOnService SingleSignOnService { get; }
-        IUserService UserService { get; }
-    }
+    ICommentService CommentService { get; }
+    ILikeService LikeService { get; }
+    IPostPhotoService PostPhotoService { get; }
+    IPostService PostService { get; }
+    IProfileService ProfileService { get; }
+    IAuthenticationService AuthenticationService { get; }
+    ISingleSignOnService SingleSignOnService { get; }
+    IUserService UserService { get; }
 }

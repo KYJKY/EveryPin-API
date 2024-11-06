@@ -5,13 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Service.Contracts.Models
+namespace Service.Contracts.Models;
+
+public interface ILikeService
 {
-    public interface ILikeService
-    {
-        Task<IEnumerable<LikeDto>> GetAllLike(bool trackChanges);
-        Task<IEnumerable<LikeDto>> GetLikeToPostId(int postId, bool trackChanges);
-        Task<int> GetLikeCountToPostId(int postId, bool trackChanges);
-        Task<LikeDto> CreateLike(CreateLikeDto like);
-    }
+    Task<IEnumerable<LikeDto>> GetAllLike(bool trackChanges);
+    Task<IEnumerable<LikeDto>> GetLikeToPostId(int postId, bool trackChanges);
+    Task<int> GetLikeCountToPostId(int postId, bool trackChanges);
+    Task<LikeDto> CreateLike(CreateLikeDto like);
 }

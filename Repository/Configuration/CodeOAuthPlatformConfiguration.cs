@@ -7,29 +7,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Repository.Configuration
+namespace Repository.Configuration;
+
+public class CodeOAuthPlatformConfiguration : IEntityTypeConfiguration<CodeOAuthPlatform>
 {
-    public class CodeOAuthPlatformConfiguration : IEntityTypeConfiguration<CodeOAuthPlatform>
+    public void Configure(EntityTypeBuilder<CodeOAuthPlatform> builder)
     {
-        public void Configure(EntityTypeBuilder<CodeOAuthPlatform> builder)
-        {
-            builder.HasData(
-                new CodeOAuthPlatform
-                {
-                    Id = -1,
-                    PlatformName = "NONE"
-                },
-                new CodeOAuthPlatform
-                {
-                    Id = 1,
-                    PlatformName = "KAKAO"
-                },
-                new CodeOAuthPlatform
-                {
-                    Id = 2,
-                    PlatformName = "GOOGLE"
-                }
-            );
-        }
+        builder.HasData(
+            new CodeOAuthPlatform
+            {
+                Id = -1,
+                PlatformName = "NONE"
+            },
+            new CodeOAuthPlatform
+            {
+                Id = 1,
+                PlatformName = "KAKAO"
+            },
+            new CodeOAuthPlatform
+            {
+                Id = 2,
+                PlatformName = "GOOGLE"
+            }
+        );
     }
 }

@@ -4,13 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Shared.DataTransferObject.Blob
+namespace Shared.DataTransferObject.Blob;
+
+public class BlobDto
 {
-    public class BlobDto
-    {
-        public string? Uri {get; set;}
-        public string? Name {get; set;}
-        public string? ContentType {get; set;}
-        public Stream? Content { get; set; }
-    }
+    public string? Uri {get; set;}
+    public string? Name {get; set;}
+    public string? ContentType {get; set;}
+    public Stream? Content { get; set; }
 }

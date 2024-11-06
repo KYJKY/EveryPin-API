@@ -1,14 +1,16 @@
-﻿using Shared.DataTransferObject;
+﻿using Entites.Models;
+using Shared.DataTransferObject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Service.Contracts.Models
+namespace Service.Contracts.Models;
+
+public interface IProfileService
 {
-    public interface IProfileService
-    {
-        Task<IEnumerable<ProfileDto>> GetAllProfile(bool trackChanges);
-    }
+    Task<IEnumerable<ProfileDto>> GetAllProfile(bool trackChanges);
+    Task<Profile> CreateProfile(Profile profile);
+    Task<Profile> GetProfileByUserId(string userId, bool trackChanges);
 }

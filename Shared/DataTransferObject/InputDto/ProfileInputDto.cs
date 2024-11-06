@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Shared.DataTransferObject.InputDto;
 
-public class GetSearchPostInputDto
+public class ProfileInputDto
 {
-    public double x { get; set; }
-    public double y { get; set; }
-    public double range { get; set; }
+    public string? TagId;
+    public string? Name;
+    public string SelfIntroduction = null!;
 }

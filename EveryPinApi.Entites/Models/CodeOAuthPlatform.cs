@@ -6,14 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Entites.Models
+namespace Entites.Models;
+
+public class CodeOAuthPlatform
 {
-    public class CodeOAuthPlatform
-    {
-        [Column("PlatformCodeId")]
-        public int Id { get; set; }
-        [Required]
-        public string? PlatformName { get; set; }
-        public ICollection<User>? User { get; set; } = new List<User>();
-    }
+    [Column("PlatformCodeId")]
+    public int Id { get; set; }
+    [Required]
+    public string? PlatformName { get; set; }
+    public ICollection<User>? User { get; set; } = new List<User>();
 }

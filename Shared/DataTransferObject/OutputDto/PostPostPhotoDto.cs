@@ -10,6 +10,7 @@ namespace Shared.DataTransferObject.OutputDto;
 public class PostPostPhotoDto
 {
     public int PostId {get; set;}
+    public string UserId { get; set; } = null!;
     public string? PostContent {get; set;}
     public double? x {get; set;}
     public double? y {get; set;}

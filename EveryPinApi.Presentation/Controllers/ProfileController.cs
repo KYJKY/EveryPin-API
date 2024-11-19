@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Service.Contracts;
 using Shared.DataTransferObject;
+using Shared.DataTransferObject.InputDto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,20 +38,16 @@ public class ProfileController : ControllerBase
     public async Task<IActionResult> GetProfileByUserId(string userId)
     {
         var profile = await _service.ProfileService.GetProfileByUserId(userId, trackChanges: false);
+
         return Ok(profile);
     }
 
-    //[HttpPut("{userId:guid}")]
-    //[Authorize(Roles = "NormalUser")]
-    //public async Task<IActionResult> UpdateProfile(string userId, [FromBody] ProfileInputDto profileInputDto)
-    //{
-    //    if (profileInputDto == null)
-    //    {
-    //        return BadRequest("ProfileInputDto가 null 입니다.");
-    //    }
-    //
-    //    await _service.ProfileService.UpdateProfile(userId, profileInputDto, trackChanges: true);
-    //
-    //    return NoContent(); // 204 No Content, when the update is successful but no data needs to be returned
-    //}
+    [HttpPut("{userId:guid}")]
+    [Authorize(Roles = "NormalUser")]
+    public async Task<IActionResult> UpdateUserProfile(string userId, [FromBody] ProfileInputDto profileInputDto)
+    {
+        _service.ProfileService.UpdateUserProfile(userId, profileInputDto, trackChanges: true);
+    
+        return NoContent();
+    }
 }

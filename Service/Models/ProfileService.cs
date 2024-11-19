@@ -4,6 +4,7 @@ using Entites.Models;
 using Microsoft.Extensions.Logging;
 using Service.Models;
 using Shared.DataTransferObject;
+using Shared.DataTransferObject.InputDto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,8 +53,13 @@ internal sealed class ProfileService : IProfileService
     public async Task<Entites.Models.Profile> GetProfileByUserId(string userId, bool trackChanges)
     {
         var profile = await _repository.Profile.GetProfileByUserId(userId, trackChanges);
-        //var profileDto = _mapper.Map<ProfileDto>(profile);
+        var profileDto = _mapper.Map<ProfileDto>(profile);
 
         return profile;
+    }
+
+    public async void UpdateUserProfile(string userId, ProfileInputDto profileInputDto, bool trackChanges)
+    {
+        //_repository.Profile
     }
 }

@@ -12,4 +12,5 @@ public interface IProfileRepository
     Task<IEnumerable<Profile>> GetAllProfile(bool trackChanges);
     void CreateProfile(Profile profile);
     Task<Profile> GetProfileByUserId(string userId, bool trackChanges);
+    //void UpdateProfile(string userId, Profile profile);
 }

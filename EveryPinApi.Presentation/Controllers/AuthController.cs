@@ -1,6 +1,4 @@
 ﻿using Entites.Code;
-using Entites.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -8,13 +6,6 @@ using Service.Contracts;
 using Shared.DataTransferObject;
 using Shared.DataTransferObject.Auth;
 using Shared.DataTransferObject.InputDto.Auth;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.Metrics;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EveryPinApi.Presentation.Controllers;
 

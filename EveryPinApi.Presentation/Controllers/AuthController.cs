@@ -1,4 +1,6 @@
 ﻿using Entites.Code;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -126,9 +128,20 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("logout")]
+    [Authorize(Roles = "NormalUser")]
     public async Task<IActionResult> Logout()
     {
-        return StatusCode(501);
+        try
+        {
+            await HttpContext.SignOutAsync();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"로그아웃 catch, [{ex.Message}], [{ex.StackTrace}]");
+            return StatusCode(500, "로그아웃에 실패하였습니다.");
+        }
+
+        return Ok();
     }
 
     [HttpDelete("user")]

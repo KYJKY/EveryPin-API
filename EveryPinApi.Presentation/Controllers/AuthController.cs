@@ -1,4 +1,8 @@
 ﻿using Entites.Code;
+using Entites.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -6,6 +10,7 @@ using Service.Contracts;
 using Shared.DataTransferObject;
 using Shared.DataTransferObject.Auth;
 using Shared.DataTransferObject.InputDto.Auth;
+using System.Security.Claims;
 
 namespace EveryPinApi.Presentation.Controllers;
 
@@ -15,11 +20,13 @@ public class AuthController : ControllerBase
 {
     private readonly ILogger _logger;
     private readonly IServiceManager _service;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public AuthController(ILogger<AuthController> logger, IServiceManager service)
+    public AuthController(ILogger<AuthController> logger, IServiceManager service, IHttpContextAccessor httpContextAccessor)
     {
         _logger = logger;
         _service = service;
+        _httpContextAccessor = httpContextAccessor;
     }
 
     [HttpPost("login")]
@@ -64,7 +71,7 @@ public class AuthController : ControllerBase
                     UserName = userInfo.UserNickName,
                     Email = userInfo.UserEmail,
                     Password = "0",
-                    PlatformCodeId = (int)userPlatform,
+                    PlatformCode = (int)userPlatform,
                     Roles = new List<string>() { "NormalUser" }
                 };
 
@@ -77,9 +84,12 @@ public class AuthController : ControllerBase
                     var profile = new Entites.Models.Profile()
                     {
                         UserId = userAccountInfo.Id,
-                        Name = null,
+                        ProfileName = userInfo.UserNickName,
                         SelfIntroduction = null,
-                        PhotoUrl = null
+                        PhotoUrl = null,
+                        ProfileTag = userInfo.UserNickName,
+                        User = userAccountInfo,
+                        CreatedDate = DateTime.Now
                     };
 
                     var createdProfile = await _service.ProfileService.CreateProfile(profile);

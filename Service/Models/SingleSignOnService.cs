@@ -92,7 +92,8 @@ public class SingleSignOnService : ISingleSignOnService
         string scope = "";
         string id_token = "";
 
-        string redirectURI = "https://everypin-api.azurewebsites.net/api/test/auth/platform-web-login";
+        //string redirectURI = "https://everypin-api.azurewebsites.net/api/test/auth/platform-web-login";
+        string redirectURI = "http://localhost:5283/api/test/auth/platform-web-login";
         string clientId = _configuration.GetConnectionString("google-client-id");
         string clientSecret = _configuration.GetConnectionString("google-client-secret");
         string requestURL = "https://oauth2.googleapis.com/token";

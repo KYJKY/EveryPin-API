@@ -44,11 +44,11 @@ public class AuthController : ControllerBase
             {
                 case nameof(CodePlatform.KAKAO):
                     userPlatform = CodePlatform.KAKAO;
-                    userInfo = await _service.SingleSignOnService.GetKakaoUserInfo(loginInputDto.accessToken);
+                    userInfo = await _service.SingleSignOnService.GetKakaoUserInfo(loginInputDto.ssoAccessToken);
                     break;
                 case nameof(CodePlatform.GOOGLE):
                     userPlatform = CodePlatform.GOOGLE;
-                    userInfo = await _service.SingleSignOnService.GetGoogleUserInfoToIdToken(loginInputDto.accessToken);
+                    userInfo = await _service.SingleSignOnService.GetGoogleUserInfoToIdToken(loginInputDto.ssoAccessToken);
                     break;
                 default:
                     throw new Exception("유효한 platformCode 값이 아닙니다.");
@@ -59,7 +59,7 @@ public class AuthController : ControllerBase
 
             if (user)
             {
-                var tokenDto = await _service.AuthenticationService.CreateToken(populateExp: true);
+                var tokenDto = await _service.AuthenticationService.CreateTokenWithUpdateFcmToken(loginInputDto.fcmToken, populateExp: true);
 
                 return Ok(tokenDto);
             }
@@ -72,6 +72,7 @@ public class AuthController : ControllerBase
                     Email = userInfo.UserEmail,
                     Password = "0",
                     PlatformCode = (int)userPlatform,
+                    FcmToken = loginInputDto.fcmToken,
                     Roles = new List<string>() { "NormalUser" }
                 };
 
@@ -108,7 +109,7 @@ public class AuthController : ControllerBase
                 }
                 else
                 {
-                    _logger.LogError($"로그인 - 유저 생성 유효성 검사, platformCode: {loginInputDto.platformCode}, accessToken: {loginInputDto.accessToken}, userInfo.UserEmail: {userInfo.UserEmail}");
+                    _logger.LogError($"로그인 - 유저 생성 유효성 검사, platformCode: {loginInputDto.platformCode}, ssoAccessToken: {loginInputDto.ssoAccessToken}, userInfo.UserEmail: {userInfo.UserEmail}");
 
                     foreach (var error in registedUser.Errors)
                     {
@@ -118,11 +119,10 @@ public class AuthController : ControllerBase
                     return Unauthorized();
                 }
             }
-
         }
         catch (Exception ex)
         {
-            _logger.LogError($"로그인 catch, platformCode: {loginInputDto.platformCode}, accessToken: {loginInputDto.accessToken}, [{ex.Message}], [{ex.StackTrace}]");
+            _logger.LogError($"로그인 catch, platformCode: {loginInputDto.platformCode}, ssoAccessToken: {loginInputDto.ssoAccessToken}, [{ex.Message}], [{ex.StackTrace}]");
             return Unauthorized();
         }
     }
